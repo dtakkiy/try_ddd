@@ -1,0 +1,74 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  previewFeatures = ["nativeTypes"]
+  provider        = "prisma-client-js"
+}
+
+model SomeData {
+  id       String  @id
+  required Boolean
+  number   Int     @db.SmallInt
+}
+
+model Team {
+  id        String   @id
+  name      String
+  pairs     Pair[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pair {
+  id           String         @id
+  name         String
+  team         Team           @relation(fields: [teamId], references: [id])
+  teamId       String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  PairOnMember PairOnMember[]
+}
+
+model Member {
+  id           String         @id
+  name         String
+  status       String
+  email        String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  MemberOnTask MemberOnTask[]
+  PairOnMember PairOnMember[]
+}
+
+model Task {
+  id           String         @id
+  title        String
+  content      String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  MemberOnTask MemberOnTask[]
+}
+
+model MemberOnTask {
+  member    Member   @relation(fields: [memberId], references: [id])
+  memberId  String
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    String
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([memberId, taskId])
+}
+
+model PairOnMember {
+  pair     Pair   @relation(fields: [pairId], references: [id])
+  pairId   String
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId String
+
+  @@id([memberId, pairId])
+}
