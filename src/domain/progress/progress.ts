@@ -9,7 +9,12 @@ interface IProgress {
 export class Progress {
   private props: IProgress;
   constructor(props: IProgress) {
-    this.props = props;
+    const { memberId, taskId, status } = props;
+    this.props = {
+      memberId: memberId,
+      taskId: taskId,
+      status: status,
+    };
   }
 
   public get memberId() {
@@ -39,8 +44,4 @@ export class Progress {
     this.props.status = this.props.status.stepUp();
     return this;
   };
-
-  public static create(props: IProgress): Progress {
-    return new Progress(props);
-  }
 }

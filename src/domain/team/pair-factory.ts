@@ -13,6 +13,6 @@ export class PairFactory {
     const { name, memberList } = props;
     const id = props.id ?? Identifier.generator();
 
-    return Pair.create({ id, name, memberList });
+    return new Pair({ id, name, memberList });
   };
 }

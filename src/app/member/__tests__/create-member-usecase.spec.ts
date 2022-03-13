@@ -28,7 +28,7 @@ describe('do', () => {
     const email = 'wada@example.co.jp';
     const status = MemberStatus.create();
 
-    const expectMember = Member.create({
+    const expectMember = new Member({
       id: memberId,
       name: name,
       email: email,

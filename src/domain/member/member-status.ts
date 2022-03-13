@@ -1,4 +1,8 @@
-export type MemberStatusType = '在籍中' | '休会中' | '退会済';
+export const MemberStatusType = {
+  在籍中: '在籍中',
+  休会中: '休会中',
+  退会済: '退会済',
+};
 
 interface IMemberStatus {
   status: string;
@@ -6,12 +10,23 @@ interface IMemberStatus {
 
 export class MemberStatus {
   public readonly props: IMemberStatus;
-  constructor(status: IMemberStatus) {
-    this.props = status;
+
+  constructor(props: IMemberStatus) {
+    this.validateStatus(props.status);
+    this.props = {
+      status: props.status,
+    };
   }
 
   public static create() {
     return new MemberStatus({ status: '在籍中' });
+  }
+
+  private validateStatus(status: string) {
+    if (status in MemberStatusType) {
+    } else {
+      throw new Error();
+    }
   }
 
   public get status() {

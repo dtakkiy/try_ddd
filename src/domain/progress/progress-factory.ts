@@ -15,7 +15,7 @@ export class ProgressFactory {
       const taskId = task.id;
       const status = ProgressStatus.create({ status: '未着手' });
 
-      return Progress.create({ memberId, taskId, status });
+      return new Progress({ memberId, taskId, status });
     });
   };
 }

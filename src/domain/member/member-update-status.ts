@@ -18,7 +18,7 @@ export class MemberUpdateStatus {
     }
 
     const { id, name, email } = member;
-    const updateMember = Member.create({ id, name, email, status });
+    const updateMember = new Member({ id, name, email, status });
     await this.memberRepository.update(updateMember);
   };
 }

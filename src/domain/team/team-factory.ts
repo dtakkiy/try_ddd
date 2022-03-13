@@ -13,6 +13,6 @@ export class TeamFactory {
     const { name, pairList } = props;
 
     const id = Identifier.generator();
-    return Team.create({ id, name, pairList });
+    return new Team({ id, name, pairList });
   };
 }

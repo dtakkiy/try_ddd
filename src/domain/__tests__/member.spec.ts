@@ -36,7 +36,7 @@ describe('', () => {
       status: MemberStatus.create(),
     };
 
-    expect(() => Member.create(data)).toThrowError();
+    expect(() => new Member(data)).toThrowError();
   });
 
   it('emailが空の場合', () => {
@@ -47,6 +47,12 @@ describe('', () => {
       status: MemberStatus.create(),
     };
 
-    expect(() => Member.create(data)).toThrowError();
+    expect(() => new Member(data)).toThrowError();
   });
+
+  // メールアドレスの重複は許容しない
+
+  // 在籍ステータスを持つ。在籍ステータスは、在籍中、休会中、退会済みの３つ。
+
+  // ステータスが在籍中ではない場合、どのチームにも所属できない。
 });

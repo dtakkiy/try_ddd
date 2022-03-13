@@ -1,3 +1,4 @@
+import { Identifier } from 'src/__share__/identifier';
 import { Member } from '../member/member';
 
 interface IPair {
@@ -9,6 +10,16 @@ interface IPair {
 export class Pair {
   private props: IPair;
   constructor(props: IPair) {
+    const { id, name, memberList } = props;
+
+    this.validatePairName(name);
+    this.validateMemberList(memberList);
+
+    this.props = {
+      id: id ?? Identifier.generator(),
+      name: name,
+      memberList: memberList,
+    };
     this.props = props;
   }
 
@@ -20,12 +31,12 @@ export class Pair {
     return this.props.memberList;
   }
 
-  private static validateMemberList(memberList: Member[]) {
-    if (memberList.length < 2) {
+  private validateMemberList(memberList: Member[]) {
+    if (memberList.length <= 1) {
       throw new Error();
     }
 
-    if (memberList.length > 3) {
+    if (memberList.length >= 4) {
       throw new Error();
     }
   }
@@ -34,20 +45,14 @@ export class Pair {
     return pair.props.id === this.props.id;
   };
 
-  public static create(props: IPair): Pair {
-    this.validatePairName(props.name);
-    this.validateMemberList(props.memberList);
-    return new Pair(props);
-  }
-
   public addMember = (member: Member): Pair => {
     const memberList = this.props.memberList.concat(member);
-    Pair.validateMemberList(memberList);
+    this.validateMemberList(memberList);
     this.props.memberList = memberList;
     return this;
   };
 
-  private static validatePairName(name: string) {
+  private validatePairName(name: string) {
     const pattern = '^[a-z]{1}$';
     if (!name.match(pattern)) {
       throw new Error();

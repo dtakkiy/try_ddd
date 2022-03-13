@@ -1,5 +1,5 @@
 import { Identifier } from 'src/__share__/identifier';
-import { MemberStatus } from './member-status';
+import { MemberStatus, MemberStatusType } from './member-status';
 
 interface IMember {
   id: string;
@@ -11,8 +11,16 @@ interface IMember {
 export class Member {
   private props: IMember;
   constructor(props: IMember) {
+    const { id, name, email, status } = props;
+    this.validateName(props.name);
+    this.validateEmail(props.email);
+    this.validateStatus(props.status.props.status);
+
     this.props = {
-      ...props,
+      id: id ?? Identifier.generator(),
+      name: name,
+      email: email,
+      status: status,
     };
   }
 
@@ -44,23 +52,23 @@ export class Member {
     this.props.name = name;
   }
 
-  private static validateName(name: string) {
+  private validateStatus(status: string) {
+    if (status in MemberStatusType) {
+    } else {
+      throw new Error();
+    }
+  }
+
+  private validateName(name: string) {
     if (name === '') {
       throw new Error('');
     }
   }
 
-  private static validateEmail(email: string) {
+  private validateEmail(email: string) {
     if (email === '') {
       throw new Error('');
     }
-  }
-
-  public static create(props: IMember): Member {
-    this.validateName(props.name);
-    this.validateEmail(props.email);
-
-    return new Member(props);
   }
 
   public equals = (member: Member): boolean => {

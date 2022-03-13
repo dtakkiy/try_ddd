@@ -12,6 +12,6 @@ export class TaskFactory {
     const id = props.id ?? Identifier.generator();
     const { title, content } = props;
 
-    return Task.create({ id, title, content });
+    return new Task({ id, title, content });
   };
 }

@@ -27,7 +27,7 @@ export class ProgressRepository implements IProgressRepository {
       throw new Error();
     }
 
-    return Progress.create({
+    return new Progress({
       memberId: '',
       taskId: '',
       status: ProgressStatus.create({
@@ -39,12 +39,13 @@ export class ProgressRepository implements IProgressRepository {
   public getAll = async (): Promise<Progress[] | null> => {
     const memberOnTaskAll = await this.prismaClient.memberOnTask.findMany();
 
-    return memberOnTaskAll.map((memberOnTask) =>
-      Progress.create({
-        memberId: memberOnTask.memberId,
-        taskId: memberOnTask.taskId,
-        status: ProgressStatus.create({ status: memberOnTask.status }),
-      })
+    return memberOnTaskAll.map(
+      (memberOnTask) =>
+        new Progress({
+          memberId: memberOnTask.memberId,
+          taskId: memberOnTask.taskId,
+          status: ProgressStatus.create({ status: memberOnTask.status }),
+        })
     );
   };
 

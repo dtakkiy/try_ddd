@@ -1,3 +1,5 @@
+import { Identifier } from 'src/__share__/identifier';
+
 export interface ITask {
   id: string;
   title: string;
@@ -7,7 +9,13 @@ export interface ITask {
 export class Task {
   private props: ITask;
   constructor(props: ITask) {
-    this.props = props;
+    const { id, title, content } = props;
+
+    this.props = {
+      id: id ?? Identifier.generator(),
+      title: title,
+      content: content,
+    };
   }
 
   public get id() {
@@ -25,8 +33,4 @@ export class Task {
   public equals = (task: Task): boolean => {
     return task.props.id === this.props.id;
   };
-
-  public static create(props: ITask) {
-    return new Task(props);
-  }
 }

@@ -1,3 +1,4 @@
+import { Identifier } from 'src/__share__/identifier';
 import { Pair } from './pair';
 
 interface ITeam {
@@ -9,7 +10,14 @@ interface ITeam {
 export class Team {
   private props: ITeam;
   constructor(props: ITeam) {
-    this.props = props;
+    const { id, name, pairList } = props;
+    this.validateTeamName(name);
+
+    this.props = {
+      id: id ?? Identifier.generator(),
+      name: name,
+      pairList: pairList,
+    };
   }
 
   public get name() {
@@ -24,15 +32,10 @@ export class Team {
     return team.props.id === this.props.id;
   };
 
-  public static create(props: ITeam) {
-    this.validateTeamName(props.name);
-    return new Team(props);
-  }
-
-  private static validateTeamName(name: string) {
+  private validateTeamName(name: string) {
     const pattern = '^[0-9]{1,3}$';
     if (!name.match(pattern)) {
-      throw new Error();
+      throw new Error('');
     }
   }
 }

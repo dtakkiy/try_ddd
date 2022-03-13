@@ -1,4 +1,8 @@
-type ProgressStatusType = '未着手' | 'レビュー待ち' | '完了';
+export const ProgressStatusType = {
+  未着手: '未着手',
+  レビュー待ち: 'レビュー待ち',
+  完了: '完了',
+};
 
 interface IProgressStatus {
   status: string;
@@ -6,8 +10,17 @@ interface IProgressStatus {
 
 export class ProgressStatus {
   private props: IProgressStatus;
+
   constructor(props: IProgressStatus) {
+    this.validateStatus(props.status);
     this.props = props;
+  }
+
+  private validateStatus(status: string) {
+    if (status in ProgressStatusType) {
+    } else {
+      throw new Error();
+    }
   }
 
   public get status() {

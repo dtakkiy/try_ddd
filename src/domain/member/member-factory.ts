@@ -15,6 +15,6 @@ export class MemberFactory {
     const { name, email } = props;
     const status = MemberStatus.create();
 
-    return Member.create({ id, name, email, status });
+    return new Member({ id, name, email, status });
   };
 }
