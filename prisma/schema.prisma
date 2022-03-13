@@ -8,12 +8,6 @@ generator client {
   provider        = "prisma-client-js"
 }
 
-model SomeData {
-  id       String  @id
-  required Boolean
-  number   Int     @db.SmallInt
-}
-
 model Team {
   id        String   @id
   name      String
