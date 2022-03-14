@@ -1,13 +1,16 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 import { CreateMemberUseCase } from 'src/app/member/create-member-usecase';
 import { GetMemberListUseCase } from 'src/app/member/get-member-list-usecase';
-import { UpdateMemberTaskUseCase } from 'src/app/member/update-member-usecase';
+import { UpdateMemberStatusUseCase } from 'src/app/member/update-member-status-usecase';
 import { Member } from 'src/domain/member/member';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
+import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
+import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { PostMemberRequest } from './request/post-member-request';
+import { PutMemberRequest } from './request/put-member-request';
 import { GetMemberResponse } from './response/get-member-response';
 
 @Controller({
@@ -30,8 +33,14 @@ export class MemberController {
   async postMember(@Body() postMemberDTO: PostMemberRequest): Promise<Member> {
     const prisma = new PrismaClient();
     const memberRepository = new MemberRepository(prisma);
+    const progressRepository = new ProgressRepository(prisma);
+    const taskRepository = new TaskRepository(prisma);
 
-    const usecase = new CreateMemberUseCase(memberRepository);
+    const usecase = new CreateMemberUseCase(
+      memberRepository,
+      progressRepository,
+      taskRepository
+    );
     const member = await usecase.execute({
       name: postMemberDTO.name,
       email: postMemberDTO.email,
@@ -39,11 +48,20 @@ export class MemberController {
     return member;
   }
 
-  @Patch('/:id/task/:taskId')
+  @Put('/:id')
   @ApiResponse({ status: 200, type: Member })
-  async PatchMemberTask(): Promise<void> {
+  async PutMember(
+    @Param('id') id: string,
+    @Body() putMemberDTO: PutMemberRequest
+  ): Promise<Member> {
     const prisma = new PrismaClient();
     const memberRepository = new MemberRepository(prisma);
-    const usecase = new UpdateMemberTaskUseCase(memberRepository);
+    const usecase = new UpdateMemberStatusUseCase(memberRepository);
+
+    const member = await usecase.execute({
+      id: id,
+      status: putMemberDTO.status,
+    });
+    return member;
   }
 }

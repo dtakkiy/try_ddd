@@ -4,30 +4,26 @@ import { MemberStatus } from 'src/domain/member/member-status';
 
 interface Params {
   id: string;
-  name: string;
-  email: string;
   status: string;
 }
 
-export class UpdateMemberTaskUseCase {
+export class UpdateMemberStatusUseCase {
   private readonly memberRepository: IMemberRepository;
   constructor(memberRepository: IMemberRepository) {
     this.memberRepository = memberRepository;
   }
 
   public execute = async (params: Params): Promise<Member> => {
-    const { id, name, email, status } = params;
+    const { id, status } = params;
     const member = await this.memberRepository.getById(id);
 
     if (!member) {
-      throw new Error();
+      throw new Error('member does not exist.');
     }
 
-    member.setName(name);
-    member.setEmail(email);
     member.setStatus(new MemberStatus({ status: status }));
 
-    const updateMember = await this.memberRepository.save(member);
+    const updateMember = await this.memberRepository.update(member);
 
     return updateMember;
   };

@@ -8,5 +8,5 @@ export interface IProgressProps {
 export interface IProgressRepository {
   getById(props: IProgressProps): Promise<Progress | null>;
   getAll(): Promise<Progress[] | null>;
-  save(progress: Progress): Promise<void>;
+  create(progress: Progress[]): Promise<void>;
 }

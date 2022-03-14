@@ -1,6 +1,10 @@
 import { Member } from 'src/domain/member/member';
 import { MemberFactory } from 'src/domain/member/member-factory';
-import { MemberRepository } from 'src/infra/db/repository/member-repository';
+import { IMemberRepository } from 'src/domain/member/member-repository-interface';
+import { MemberSameEmailExist } from 'src/domain/member/member-same-email-exist';
+import { IProgressRepository } from 'src/domain/progress/progress-repository-interface';
+import { ITaskRepository } from 'src/domain/task/task-repository-interface';
+import { ProgressFactory } from 'src/domain/progress/progress-factory';
 
 interface Params {
   name: string;
@@ -9,25 +13,49 @@ interface Params {
 
 export class CreateMemberUseCase {
   private readonly memberRepository;
-  public constructor(memberRepository: MemberRepository) {
+  private readonly progressRepository;
+  private readonly taskRepository;
+
+  public constructor(
+    memberRepository: IMemberRepository,
+    progressRepository: IProgressRepository,
+    taskRepository: ITaskRepository
+  ) {
     this.memberRepository = memberRepository;
+    this.progressRepository = progressRepository;
+    this.taskRepository = taskRepository;
   }
 
   public async execute(params: Params): Promise<Member> {
     const { name, email } = params;
 
-    // emailに重複が無いかチェック
+    const memberSameEmailExist = new MemberSameEmailExist(
+      email,
+      this.memberRepository
+    );
 
-    // メンバー作成
+    if (await memberSameEmailExist.execute()) {
+      throw new Error(`duplicate email. ${email}`);
+    }
+
     const member = MemberFactory.execute({
       name: name,
       email: email,
     });
-    this.memberRepository.save(member);
 
-    // Progress作成
+    const taskList = await this.taskRepository.getAll();
 
-    // Teamに紐付け
+    const progress = ProgressFactory.execute({
+      member: member,
+      taskList: taskList,
+    });
+
+    if (progress === null) {
+      throw new Error('task does not exist.');
+    }
+
+    await this.memberRepository.create(member);
+    await this.progressRepository.create(progress);
 
     return member;
   }

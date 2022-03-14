@@ -5,11 +5,15 @@ import { ProgressStatus } from './progress-status';
 
 interface IProps {
   member: Member;
-  taskList: Task[];
+  taskList: Task[] | null;
 }
 
 export class ProgressFactory {
-  public static execute = (props: IProps): Progress[] => {
+  public static execute = (props: IProps): Progress[] | null => {
+    if (props.taskList === null) {
+      return null;
+    }
+
     return props.taskList.map((task) => {
       const memberId = props.member.id;
       const taskId = task.id;

@@ -49,17 +49,17 @@ export class ProgressRepository implements IProgressRepository {
     );
   };
 
-  public save = async (progress: Progress): Promise<void> => {
-    await this.prismaClient.memberOnTask.update({
-      where: {
-        memberId_taskId: {
-          memberId: progress.memberId,
-          taskId: progress.taskId,
-        },
-      },
-      data: {
-        status: progress.status,
-      },
+  public create = async (progressList: Progress[]): Promise<void> => {
+    const data = progressList.map((progress) => {
+      const status = progress.status;
+      const memberId = progress.memberId;
+      const taskId = progress.taskId;
+
+      return { status, memberId, taskId };
+    });
+
+    await this.prismaClient.memberOnTask.createMany({
+      data: data,
     });
   };
 }

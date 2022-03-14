@@ -52,7 +52,7 @@ export class MemberRepository implements IMemberRepository {
     );
   }
 
-  public async update(member: Member): Promise<void> {
+  public async update(member: Member): Promise<Member> {
     const { id, name, email } = member;
     const status = member.status.props.status;
 
@@ -66,9 +66,11 @@ export class MemberRepository implements IMemberRepository {
         status,
       },
     });
+
+    return member;
   }
 
-  public async save(member: Member): Promise<Member> {
+  public async create(member: Member): Promise<Member> {
     await this.prismaClient.member.upsert({
       where: {
         id: member.id,

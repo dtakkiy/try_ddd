@@ -10,6 +10,5 @@ export class PostMemberRequest {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
   readonly email!: string;
 }
