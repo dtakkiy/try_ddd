@@ -5,27 +5,42 @@ import { UpdateMemberStatusUseCase } from '../update-member-status-usecase';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { Member } from 'src/domain/member/member';
 import { Identifier } from 'src/__share__/identifier';
-import { MemberStatusType } from 'src/domain/member/member-status';
+import {
+  MemberStatus,
+  MemberStatusType,
+} from 'src/domain/member/member-status';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
 
 describe('【ユースケース】参加者の在籍ステータスを変更する', () => {
   let mockMemberRepository: MockedObjectDeep<MemberRepository>;
+
   beforeAll(() => {
     const prisma = new PrismaClient();
     mockMemberRepository = mocked(new MemberRepository(prisma), true);
   });
+
   it('[正常系] 参加者の在籍ステータスを変更できる', () => {
     const id = Identifier.generator();
     const name = 'test';
     const email = 'test@example.com';
-    const status = MemberStatusType.active;
+    const status = new MemberStatus({ status: MemberStatusType.active });
+    const member = new Member({ id, name, email, status });
 
-    // mockMemberRepository.getById(id).mockResolvedValueOnce(member);
+    mockMemberRepository.getById.mockResolvedValueOnce(member);
+    const updateMember = new Member({ id, name, email, status });
+    updateMember.setStatus(
+      new MemberStatus({ status: MemberStatusType.closed })
+    );
+    mockMemberRepository.update.mockResolvedValueOnce(updateMember);
 
-    // const expectResponse = new Member({ name: name, email: email });
-    // const usecase = new UpdateMemberStatusUseCase(mockMemberRepository);
-    // return expect(usecase.execute({})).resolves.toStrictEqual([expectResponse]);
+    const params = {
+      id: id,
+      status: MemberStatusType.closed,
+    };
+
+    const usecase = new UpdateMemberStatusUseCase(mockMemberRepository);
+    return expect(usecase.execute(params)).resolves.toBe(updateMember);
   });
 });

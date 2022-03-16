@@ -9,7 +9,7 @@ export class TeamRepository implements ITeamRepository {
     this.prismaClient = prismaClient;
   }
 
-  public getAll = async (): Promise<Team[] | null> => {
+  public async getAll(): Promise<Team[] | null> {
     const allTeam = await this.prismaClient.team.findMany({
       include: {
         pairs: {
@@ -21,5 +21,5 @@ export class TeamRepository implements ITeamRepository {
     });
 
     return null;
-  };
+  }
 }

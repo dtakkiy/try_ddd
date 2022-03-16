@@ -10,7 +10,7 @@ export class TaskRepository implements ITaskRepository {
     this.prismaClient = prismaClient;
   }
 
-  public getById = async (id: string): Promise<Task | null> => {
+  public async getById(id: string): Promise<Task | null> {
     const task = await this.prismaClient.task.findUnique({
       where: { id: id },
     });
@@ -24,9 +24,9 @@ export class TaskRepository implements ITaskRepository {
       title: task.title,
       content: task.content,
     });
-  };
+  }
 
-  public getAll = async (): Promise<Task[] | null> => {
+  public async getAll(): Promise<Task[] | null> {
     const taskAll = await this.prismaClient.task.findMany();
 
     if (taskAll === null) {
@@ -40,5 +40,5 @@ export class TaskRepository implements ITaskRepository {
         content: task.content,
       });
     });
-  };
+  }
 }

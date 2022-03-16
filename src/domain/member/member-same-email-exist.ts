@@ -9,8 +9,8 @@ export class MemberSameEmailExist {
     this.email = email;
   }
 
-  public execute = async (): Promise<boolean> => {
+  public async execute(): Promise<boolean> {
     const memberAll = await this.repository.getAll();
     return memberAll.some((member) => member.email === this.email);
-  };
+  }
 }

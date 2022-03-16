@@ -12,7 +12,7 @@ export class ProgressRepository implements IProgressRepository {
     this.prismaClient = prismaClient;
   }
 
-  public getById = async (props: IProgressProps): Promise<Progress | null> => {
+  public async getById(props: IProgressProps): Promise<Progress | null> {
     const memberOnTask = this.prismaClient.memberOnTask.findUnique({
       where: {
         memberId_taskId: {
@@ -33,9 +33,9 @@ export class ProgressRepository implements IProgressRepository {
         status: '',
       }),
     });
-  };
+  }
 
-  public getAll = async (): Promise<Progress[] | null> => {
+  public async getAll(): Promise<Progress[] | null> {
     const memberOnTaskAll = await this.prismaClient.memberOnTask.findMany();
 
     return memberOnTaskAll.map(
@@ -46,9 +46,9 @@ export class ProgressRepository implements IProgressRepository {
           status: ProgressStatus.create({ status: memberOnTask.status }),
         })
     );
-  };
+  }
 
-  public create = async (progressList: Progress[]): Promise<void> => {
+  public async create(progressList: Progress[]): Promise<void> {
     const data = progressList.map((progress) => {
       const status = progress.status;
       const memberId = progress.memberId;
@@ -60,5 +60,5 @@ export class ProgressRepository implements IProgressRepository {
     await this.prismaClient.memberOnTask.createMany({
       data: data,
     });
-  };
+  }
 }
