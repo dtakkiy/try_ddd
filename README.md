@@ -7,8 +7,12 @@ ddd sample app.
 - `cd .docker`
 - `docker-compose up`
 
+- `nvm i v14.17.x`
+- `nvm use v14.17.x`
+
+- `yarn`
 - `yarn dev`
-- `http://localhost:3001/sample`
+- `access with a browser. → http://localhost:3001/members`
 
 ## memo
 

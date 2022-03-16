@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { Progress } from 'src/domain/progress/progress';
-import { ProgressFactory } from 'src/domain/progress/progress-factory';
 import {
   IProgressRepository,
   IProgressProps,
@@ -24,7 +23,7 @@ export class ProgressRepository implements IProgressRepository {
     });
 
     if (memberOnTask === null) {
-      throw new Error();
+      throw new Error(`not found memberOnTask.`);
     }
 
     return new Progress({

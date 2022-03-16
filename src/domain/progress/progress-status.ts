@@ -18,7 +18,7 @@ export class ProgressStatus {
 
   private validateStatus(status: string) {
     if (Object.values(ProgressStatusType).includes(status) === false) {
-      throw new Error('');
+      throw new Error(`not applicable progress status value. ${status}`);
     }
   }
 
@@ -45,6 +45,6 @@ export class ProgressStatus {
       return new ProgressStatus({ status: ProgressStatusType.completed });
     }
 
-    throw new Error();
+    throw new Error(`progress stepup error.`);
   }
 }

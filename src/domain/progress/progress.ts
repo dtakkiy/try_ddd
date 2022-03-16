@@ -38,7 +38,7 @@ export class Progress {
 
   public changeStatusForward = (): Progress => {
     if (this.props.status.isComplete()) {
-      throw new Error();
+      throw new Error(`already completed.`);
     }
 
     this.props.status = this.props.status.stepUp();

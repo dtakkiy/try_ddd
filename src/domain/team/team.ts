@@ -35,7 +35,7 @@ export class Team {
   private validateTeamName(name: string) {
     const pattern = '^[0-9]{1,3}$';
     if (!name.match(pattern)) {
-      throw new Error('');
+      throw new Error(`team name is not appropriate.${name}`);
     }
   }
 }

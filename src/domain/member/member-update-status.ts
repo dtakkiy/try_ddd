@@ -14,7 +14,7 @@ export class MemberUpdateStatus {
     status: MemberStatus
   ): Promise<void> => {
     if (status.equals(member.status)) {
-      throw new Error('既にステータスは変更されています');
+      throw new Error('status has already been changed.');
     }
 
     const { id, name, email } = member;

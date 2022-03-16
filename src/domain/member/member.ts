@@ -54,19 +54,19 @@ export class Member {
 
   private validateStatus(status: string) {
     if (Object.values(MemberStatusType).includes(status) === false) {
-      throw new Error();
+      throw new Error(`not applicable member status value. ${status}`);
     }
   }
 
   private validateName(name: string) {
     if (name === '') {
-      throw new Error('');
+      throw new Error('name is empty.');
     }
   }
 
   private validateEmail(email: string) {
     if (email === '') {
-      throw new Error('');
+      throw new Error('email is empty.');
     }
   }
 

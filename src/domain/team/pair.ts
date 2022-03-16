@@ -33,11 +33,11 @@ export class Pair {
 
   private validateMemberList(memberList: Member[]) {
     if (memberList.length <= 1) {
-      throw new Error();
+      throw new Error(`small number of member. ${memberList.length}`);
     }
 
     if (memberList.length >= 4) {
-      throw new Error();
+      throw new Error(`large number of member. ${memberList.length}`);
     }
   }
 
@@ -55,7 +55,7 @@ export class Pair {
   private validatePairName(name: string) {
     const pattern = '^[a-z]{1}$';
     if (!name.match(pattern)) {
-      throw new Error();
+      throw new Error(`pair name is not appropriate.${name}`);
     }
   }
 }

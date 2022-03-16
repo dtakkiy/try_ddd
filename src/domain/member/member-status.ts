@@ -24,7 +24,7 @@ export class MemberStatus {
 
   private validateStatus(status: string) {
     if (Object.values(MemberStatusType).includes(status) === false) {
-      throw new Error();
+      throw new Error(`no applicable member status. ${status}`);
     }
   }
 

@@ -16,7 +16,7 @@ export class TaskRepository implements ITaskRepository {
     });
 
     if (task === null) {
-      throw new Error();
+      throw new Error(`not found task data.`);
     }
 
     return TaskFactory.execute({
@@ -30,7 +30,7 @@ export class TaskRepository implements ITaskRepository {
     const taskAll = await this.prismaClient.task.findMany();
 
     if (taskAll === null) {
-      throw new Error();
+      throw new Error(`not found task data.`);
     }
 
     return taskAll.map((task) => {
