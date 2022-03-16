@@ -3,7 +3,7 @@
   "private": true,
   "license": "UNLICENSED",
   "engines": {
-    "node": "14.17.0"
+    "node": "12.x.x"
   },
   "scripts": {
     "prebuild": "rimraf dist",

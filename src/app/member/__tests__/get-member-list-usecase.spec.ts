@@ -1,14 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
 import { GetMemberListUseCase } from '../get-member-list-usecase';
-
 import { mocked } from 'ts-jest/utils';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/member-query-service');
 
-describe('do', () => {
+describe('【ユースケース】参加者一覧を取得する', () => {
   let mockMemberQueryService: MockedObjectDeep<MemberQueryService>;
   beforeAll(() => {
     const prisma = new PrismaClient();

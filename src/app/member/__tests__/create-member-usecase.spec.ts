@@ -8,16 +8,21 @@ import { Member } from 'src/domain/member/member';
 import { MemberStatus } from 'src/domain/member/member-status';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
+import { Progress } from 'src/domain/progress/progress';
+import { Task } from 'src/domain/task/task';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
 jest.mock('src/infra/db/repository/task-repository');
 jest.mock('src/infra/db/repository/progress-repository');
 
-describe('do', () => {
+describe('【ユースケース】参加者を新規追加する', () => {
   let mockMemberRepository: MockedObjectDeep<MemberRepository>;
   let mockTaskRepository: MockedObjectDeep<TaskRepository>;
   let mockProgressRepository: MockedObjectDeep<ProgressRepository>;
+  let mockMember: MockedObjectDeep<Member>;
+  let mockProgress: MockedObjectDeep<Progress>;
+  let mockTask: MockedObjectDeep<Task>;
 
   beforeAll(() => {
     const prisma = new PrismaClient();
@@ -37,6 +42,8 @@ describe('do', () => {
     const email = 'test@example.co.jp';
     const status = MemberStatus.create();
 
+    const progress: Progress[] = [];
+
     const expectMember = new Member({
       id: memberId,
       name: name,
@@ -44,14 +51,36 @@ describe('do', () => {
       status: status,
     });
 
-    const usecase = new CreateMemberUseCase(
-      mockMemberRepository,
-      mockProgressRepository,
-      mockTaskRepository
+    const mockTask = mocked(
+      new Task({
+        id: taskId,
+        title: taskTitle,
+        content: taskContent,
+      }),
+      true
     );
 
-    // return expect(
-    //   usecase.execute({ name: 'test', email: 'test@example.co.jp' })
-    // ).resolves.toBe(expectMember);
+    const mockMember = mocked(
+      new Member({
+        id: memberId,
+        name: name,
+        email: email,
+        status: status,
+      }),
+      true
+    );
+
+    // mockTaskRepository.getAll.mockResolvedValueOnce([mockTask]);
+    // mockMemberRepository.create.mockResolvedValueOnce(expectMember);
+
+    // const usecase = new CreateMemberUseCase(
+    //   mockMemberRepository,
+    //   mockProgressRepository,
+    //   mockTaskRepository
+    // );
+
+    // return expect(usecase.execute({ name: name, email: email })).resolves.toBe(
+    //   expectMember
+    // );
   });
 });
