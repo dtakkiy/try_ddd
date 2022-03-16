@@ -20,12 +20,29 @@ export class Team {
     };
   }
 
+  public get id() {
+    return this.props.id;
+  }
+
   public get name() {
     return this.props.name;
   }
 
-  public get pairList(): Pair[] {
+  public getPairList(): Pair[] {
     return this.props.pairList;
+  }
+
+  public getMemberCount(): number {
+    return this.props.pairList.reduce(
+      (prev, current) => prev + current.getMemberCount(),
+      0
+    );
+  }
+
+  public getMinMemberPair(): Pair {
+    return this.props.pairList.reduce((prev, current) =>
+      prev.getMemberCount() < current.getMemberCount() ? prev : current
+    );
   }
 
   public equals = (team: Team): boolean => {
@@ -37,5 +54,19 @@ export class Team {
     if (!name.match(pattern)) {
       throw new Error(`team name is not appropriate.${name}`);
     }
+  }
+
+  public getPairCount(): number {
+    return this.props.pairList.length;
+  }
+
+  public addPair(pair: Pair) {
+    this.props.pairList.push(pair);
+  }
+
+  public deletePair(targetPair: Pair) {
+    this.props.pairList = this.props.pairList.filter(
+      (pair) => pair.id === targetPair.id
+    );
   }
 }
