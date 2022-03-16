@@ -53,8 +53,7 @@ export class Member {
   }
 
   private validateStatus(status: string) {
-    if (status in MemberStatusType) {
-    } else {
+    if (Object.values(MemberStatusType).includes(status) === false) {
       throw new Error();
     }
   }

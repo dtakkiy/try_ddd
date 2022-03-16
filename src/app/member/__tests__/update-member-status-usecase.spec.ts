@@ -5,6 +5,7 @@ import { UpdateMemberStatusUseCase } from '../update-member-status-usecase';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { Member } from 'src/domain/member/member';
 import { Identifier } from 'src/__share__/identifier';
+import { MemberStatusType } from 'src/domain/member/member-status';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
@@ -19,7 +20,7 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     const id = Identifier.generator();
     const name = 'test';
     const email = 'test@example.com';
-    const status = '在籍中';
+    const status = MemberStatusType.active;
 
     // mockMemberRepository.getById(id).mockResolvedValueOnce(member);
 

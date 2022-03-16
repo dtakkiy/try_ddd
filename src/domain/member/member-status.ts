@@ -1,7 +1,7 @@
 export const MemberStatusType = {
-  在籍中: '在籍中',
-  休会中: '休会中',
-  退会済: '退会済',
+  active: '在籍中',
+  closed: '休会中',
+  ended: '退会済',
 };
 
 interface IMemberStatus {
@@ -19,12 +19,11 @@ export class MemberStatus {
   }
 
   public static create() {
-    return new MemberStatus({ status: '在籍中' });
+    return new MemberStatus({ status: MemberStatusType.active });
   }
 
   private validateStatus(status: string) {
-    if (status in MemberStatusType) {
-    } else {
+    if (Object.values(MemberStatusType).includes(status) === false) {
       throw new Error();
     }
   }
@@ -38,6 +37,6 @@ export class MemberStatus {
   };
 
   public isJoinPair = (): boolean => {
-    return this.props.status === '在籍中';
+    return this.props.status === MemberStatusType.active;
   };
 }

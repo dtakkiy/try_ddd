@@ -1,7 +1,7 @@
 import { Member } from '../member/member';
 import { Task } from '../task/task';
 import { Progress } from './progress';
-import { ProgressStatus } from './progress-status';
+import { ProgressStatus, ProgressStatusType } from './progress-status';
 
 interface IProps {
   member: Member;
@@ -17,7 +17,9 @@ export class ProgressFactory {
     return props.taskList.map((task) => {
       const memberId = props.member.id;
       const taskId = task.id;
-      const status = ProgressStatus.create({ status: '未着手' });
+      const status = ProgressStatus.create({
+        status: ProgressStatusType.notStarted,
+      });
 
       return new Progress({ memberId, taskId, status });
     });

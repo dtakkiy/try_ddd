@@ -2,7 +2,10 @@ import { PrismaClient } from '@prisma/client';
 import { Member } from 'src/domain/member/member';
 import { MemberFactory } from 'src/domain/member/member-factory';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
-import { MemberStatus } from 'src/domain/member/member-status';
+import {
+  MemberStatus,
+  MemberStatusType,
+} from 'src/domain/member/member-status';
 
 export class MemberRepository implements IMemberRepository {
   private prismaClient: PrismaClient;
@@ -83,7 +86,7 @@ export class MemberRepository implements IMemberRepository {
         id: member.id,
         name: member.name,
         email: member.email,
-        status: '在籍中',
+        status: MemberStatusType.active,
       },
     });
 

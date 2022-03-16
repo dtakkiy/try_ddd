@@ -1,7 +1,7 @@
 export const ProgressStatusType = {
-  未着手: '未着手',
-  レビュー待ち: 'レビュー待ち',
-  完了: '完了',
+  notStarted: '未着手',
+  awaitingReview: 'レビュー待ち',
+  completed: '完了',
 };
 
 interface IProgressStatus {
@@ -17,9 +17,8 @@ export class ProgressStatus {
   }
 
   private validateStatus(status: string) {
-    if (status in ProgressStatusType) {
-    } else {
-      throw new Error();
+    if (Object.values(ProgressStatusType).includes(status) === false) {
+      throw new Error('');
     }
   }
 
@@ -28,20 +27,22 @@ export class ProgressStatus {
   }
 
   public static create(props: IProgressStatus) {
-    return new ProgressStatus({ status: props.status ?? '未着手' });
+    return new ProgressStatus({
+      status: props.status ?? ProgressStatusType.notStarted,
+    });
   }
 
   public isComplete(): boolean {
-    return this.props.status === '完了';
+    return this.props.status === ProgressStatusType.completed;
   }
 
   public stepUp(): ProgressStatus {
-    if (this.props.status === '未着手') {
-      return new ProgressStatus({ status: 'レビュー待ち' });
+    if (this.props.status === ProgressStatusType.notStarted) {
+      return new ProgressStatus({ status: ProgressStatusType.awaitingReview });
     }
 
-    if (this.props.status === 'レビュー待ち') {
-      return new ProgressStatus({ status: '完了' });
+    if (this.props.status === ProgressStatusType.awaitingReview) {
+      return new ProgressStatus({ status: ProgressStatusType.completed });
     }
 
     throw new Error();
