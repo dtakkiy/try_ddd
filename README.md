@@ -11,13 +11,18 @@ ddd sample app.
 - `nvm use v14.17.x`
 
 - `yarn`
+- `yarn seed`
+
 - `yarn dev`
 - `access with a browser. → http://localhost:3001/members`
 
 ## memo
 
-- test
+- unit test
   - `yarn test:unit`
+
+- prisma studio
+  - `yarn studio`
 
 ## nest.js
 
