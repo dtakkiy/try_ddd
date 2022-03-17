@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import {
   MemberDTO,
   IMemberQueryService,
-} from 'src/app/member/query-service-interface/member-query-service';
+} from 'src/app/query-service-interface/member-query-service';
 
 export class MemberQueryService implements IMemberQueryService {
   private prismaClient: PrismaClient;

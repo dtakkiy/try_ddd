@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
-import { CreateMemberUseCase } from 'src/app/member/create-member-usecase';
-import { GetMemberListUseCase } from 'src/app/member/get-member-list-usecase';
-import { UpdateMemberStatusUseCase } from 'src/app/member/update-member-status-usecase';
+import { CreateMemberUseCase } from 'src/app/create-member-usecase';
+import { GetMemberListUseCase } from 'src/app/get-member-list-usecase';
+import { UpdateMemberStatusUseCase } from 'src/app/update-member-status-usecase';
 import { Member } from 'src/domain/member/member';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';

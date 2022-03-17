@@ -1,4 +1,4 @@
-import { IEmailRepository } from 'src/app/infra/email/email-repository-interface';
+import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 
 interface Props {
   from: string;

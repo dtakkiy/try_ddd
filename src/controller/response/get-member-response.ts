@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MemberDTO } from 'src/app/member/query-service-interface/member-query-service';
+import { MemberDTO } from 'src/app/query-service-interface/member-query-service';
 export class GetMemberResponse {
   @ApiProperty({ type: () => [MemberData] })
   memberData: MemberData[];
