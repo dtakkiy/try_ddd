@@ -1,3 +1,4 @@
+import { Entity } from '../__share__/Entity';
 import { ProgressStatus } from './progress-status';
 
 interface IProgress {
