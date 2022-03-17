@@ -1,5 +1,4 @@
 import { Identifier } from 'src/__share__/identifier';
-import { PairFactory } from '../team/pair-factory';
 import { Team } from '../team/team';
 
 describe('Teamエンティティのテスト', () => {
