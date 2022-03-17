@@ -4,17 +4,21 @@ ddd sample app.
 
 ## how to start
 
-- `cd .docker`
-- `docker-compose up`
+- db
+  - `cd .docker`
+  - `docker-compose up`
 
-- `nvm i v14.17.x`
-- `nvm use v14.17.x`
+- node version
+  - `nvm i v14.17.x`
+  - `nvm use v14.17.x`
 
-- `yarn`
-- `yarn seed`
+- seed data
+  - `yarn`
+  - `yarn seed`
 
-- `yarn dev`
-- `access with a browser. → http://localhost:3001/members`
+- dev mode
+  - `yarn dev`
+  - `access with a browser. → http://localhost:3001/members`
 
 ## memo
 
