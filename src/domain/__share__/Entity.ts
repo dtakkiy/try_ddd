@@ -1,15 +1,15 @@
 import { Identifier } from 'src/__share__/identifier';
 
 export abstract class Entity<T> {
-  protected readonly _id: string;
+  protected readonly _id: Identifier;
   protected props: T;
 
-  public constructor(props: T, id?: string) {
-    this._id = id ? id : Identifier.generator();
+  public constructor(props: T, id?: Identifier) {
+    this._id = id ? id : new Identifier();
     this.props = props;
   }
 
-  public get id(): string {
+  public get id(): Identifier {
     return this._id;
   }
 
