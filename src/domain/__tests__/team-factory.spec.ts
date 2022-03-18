@@ -1,6 +1,7 @@
 import * as faker from 'faker';
 import { MemberFactory } from '../member/member-factory';
 import { Pair } from '../team/pair';
+import { PairNameVO } from '../team/pair-name-vo';
 import { Team } from '../team/team';
 import { TeamFactory } from '../team/team-factory';
 
@@ -17,7 +18,7 @@ describe('team factoryのテスト', () => {
 
     const pairData = {
       id: faker.datatype.uuid(),
-      name: 'b',
+      name: new PairNameVO('b'),
       memberList: [member1, member2],
     };
 

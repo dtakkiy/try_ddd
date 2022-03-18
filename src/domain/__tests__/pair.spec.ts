@@ -6,6 +6,7 @@ import * as faker from 'faker';
 import { MemberFactory } from '../member/member-factory';
 import { MemberNameVO } from '../member/member-name-vo';
 import { MemberEmailVO } from '../member/member-email-vo';
+import { PairNameVO } from '../team/pair-name-vo';
 
 describe('Pairのテスト', () => {
   let member1: Member;
@@ -35,21 +36,31 @@ describe('Pairのテスト', () => {
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
     expect(
-      new Pair({ id: id, name: 'a', memberList: [member1, member2] })
+      new Pair({
+        id: id,
+        name: new PairNameVO('a'),
+        memberList: [member1, member2],
+      })
     ).toBeInstanceOf(Pair);
   });
 
   it('ペアの名前は、a,b,c のような英文字でなければならない', () => {
     const id = Identifier.generator();
     expect(
-      () => new Pair({ id: id, name: '1', memberList: [member1, member2] })
+      () =>
+        new Pair({
+          id: id,
+          name: new PairNameVO('1'),
+          memberList: [member1, member2],
+        })
     ).toThrowError();
   });
 
   it('1名のペアは存在できない', () => {
     const id = Identifier.generator();
     expect(
-      () => new Pair({ id: id, name: 'a', memberList: [member1] })
+      () =>
+        new Pair({ id: id, name: new PairNameVO('a'), memberList: [member1] })
     ).toThrowError();
   });
 
@@ -59,7 +70,7 @@ describe('Pairのテスト', () => {
       () =>
         new Pair({
           id: id,
-          name: 'a',
+          name: new PairNameVO('a'),
           memberList: [member1, member2, member3, member4],
         })
     ).toThrowError();
@@ -68,7 +79,7 @@ describe('Pairのテスト', () => {
   it('3名のペアにメンバーを加えることはできない', () => {
     const pairData = {
       id: faker.datatype.uuid(),
-      name: 'b',
+      name: new PairNameVO('b'),
       memberList: [member1, member2, member3],
     };
 
@@ -86,7 +97,7 @@ describe('Pairのテスト', () => {
   it('ペアのメンバー数を取得することができる', () => {
     const pairData = {
       id: faker.datatype.uuid(),
-      name: 'b',
+      name: new PairNameVO('b'),
       memberList: [member1, member2],
     };
 
@@ -115,7 +126,7 @@ describe('Pairのテスト', () => {
 
     const pairData = {
       id: faker.datatype.uuid(),
-      name: 'b',
+      name: new PairNameVO('b'),
       memberList: [member1, member2, member5],
     };
 

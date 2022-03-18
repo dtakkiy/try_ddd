@@ -1,9 +1,10 @@
 import { Identifier } from 'src/__share__/identifier';
 import { Pair } from './pair';
+import { TeamNameVO } from './team-name-vo';
 
 interface ITeam {
   id: string;
-  name: string;
+  name: TeamNameVO;
   pairList: Pair[];
 }
 
@@ -11,7 +12,7 @@ export class Team {
   private props: ITeam;
   constructor(props: ITeam) {
     const { id, name, pairList } = props;
-    this.validateTeamName(name);
+    //    this.validateTeamName(name);
 
     this.props = {
       id: id ?? Identifier.generator(),
@@ -23,7 +24,7 @@ export class Team {
   public getAllProperties() {
     return {
       id: this.props.id,
-      name: this.props.name,
+      name: this.props.name.getValue(),
       pairList: this.props.pairList,
     };
   }
@@ -57,12 +58,12 @@ export class Team {
     return team.props.id === this.props.id;
   };
 
-  private validateTeamName(name: string) {
-    const pattern = '^[0-9]{1,3}$';
-    if (!name.match(pattern)) {
-      throw new Error(`team name is not appropriate.${name}`);
-    }
-  }
+  // private validateTeamName(name: string) {
+  //   const pattern = '^[0-9]{1,3}$';
+  //   if (!name.match(pattern)) {
+  //     throw new Error(`team name is not appropriate.${name}`);
+  //   }
+  // }
 
   public getPairCount(): number {
     return this.props.pairList.length;

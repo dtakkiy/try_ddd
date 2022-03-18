@@ -1,9 +1,10 @@
 import { Identifier } from 'src/__share__/identifier';
 import { Member } from '../member/member';
+import { PairNameVO } from './pair-name-vo';
 
 interface IPair {
   id: string;
-  name: string;
+  name: PairNameVO;
   memberList: Member[];
 }
 
@@ -15,7 +16,7 @@ export class Pair {
   constructor(props: IPair) {
     const { id, name, memberList } = props;
 
-    this.validatePairName(name);
+    //    this.validatePairName(name);
     this.validateMemberList(memberList);
 
     this.props = {
@@ -29,7 +30,7 @@ export class Pair {
   public getAllProperties() {
     return {
       id: this.props.id,
-      name: this.props.name,
+      name: this.props.name.getValue(),
       memberList: this.props.memberList,
     };
   }
@@ -60,12 +61,12 @@ export class Pair {
     return pair.props.id === this.props.id;
   };
 
-  private validatePairName(name: string) {
-    const pattern = '^[a-z]{1}$';
-    if (!name.match(pattern)) {
-      throw new Error(`pair name is not appropriate.${name}`);
-    }
-  }
+  // private validatePairName(name: string) {
+  //   const pattern = '^[a-z]{1}$';
+  //   if (!name.match(pattern)) {
+  //     throw new Error(`pair name is not appropriate.${name}`);
+  //   }
+  // }
 
   public addMember = (member: Member): Pair => {
     const memberList = this.props.memberList.concat(member);

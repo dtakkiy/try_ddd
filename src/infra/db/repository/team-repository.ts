@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Member } from 'src/domain/member/member';
 import { Pair } from 'src/domain/team/pair';
 import { Team } from 'src/domain/team/team';
+import { TeamNameVO } from 'src/domain/team/team-name-vo';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
 
 export class TeamRepository implements ITeamRepository {
@@ -55,7 +56,7 @@ export class TeamRepository implements ITeamRepository {
 
     return new Team({
       id: team.id,
-      name: team.name,
+      name: new TeamNameVO(team.name),
       pairList: [],
     });
   }
