@@ -11,6 +11,6 @@ export class MemberSameEmailExist {
 
   public async execute(): Promise<boolean> {
     const memberAll = await this.repository.getAll();
-    return memberAll.some((member) => member.email === this.email);
+    return memberAll.some((member) => member.email.getEmail() === this.email);
   }
 }

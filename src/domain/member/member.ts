@@ -1,10 +1,11 @@
 import { Identifier } from 'src/__share__/identifier';
+import { MemberEmailVO } from './member-email-vo';
 import { MemberStatus, MemberStatusType } from './member-status';
 
 interface IMember {
   id: string;
   name: string;
-  email: string;
+  email: MemberEmailVO;
   status: MemberStatus;
 }
 
@@ -13,7 +14,7 @@ export class Member {
   constructor(props: IMember) {
     const { id, name, email, status } = props;
     this.validateName(props.name);
-    this.validateEmail(props.email);
+    //    this.validateEmail(props.email);
     this.validateStatus(props.status.getStatus());
 
     this.props = {
@@ -28,7 +29,7 @@ export class Member {
     return {
       id: this.props.id,
       name: this.props.name,
-      email: this.props.email,
+      email: this.props.email.getEmail(),
       status: this.props.status.getStatus(),
     };
   }
@@ -50,7 +51,7 @@ export class Member {
   }
 
   public setEmail(email: string) {
-    this.props.email = email;
+    this.props.email.setEmail(email);
   }
 
   public setStatus(status: MemberStatus) {
