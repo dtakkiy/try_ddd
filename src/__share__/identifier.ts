@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 interface IIdentifier {
-  _id: string;
+  value: string;
 }
 
 export class Identifier {
@@ -9,16 +9,16 @@ export class Identifier {
 
   public constructor(id?: string) {
     this.props = {
-      _id: id ?? uuidv4(),
+      value: id ?? uuidv4(),
     };
   }
 
   public get id() {
-    return this.props._id;
+    return this.props.value;
   }
 
   public equals(id: Identifier): boolean {
-    return this.props._id === id.props._id;
+    return this.props.value === id.props.value;
   }
 
   public static generator() {

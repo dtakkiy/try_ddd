@@ -1,3 +1,5 @@
+import { mainModule } from 'process';
+
 export class MemberEmailVO {
   private _value: string;
 
@@ -18,6 +20,13 @@ export class MemberEmailVO {
   private validateEmail(email: string) {
     if (email === '') {
       throw new Error('email is empty.');
+    }
+
+    const pattern =
+      /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/;
+
+    if (!email.match(pattern)) {
+      throw new Error('incorrect email address.');
     }
   }
 }

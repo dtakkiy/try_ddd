@@ -10,8 +10,14 @@ import { MemberEmailVO } from '../member/member-email-vo';
 describe('Pairのテスト', () => {
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'c', email: 'c' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'c',
+      email: 'c@example.com',
+    });
 
     expect(
       new Pair({ id: id, name: 'a', memberList: [member1, member2] })
@@ -20,8 +26,14 @@ describe('Pairのテスト', () => {
 
   it('ペアの名前は、a,b,c のような英文字でなければならない', () => {
     const id = Identifier.generator();
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'c', email: 'c' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'c',
+      email: 'c@example.com',
+    });
 
     expect(
       () => new Pair({ id: id, name: '1', memberList: [member1, member2] })
@@ -30,7 +42,10 @@ describe('Pairのテスト', () => {
 
   it('1名のペアは存在できない', () => {
     const id = Identifier.generator();
-    const member1 = MemberFactory.execute({ name: 'c', email: 'c' });
+    const member1 = MemberFactory.execute({
+      name: 'c',
+      email: 'c@example.com',
+    });
 
     expect(
       () => new Pair({ id: id, name: 'a', memberList: [member1] })
@@ -39,10 +54,22 @@ describe('Pairのテスト', () => {
 
   it('4名のペアは存在できない', () => {
     const id = Identifier.generator();
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
-    const member3 = MemberFactory.execute({ name: 'c', email: 'c' });
-    const member4 = MemberFactory.execute({ name: 'd', email: 'd' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'b',
+      email: 'b@example.com',
+    });
+    const member3 = MemberFactory.execute({
+      name: 'c',
+      email: 'c@example.com',
+    });
+    const member4 = MemberFactory.execute({
+      name: 'd',
+      email: 'd@example.com',
+    });
 
     expect(
       () =>
@@ -55,9 +82,18 @@ describe('Pairのテスト', () => {
   });
 
   it('3名のペアにメンバーを加えることはできない', () => {
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
-    const member3 = MemberFactory.execute({ name: 'c', email: 'c' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'b',
+      email: 'b@example.com',
+    });
+    const member3 = MemberFactory.execute({
+      name: 'c',
+      email: 'c@example.com',
+    });
 
     const pairData = {
       id: faker.datatype.uuid(),
@@ -68,14 +104,23 @@ describe('Pairのテスト', () => {
     const pair = new Pair(pairData);
     expect(pair).toBeInstanceOf(Pair);
 
-    const member4 = MemberFactory.execute({ name: 'd', email: 'd' });
+    const member4 = MemberFactory.execute({
+      name: 'd',
+      email: 'd@example.com',
+    });
 
     expect(() => pair.addMember(member4)).toThrowError();
   });
 
   it('ペアのメンバー数を取得することができる', () => {
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'b',
+      email: 'b@example.com',
+    });
 
     const pairData = {
       id: faker.datatype.uuid(),
@@ -89,7 +134,7 @@ describe('Pairのテスト', () => {
     const member3 = new Member({
       id: faker.datatype.uuid(),
       name: new MemberNameVO('c'),
-      email: new MemberEmailVO('c'),
+      email: new MemberEmailVO('c@example.com'),
       status: MemberStatus.create(),
     });
 
@@ -98,14 +143,20 @@ describe('Pairのテスト', () => {
   });
 
   it('メンバーを削除できる', () => {
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
-    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
+    const member2 = MemberFactory.execute({
+      name: 'b',
+      email: 'b@example.com',
+    });
 
     const deleteMemberId = faker.datatype.uuid();
     const member3 = new Member({
       id: deleteMemberId,
       name: new MemberNameVO('c'),
-      email: new MemberEmailVO('c'),
+      email: new MemberEmailVO('c@example.com'),
       status: MemberStatus.create(),
     });
 

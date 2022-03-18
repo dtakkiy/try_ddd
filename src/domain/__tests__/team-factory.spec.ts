@@ -6,10 +6,13 @@ import { TeamFactory } from '../team/team-factory';
 
 describe('team factoryのテスト', () => {
   it('正常系', () => {
-    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member1 = MemberFactory.execute({
+      name: 'a',
+      email: 'a@example.com',
+    });
     const member2 = MemberFactory.execute({
       name: 'b',
-      email: 'b',
+      email: 'b@example.com',
     });
 
     const pairData = {
