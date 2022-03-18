@@ -29,9 +29,7 @@ export class ProgressRepository implements IProgressRepository {
     return new Progress({
       memberId: '',
       taskId: '',
-      status: ProgressStatus.create({
-        status: '',
-      }),
+      status: ProgressStatus.create(),
     });
   }
 
@@ -43,7 +41,7 @@ export class ProgressRepository implements IProgressRepository {
         new Progress({
           memberId: memberOnTask.memberId,
           taskId: memberOnTask.taskId,
-          status: ProgressStatus.create({ status: memberOnTask.status }),
+          status: new ProgressStatus(memberOnTask.status),
         })
     );
   }

@@ -17,9 +17,7 @@ export class ProgressFactory {
     return props.taskList.map((task) => {
       const memberId = props.member.id;
       const taskId = task.id;
-      const status = ProgressStatus.create({
-        status: ProgressStatusType.notStarted,
-      });
+      const status = new ProgressStatus(ProgressStatusType.notStarted);
 
       return new Progress({ memberId, taskId, status });
     });
