@@ -25,14 +25,12 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     const id = Identifier.generator();
     const name = 'test';
     const email = 'test@example.com';
-    const status = new MemberStatus({ status: MemberStatusType.active });
+    const status = MemberStatus.create();
     const member = new Member({ id, name, email, status });
 
     mockMemberRepository.getById.mockResolvedValueOnce(member);
     const updateMember = new Member({ id, name, email, status });
-    updateMember.setStatus(
-      new MemberStatus({ status: MemberStatusType.closed })
-    );
+    updateMember.setStatus(new MemberStatus(MemberStatusType.closed));
     mockMemberRepository.update.mockResolvedValueOnce(updateMember);
 
     const params = {

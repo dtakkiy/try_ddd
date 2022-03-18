@@ -3,23 +3,16 @@ export const MemberStatusType = {
   closed: '休会中',
   ended: '退会済',
 };
-
-interface IMemberStatus {
-  status: string;
-}
-
 export class MemberStatus {
-  public readonly props: IMemberStatus;
+  private readonly _value: string;
 
-  constructor(props: IMemberStatus) {
-    this.validateStatus(props.status);
-    this.props = {
-      status: props.status,
-    };
+  constructor(status: string) {
+    this.validateStatus(status);
+    this._value = status;
   }
 
   public static create() {
-    return new MemberStatus({ status: MemberStatusType.active });
+    return new MemberStatus(MemberStatusType.active);
   }
 
   private validateStatus(status: string) {
@@ -28,15 +21,15 @@ export class MemberStatus {
     }
   }
 
-  public get status() {
-    return this.props.status;
+  public getStatus() {
+    return this._value;
   }
 
   public equals = (member: MemberStatus): boolean => {
-    return this.props.status === member.props.status;
+    return this._value === member.getStatus();
   };
 
   public isJoinPair = (): boolean => {
-    return this.props.status === MemberStatusType.active;
+    return this._value === MemberStatusType.active;
   };
 }

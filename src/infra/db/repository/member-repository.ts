@@ -24,9 +24,7 @@ export class MemberRepository implements IMemberRepository {
       return null;
     }
 
-    const status = new MemberStatus({
-      status: member.status,
-    });
+    const status = new MemberStatus(member.status);
 
     return new Member({
       id: member?.id,
@@ -57,7 +55,7 @@ export class MemberRepository implements IMemberRepository {
 
   public async update(member: Member): Promise<Member> {
     const { id, name, email } = member;
-    const status = member.status.props.status;
+    const status = member.status.getStatus();
 
     await this.prismaClient.member.update({
       where: {

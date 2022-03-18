@@ -14,7 +14,7 @@ export class Member {
     const { id, name, email, status } = props;
     this.validateName(props.name);
     this.validateEmail(props.email);
-    this.validateStatus(props.status.props.status);
+    this.validateStatus(props.status.getStatus());
 
     this.props = {
       id: id ?? Identifier.generator(),
