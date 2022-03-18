@@ -21,7 +21,6 @@ jest.mock('src/infra/db/repository/task-repository');
 
 describe('【ユースケース】参加者を新規追加する', () => {
   let mockMemberRepository: MockedObjectDeep<MemberRepository>;
-  //  let mockTaskRepository: MockedObjectDeep<TaskRepository>;
   let mockProgressRepository: MockedObjectDeep<ProgressRepository>;
   let mockTaskRepository: MockedObjectDeep<TaskRepository>;
   let mockMember: MockedObjectDeep<Member>;
@@ -80,6 +79,7 @@ describe('【ユースケース】参加者を新規追加する', () => {
       name: 'test',
       email: 'test@example.co.jp',
     });
+    expect(member).toBeInstanceOf(Member);
     expect(member.name.getValue()).toMatch(/test/);
     expect(member.email.getEmail()).toMatch(/test@example.co.jp/);
   });

@@ -2,12 +2,17 @@ import { Task } from '../task/task';
 import * as faker from 'faker';
 
 describe('taskの単体テスト', () => {
-  it('インスタンスを生成できる', () => {
-    const data = {
+  let data = { id: '', title: '', content: '' };
+
+  beforeEach(() => {
+    data = {
       id: faker.datatype.uuid(),
       title: faker.name.jobTitle(),
       content: faker.name.jobDescriptor(),
     };
+  });
+
+  it('インスタンスを生成できる', () => {
     const task = new Task(data);
     expect(task).toBeInstanceOf(Task);
   });
