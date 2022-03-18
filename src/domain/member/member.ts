@@ -1,10 +1,11 @@
 import { Identifier } from 'src/__share__/identifier';
 import { MemberEmailVO } from './member-email-vo';
+import { MemberNameVO } from './member-name-vo';
 import { MemberStatus, MemberStatusType } from './member-status';
 
 interface IMember {
   id: string;
-  name: string;
+  name: MemberNameVO;
   email: MemberEmailVO;
   status: MemberStatus;
 }
@@ -13,8 +14,6 @@ export class Member {
   private props: IMember;
   constructor(props: IMember) {
     const { id, name, email, status } = props;
-    this.validateName(props.name);
-    //    this.validateEmail(props.email);
     this.validateStatus(props.status.getStatus());
 
     this.props = {
@@ -59,24 +58,12 @@ export class Member {
   }
 
   public setName(name: string) {
-    this.props.name = name;
+    this.props.name.setValue(name);
   }
 
   private validateStatus(status: string) {
     if (Object.values(MemberStatusType).includes(status) === false) {
       throw new Error(`not applicable member status value. ${status}`);
-    }
-  }
-
-  private validateName(name: string) {
-    if (name === '') {
-      throw new Error('name is empty.');
-    }
-  }
-
-  private validateEmail(email: string) {
-    if (email === '') {
-      throw new Error('email is empty.');
     }
   }
 

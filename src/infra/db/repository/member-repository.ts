@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Member } from 'src/domain/member/member';
 import { MemberEmailVO } from 'src/domain/member/member-email-vo';
 import { MemberFactory } from 'src/domain/member/member-factory';
+import { MemberNameVO } from 'src/domain/member/member-name-vo';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
 import {
   MemberStatus,
@@ -25,12 +26,13 @@ export class MemberRepository implements IMemberRepository {
       return null;
     }
 
+    const name = new MemberNameVO(member.name);
     const email = new MemberEmailVO(member.email);
     const status = new MemberStatus(member.status);
 
     return new Member({
       id: member?.id,
-      name: member?.name,
+      name: name,
       email: email,
       status: status,
     });
@@ -56,7 +58,8 @@ export class MemberRepository implements IMemberRepository {
   }
 
   public async update(member: Member): Promise<Member> {
-    const { id, name } = member;
+    const { id } = member;
+    const name = member.name.getValue();
     const email = member.email.getEmail();
     const status = member.status.getStatus();
 
@@ -85,7 +88,7 @@ export class MemberRepository implements IMemberRepository {
       },
       create: {
         id: member.id,
-        name: member.name,
+        name: member.name.getValue(),
         email: member.email.getEmail(),
         status: MemberStatusType.active,
       },

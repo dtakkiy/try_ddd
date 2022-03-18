@@ -1,13 +1,14 @@
 import { Identifier } from 'src/__share__/identifier';
 import { Member } from '../member/member';
 import { MemberEmailVO } from '../member/member-email-vo';
+import { MemberNameVO } from '../member/member-name-vo';
 import { MemberStatus } from '../member/member-status';
 
 describe('', () => {
   it('memberエンティティを生成できる', () => {
     const data = {
       id: Identifier.generator(),
-      name: 'bob',
+      name: new MemberNameVO('bob'),
       email: new MemberEmailVO('bob@example.com'),
       status: MemberStatus.create(),
     };
@@ -19,37 +20,15 @@ describe('', () => {
   it('memberエンティティは、属性に名前とメールアドレスをもつ', () => {
     const data = {
       id: Identifier.generator(),
-      name: 'bob',
+      name: new MemberNameVO('bob'),
       email: new MemberEmailVO('bob@example.com'),
       status: MemberStatus.create(),
     };
 
     const member = new Member(data);
-    expect(member.name).toMatch(/bob/);
+    expect(member.name.getValue()).toMatch(/bob/);
     expect(member.email.getEmail()).toMatch(/bob@example.com/);
   });
-
-  it('名前が空の場合', () => {
-    const data = {
-      id: Identifier.generator(),
-      name: '',
-      email: new MemberEmailVO('bob@example.com'),
-      status: MemberStatus.create(),
-    };
-
-    expect(() => new Member(data)).toThrowError();
-  });
-
-  // it('emailが空の場合', () => {
-  //   const data = {
-  //     id: Identifier.generator(),
-  //     name: 'bob',
-  //     email: new MemberEmailVO(''),
-  //     status: MemberStatus.create(),
-  //   };
-
-  //   expect(() => new Member(data)).toThrowError();
-  // });
 
   // メールアドレスの重複は許容しない
 

@@ -12,6 +12,7 @@ import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { MemberFactory } from 'src/domain/member/member-factory';
 import { MemberEmailVO } from 'src/domain/member/member-email-vo';
+import { MemberNameVO } from 'src/domain/member/member-name-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
@@ -42,7 +43,7 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const taskTitle = '課題のタイトル';
 
     const memberId = Identifier.generator();
-    const name = 'test';
+    const name = new MemberNameVO('test');
     const email = new MemberEmailVO('test@example.co.jp');
     const status = MemberStatus.create();
 
@@ -76,10 +77,10 @@ describe('【ユースケース】参加者を新規追加する', () => {
     );
 
     const member = await usecase.execute({
-      name: name,
+      name: 'test',
       email: 'test@example.co.jp',
     });
-    expect(member.name).toMatch(/test/);
+    expect(member.name.getValue()).toMatch(/test/);
     expect(member.email.getEmail()).toMatch(/test@example.co.jp/);
   });
 });

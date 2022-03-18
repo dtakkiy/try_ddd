@@ -1,23 +1,18 @@
 import { Pair } from '../team/pair';
 import { PairFactory } from '../team/pair-factory';
 import * as faker from 'faker';
-import { Member } from '../member/member';
-import { MemberStatus } from '../member/member-status';
+import { MemberFactory } from '../member/member-factory';
 
 describe('pair factoryのテスト', () => {
   it('正常系', () => {
-    const member1 = new Member({
-      id: faker.datatype.uuid(),
+    const member1 = MemberFactory.execute({
       name: faker.name.firstName(),
       email: faker.internet.email(),
-      status: MemberStatus.create(),
     });
 
-    const member2 = new Member({
-      id: faker.datatype.uuid(),
+    const member2 = MemberFactory.execute({
       name: faker.name.firstName(),
       email: faker.internet.email(),
-      status: MemberStatus.create(),
     });
 
     const data = {

@@ -3,24 +3,15 @@ import { Member } from '../member/member';
 import { MemberStatus } from '../member/member-status';
 import { Pair } from '../team/pair';
 import * as faker from 'faker';
+import { MemberFactory } from '../member/member-factory';
+import { MemberNameVO } from '../member/member-name-vo';
+import { MemberEmailVO } from '../member/member-email-vo';
 
 describe('Pairのテスト', () => {
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
-
-    const member1 = new Member({
-      id: Identifier.generator(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: Identifier.generator(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'c', email: 'c' });
 
     expect(
       new Pair({ id: id, name: 'a', memberList: [member1, member2] })
@@ -29,20 +20,8 @@ describe('Pairのテスト', () => {
 
   it('ペアの名前は、a,b,c のような英文字でなければならない', () => {
     const id = Identifier.generator();
-
-    const member1 = new Member({
-      id: Identifier.generator(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: Identifier.generator(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'c', email: 'c' });
 
     expect(
       () => new Pair({ id: id, name: '1', memberList: [member1, member2] })
@@ -51,13 +30,7 @@ describe('Pairのテスト', () => {
 
   it('1名のペアは存在できない', () => {
     const id = Identifier.generator();
-
-    const member1 = new Member({
-      id: Identifier.generator(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'c', email: 'c' });
 
     expect(
       () => new Pair({ id: id, name: 'a', memberList: [member1] })
@@ -66,34 +39,10 @@ describe('Pairのテスト', () => {
 
   it('4名のペアは存在できない', () => {
     const id = Identifier.generator();
-
-    const member1 = new Member({
-      id: Identifier.generator(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: Identifier.generator(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
-
-    const member3 = new Member({
-      id: Identifier.generator(),
-      name: 'c',
-      email: 'c',
-      status: MemberStatus.create(),
-    });
-
-    const member4 = new Member({
-      id: Identifier.generator(),
-      name: 'd',
-      email: 'd',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
+    const member3 = MemberFactory.execute({ name: 'c', email: 'c' });
+    const member4 = MemberFactory.execute({ name: 'd', email: 'd' });
 
     expect(
       () =>
@@ -106,26 +55,9 @@ describe('Pairのテスト', () => {
   });
 
   it('3名のペアにメンバーを加えることはできない', () => {
-    const member1 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
-
-    const member3 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'c',
-      email: 'c',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
+    const member3 = MemberFactory.execute({ name: 'c', email: 'c' });
 
     const pairData = {
       id: faker.datatype.uuid(),
@@ -136,30 +68,14 @@ describe('Pairのテスト', () => {
     const pair = new Pair(pairData);
     expect(pair).toBeInstanceOf(Pair);
 
-    const member4 = new Member({
-      id: Identifier.generator(),
-      name: 'd',
-      email: 'd',
-      status: MemberStatus.create(),
-    });
+    const member4 = MemberFactory.execute({ name: 'd', email: 'd' });
 
     expect(() => pair.addMember(member4)).toThrowError();
   });
 
   it('ペアのメンバー数を取得することができる', () => {
-    const member1 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
 
     const pairData = {
       id: faker.datatype.uuid(),
@@ -172,8 +88,8 @@ describe('Pairのテスト', () => {
 
     const member3 = new Member({
       id: faker.datatype.uuid(),
-      name: 'c',
-      email: 'c',
+      name: new MemberNameVO('c'),
+      email: new MemberEmailVO('c'),
       status: MemberStatus.create(),
     });
 
@@ -182,26 +98,14 @@ describe('Pairのテスト', () => {
   });
 
   it('メンバーを削除できる', () => {
-    const member1 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'b',
-      email: 'b',
-      status: MemberStatus.create(),
-    });
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({ name: 'b', email: 'b' });
 
     const deleteMemberId = faker.datatype.uuid();
-
     const member3 = new Member({
       id: deleteMemberId,
-      name: 'c',
-      email: 'c',
+      name: new MemberNameVO('c'),
+      email: new MemberEmailVO('c'),
       status: MemberStatus.create(),
     });
 

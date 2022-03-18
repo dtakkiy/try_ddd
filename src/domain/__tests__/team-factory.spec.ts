@@ -1,24 +1,15 @@
 import * as faker from 'faker';
-import { Member } from '../member/member';
-import { MemberStatus } from '../member/member-status';
+import { MemberFactory } from '../member/member-factory';
 import { Pair } from '../team/pair';
 import { Team } from '../team/team';
 import { TeamFactory } from '../team/team-factory';
 
 describe('team factoryのテスト', () => {
   it('正常系', () => {
-    const member1 = new Member({
-      id: faker.datatype.uuid(),
-      name: 'a',
-      email: 'a',
-      status: MemberStatus.create(),
-    });
-
-    const member2 = new Member({
-      id: faker.datatype.uuid(),
+    const member1 = MemberFactory.execute({ name: 'a', email: 'a' });
+    const member2 = MemberFactory.execute({
       name: 'b',
       email: 'b',
-      status: MemberStatus.create(),
     });
 
     const pairData = {

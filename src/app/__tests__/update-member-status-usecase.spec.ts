@@ -10,6 +10,7 @@ import {
   MemberStatusType,
 } from 'src/domain/member/member-status';
 import { MemberEmailVO } from 'src/domain/member/member-email-vo';
+import { MemberNameVO } from 'src/domain/member/member-name-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
@@ -24,7 +25,7 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
 
   it('[正常系] 参加者の在籍ステータスを変更できる', () => {
     const id = Identifier.generator();
-    const name = 'test';
+    const name = new MemberNameVO('test');
     const email = new MemberEmailVO('test@example.com');
     const status = MemberStatus.create();
     const member = new Member({ id, name, email, status });
