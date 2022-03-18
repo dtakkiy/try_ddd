@@ -10,7 +10,7 @@ describe('progressエンティティのテスト', () => {
     const data = {
       memberId: faker.datatype.uuid(),
       taskId: faker.datatype.uuid(),
-      status: new ProgressStatus({ status: ProgressStatusType.notStarted }),
+      status: ProgressStatus.create(),
     };
     const progress = new Progress(data);
     expect(progress).toBeInstanceOf(Progress);
@@ -20,7 +20,7 @@ describe('progressエンティティのテスト', () => {
     const data = {
       memberId: faker.datatype.uuid(),
       taskId: faker.datatype.uuid(),
-      status: new ProgressStatus({ status: ProgressStatusType.completed }),
+      status: new ProgressStatus(ProgressStatusType.completed),
     };
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.completed);

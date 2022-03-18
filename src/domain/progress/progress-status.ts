@@ -3,17 +3,12 @@ export const ProgressStatusType = {
   awaitingReview: 'レビュー待ち',
   completed: '完了',
 };
-
-interface IProgressStatus {
-  status: string;
-}
-
 export class ProgressStatus {
-  private props: IProgressStatus;
+  private readonly _value: string;
 
-  constructor(props: IProgressStatus) {
-    this.validateStatus(props.status);
-    this.props = props;
+  constructor(status: string) {
+    this.validateStatus(status);
+    this._value = status;
   }
 
   private validateStatus(status: string) {
@@ -22,27 +17,25 @@ export class ProgressStatus {
     }
   }
 
-  public get status() {
-    return this.props.status;
+  public getStatus() {
+    return this._value;
   }
 
-  public static create(props: IProgressStatus) {
-    return new ProgressStatus({
-      status: props.status ?? ProgressStatusType.notStarted,
-    });
+  public static create() {
+    return new ProgressStatus(ProgressStatusType.notStarted);
   }
 
   public isComplete(): boolean {
-    return this.props.status === ProgressStatusType.completed;
+    return this._value === ProgressStatusType.completed;
   }
 
   public stepUp(): ProgressStatus {
-    if (this.props.status === ProgressStatusType.notStarted) {
-      return new ProgressStatus({ status: ProgressStatusType.awaitingReview });
+    if (this._value === ProgressStatusType.notStarted) {
+      return new ProgressStatus(ProgressStatusType.awaitingReview);
     }
 
-    if (this.props.status === ProgressStatusType.awaitingReview) {
-      return new ProgressStatus({ status: ProgressStatusType.completed });
+    if (this._value === ProgressStatusType.awaitingReview) {
+      return new ProgressStatus(ProgressStatusType.completed);
     }
 
     throw new Error(`progress stepup error.`);

@@ -27,7 +27,7 @@ export class Progress {
   }
 
   public get status() {
-    return this.props.status.status;
+    return this.props.status.getStatus();
   }
 
   public equals = (progress: Progress): boolean => {
