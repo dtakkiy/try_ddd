@@ -1,4 +1,3 @@
-import { Entity } from '../__share__/Entity';
 import { ProgressStatus } from './progress-status';
 
 interface IProgress {
@@ -15,6 +14,14 @@ export class Progress {
       memberId: memberId,
       taskId: taskId,
       status: status,
+    };
+  }
+
+  public getAllProperties() {
+    return {
+      memberId: this.props.memberId,
+      taskId: this.props.taskId,
+      status: this.props.status.getStatus(),
     };
   }
 

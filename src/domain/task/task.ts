@@ -18,6 +18,14 @@ export class Task {
     };
   }
 
+  public getAllProperties() {
+    return {
+      id: this.props.id,
+      title: this.props.title,
+      content: this.props.content,
+    };
+  }
+
   public get id() {
     return this.props.id;
   }

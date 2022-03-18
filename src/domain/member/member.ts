@@ -24,6 +24,15 @@ export class Member {
     };
   }
 
+  public getAllProperties() {
+    return {
+      id: this.props.id,
+      name: this.props.name,
+      email: this.props.email,
+      status: this.props.status.getStatus(),
+    };
+  }
+
   public get id() {
     return this.props.id;
   }

@@ -20,6 +20,14 @@ export class Team {
     };
   }
 
+  public getAllProperties() {
+    return {
+      id: this.props.id,
+      name: this.props.name,
+      pairList: this.props.pairList,
+    };
+  }
+
   public get id() {
     return this.props.id;
   }
