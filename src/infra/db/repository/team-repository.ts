@@ -25,6 +25,32 @@ export class TeamRepository implements ITeamRepository {
     return null;
   }
 
+  public async update(team: Team): Promise<Team> {
+    const currentTeam = await this.getById(team.id);
+
+    if (currentTeam === null) {
+      throw new Error('the specified team does not exist.');
+    }
+
+    await this.updateTeam(currentTeam, team);
+    // pairと pairOnMemberテーブルの更新も必要
+
+    const { id, pairList } = currentTeam.getAllProperties();
+
+    return new Team({ name: team.name, id: id, pairList: pairList });
+  }
+
+  private async updateTeam(currentTeam: Team, team: Team): Promise<void> {
+    await this.prismaClient.team.update({
+      where: {
+        id: currentTeam.id,
+      },
+      data: {
+        name: team.name.getValue(),
+      },
+    });
+  }
+
   public async getById(id: string): Promise<Team | null> {
     const team = await this.prismaClient.team.findUnique({
       where: {

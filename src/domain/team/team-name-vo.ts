@@ -1,5 +1,5 @@
 export class TeamNameVO {
-  private readonly _value: string;
+  private _value: string;
   constructor(name: string) {
     this.validateTeamName(name);
     this._value = name;
@@ -7,6 +7,10 @@ export class TeamNameVO {
 
   public getValue() {
     return this._value;
+  }
+
+  public setValue(name: string) {
+    this._value = name;
   }
 
   private validateTeamName(name: string) {
