@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Member } from 'src/domain/member/member';
 import { Pair } from 'src/domain/team/pair';
+import { PairNameVO } from 'src/domain/team/pair-name-vo';
 import { Team } from 'src/domain/team/team';
 import { TeamNameVO } from 'src/domain/team/team-name-vo';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
@@ -25,19 +26,28 @@ export class TeamRepository implements ITeamRepository {
     return null;
   }
 
-  public async getByPairId(pairId: string): Promise<Team | null> {
+  public async getByMemberId(memberId: string): Promise<Team | null> {
     const team = await this.prismaClient.team.findFirst({
       include: {
         pairs: {
-          select: {
-            id: true,
+          include: {
+            PairOnMember: {
+              select: {
+                pairId: true,
+                memberId: true,
+              },
+            },
           },
         },
       },
       where: {
         pairs: {
           every: {
-            id: pairId,
+            PairOnMember: {
+              every: {
+                memberId: memberId,
+              },
+            },
           },
         },
       },
@@ -51,6 +61,55 @@ export class TeamRepository implements ITeamRepository {
       id: team.id,
       name: new TeamNameVO(team.name),
       pairList: [],
+    });
+  }
+
+  private async getByMemberIdFromMemberOnPair(memberId: string) {}
+
+  public async getByPairId(pairId: string): Promise<Team | null> {
+    const pair = await this.prismaClient.pair.findUnique({
+      include: {
+        team: true,
+      },
+      where: {
+        id: pairId,
+      },
+    });
+
+    if (!pair) {
+      return null;
+    }
+
+    const team = await this.prismaClient.team.findUnique({
+      include: {
+        pairs: {
+          select: {
+            id: true,
+            name: true,
+            PairOnMember: true,
+          },
+        },
+      },
+      where: {
+        id: pair.id,
+      },
+    });
+
+    if (!team) {
+      return null;
+    }
+
+    return new Team({
+      id: team.id,
+      name: new TeamNameVO(team.name),
+      pairList: team.pairs.map(
+        (pair) =>
+          new Pair({
+            id: pair.id,
+            name: new PairNameVO(pair.name),
+            memberIdList: pair.PairOnMember.map((member) => member.memberId),
+          })
+      ),
     });
   }
 

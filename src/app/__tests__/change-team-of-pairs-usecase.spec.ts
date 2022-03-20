@@ -6,9 +6,9 @@ import { ChangeTeamOfPairsUseCase } from '../change-team-of-pairs-usecase';
 import * as faker from 'faker';
 import { Pair } from 'src/domain/team/pair';
 import { PairNameVO } from 'src/domain/team/pair-name-vo';
-import { MemberFactory } from 'src/domain/member/member-factory';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
+import { Identifier } from 'src/__share__/identifier';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');
@@ -22,36 +22,16 @@ describe('【ユースケース】チームのペアを変更する', () => {
   });
 
   it('ペアを別チームに変更', async () => {
-    const member1 = mocked(
-      MemberFactory.execute({
-        name: 'john',
-        email: 'john@example.com',
-      }),
-      true
-    );
-
-    const member2 = mocked(
-      MemberFactory.execute({
-        name: 'bob',
-        email: 'bob@example.com',
-      }),
-      true
-    );
-
-    const member3 = mocked(
-      MemberFactory.execute({
-        name: 'alice',
-        email: 'alice@example.com',
-      }),
-      true
-    );
+    const memberId1 = Identifier.generator();
+    const memberId2 = Identifier.generator();
+    const memberId3 = Identifier.generator();
 
     const pairId = faker.datatype.uuid();
     const mockPair = mocked(
       new Pair({
         id: pairId,
         name: new PairNameVO('g'),
-        memberList: [member1, member2, member3],
+        memberIdList: [memberId1, memberId2, memberId3],
       }),
       true
     );

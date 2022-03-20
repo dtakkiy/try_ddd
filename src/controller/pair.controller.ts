@@ -5,8 +5,6 @@ import {
   HttpException,
   HttpStatus,
   Param,
-  Patch,
-  Post,
   Put,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
@@ -14,6 +12,7 @@ import { PrismaClient } from '@prisma/client';
 import { ChangePairOfMemberUseCase } from 'src/app/change-pairs-of-member-usecase';
 import { GetPairUseCase } from 'src/app/get-pair-usecase';
 import { PairQueryService } from 'src/infra/db/query-service/pair-query-service';
+import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { PutPairRequest } from './request/put-pair-request';
 import { GetPairResponse } from './response/get-pair-response';
@@ -42,7 +41,11 @@ export class PairController {
   ): Promise<void> {
     const prisma = new PrismaClient();
     const teamRepository = new TeamRepository(prisma);
-    const usecase = new ChangePairOfMemberUseCase(teamRepository);
+    const memberRepository = new MemberRepository(prisma);
+    const usecase = new ChangePairOfMemberUseCase(
+      teamRepository,
+      memberRepository
+    );
 
     try {
       await usecase.execute({

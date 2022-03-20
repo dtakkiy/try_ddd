@@ -2,15 +2,15 @@ import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
 
 export class TeamService {
-  private repository: ITeamRepository;
-  constructor(repository: ITeamRepository) {
-    this.repository = repository;
+  private teamRepository: ITeamRepository;
+  constructor(teamRepository: ITeamRepository) {
+    this.teamRepository = teamRepository;
   }
 
   // Pairを指定したTeamに変更する
   public async changeTeamOfPair(pairId: string, teamId: string): Promise<Team> {
-    const currentTeam = await this.repository.getByPairId(pairId);
-    const newTeam = await this.repository.getById(teamId);
+    const currentTeam = await this.teamRepository.getByPairId(pairId);
+    const newTeam = await this.teamRepository.getById(teamId);
 
     if (!currentTeam) {
       throw new Error('team does not exist.');
@@ -24,28 +24,28 @@ export class TeamService {
     currentTeam.deletePair(pairId);
     newTeam.addPair(pair);
 
-    this.repository.update(currentTeam);
-    this.repository.update(newTeam);
+    this.teamRepository.update(currentTeam);
+    this.teamRepository.update(newTeam);
 
     return newTeam;
   }
 
-  // memberを指定したpairに変更する
-  public async changePairOfMember(
-    memberId: string,
-    pairId: string
-  ): Promise<void> {
-    // 現在のペアを特定
-    // 新しいペアを特定
+  // // memberを指定したpairに変更する
+  // public async changePairOfMember(
+  //   memberId: string,
+  //   pairId: string
+  // ): Promise<void> {
+  //   // 現在のペアを特定
+  //   // 新しいペアを特定
 
-    // null判定
+  //   // null判定
 
-    // メンバーの情報を取得
-    // 既存のペアよりメンバーを削除
-    // 新しいペアに追加
+  //   // メンバーの情報を取得
+  //   // 既存のペアよりメンバーを削除
+  //   // 新しいペアに追加
 
-    // 新しいチームを保存
+  //   // 新しいチームを保存
 
-    return;
-  }
+  //   return;
+  // }
 }

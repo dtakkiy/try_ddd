@@ -5,7 +5,8 @@ import { PairNameVO } from './pair-name-vo';
 interface IPair {
   id: string;
   name: PairNameVO;
-  memberList: Member[];
+  //  memberList: Member[];
+  memberIdList: string[];
 }
 
 export class Pair {
@@ -14,15 +15,15 @@ export class Pair {
   private MIN_MEMBER_NUMBER = 2;
 
   constructor(props: IPair) {
-    const { id, name, memberList } = props;
+    const { id, name, memberIdList } = props;
 
     //    this.validatePairName(name);
-    this.validateMemberList(memberList);
+    this.validateMemberIdList(memberIdList);
 
     this.props = {
       id: id ?? Identifier.generator(),
       name: name,
-      memberList: memberList,
+      memberIdList: memberIdList,
     };
     this.props = props;
   }
@@ -31,7 +32,7 @@ export class Pair {
     return {
       id: this.props.id,
       name: this.props.name.getValue(),
-      memberList: this.props.memberList,
+      memberIdList: this.props.memberIdList,
     };
   }
 
@@ -43,17 +44,17 @@ export class Pair {
     return this.props.name;
   }
 
-  public getMemberList(): Member[] {
-    return this.props.memberList;
+  public getMemberIdList(): string[] {
+    return this.props.memberIdList;
   }
 
-  private validateMemberList(memberList: Member[]) {
-    if (memberList.length < this.MIN_MEMBER_NUMBER) {
-      throw new Error(`small number of member. ${memberList.length}`);
+  private validateMemberIdList(memberIdList: string[]) {
+    if (memberIdList.length < this.MIN_MEMBER_NUMBER) {
+      throw new Error(`small number of member. ${memberIdList.length}`);
     }
 
-    if (memberList.length > this.MAX_MEMBER_NUMBER) {
-      throw new Error(`large number of member. ${memberList.length}`);
+    if (memberIdList.length > this.MAX_MEMBER_NUMBER) {
+      throw new Error(`large number of member. ${memberIdList.length}`);
     }
   }
 
@@ -68,20 +69,23 @@ export class Pair {
   //   }
   // }
 
-  public addMember = (member: Member): Pair => {
-    const memberList = this.props.memberList.concat(member);
-    this.validateMemberList(memberList);
-    this.props.memberList = memberList;
-    return this;
+  public addMember = (memberId: string) => {
+    this.props.memberIdList.push(memberId);
+    this.validateMemberIdList(this.props.memberIdList);
+
+    // const memberIdList = this.props.memberIdList.concat(member);
+    // this.validateMemberIdList(memberIdList);
+    // this.props.memberIdList = memberIdList;
+    // return this;
   };
 
   public deleteMember(memberId: string) {
-    this.props.memberList = this.props.memberList.filter(
-      (member) => member.id !== memberId
+    this.props.memberIdList = this.props.memberIdList.filter(
+      (id) => id !== memberId
     );
   }
 
   public getMemberCount(): number {
-    return this.props.memberList.length;
+    return this.props.memberIdList.length;
   }
 }
