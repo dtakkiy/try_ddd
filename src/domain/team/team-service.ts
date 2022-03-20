@@ -30,22 +30,27 @@ export class TeamService {
     return newTeam;
   }
 
-  // // memberを指定したpairに変更する
-  // public async changePairOfMember(
-  //   memberId: string,
-  //   pairId: string
-  // ): Promise<void> {
-  //   // 現在のペアを特定
-  //   // 新しいペアを特定
+  // memberを指定したpairに変更する
+  public async changePairOfMember(
+    memberId: string,
+    pairId: string
+  ): Promise<void> {
+    const currentTeam = await this.teamRepository.getByMemberId(memberId);
+    const newTeam = await this.teamRepository.getByPairId(pairId);
 
-  //   // null判定
+    if (!currentTeam) {
+      throw new Error('not exist.');
+    }
 
-  //   // メンバーの情報を取得
-  //   // 既存のペアよりメンバーを削除
-  //   // 新しいペアに追加
+    if (!newTeam) {
+      throw new Error('not exist.');
+    }
 
-  //   // 新しいチームを保存
+    currentTeam.deleteMember(memberId);
+    newTeam.addMember(memberId);
 
-  //   return;
-  // }
+    this.teamRepository.update(newTeam);
+
+    return;
+  }
 }

@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { Member } from 'src/domain/member/member';
 import { Pair } from 'src/domain/team/pair';
 import { PairNameVO } from 'src/domain/team/pair-name-vo';
 import { Team } from 'src/domain/team/team';
@@ -27,44 +26,57 @@ export class TeamRepository implements ITeamRepository {
   }
 
   public async getByMemberId(memberId: string): Promise<Team | null> {
-    const team = await this.prismaClient.team.findFirst({
+    const pairOnMember = await this.prismaClient.pairOnMember.findMany({
+      where: {
+        memberId: memberId,
+      },
+    });
+
+    if (!pairOnMember) {
+      return null;
+    }
+
+    let pairId: string | undefined = '';
+    if (pairOnMember.length > 0) {
+      pairId = pairOnMember[0]?.pairId;
+    }
+
+    if (!pairId) {
+      return null;
+    }
+
+    const pair = await this.prismaClient.pair.findFirst({
       include: {
-        pairs: {
-          include: {
-            PairOnMember: {
-              select: {
-                pairId: true,
-                memberId: true,
-              },
-            },
+        team: {
+          select: {
+            id: true,
+            name: true,
+            pairs: true,
           },
         },
       },
       where: {
-        pairs: {
-          every: {
-            PairOnMember: {
-              every: {
-                memberId: memberId,
-              },
-            },
-          },
-        },
+        id: pairId,
       },
     });
 
-    if (!team) {
+    if (!pair) {
       return null;
     }
 
     return new Team({
-      id: team.id,
-      name: new TeamNameVO(team.name),
-      pairList: [],
+      id: pair.team.id,
+      name: new TeamNameVO(pair.team.name),
+      pairList: pair.team.pairs.map(
+        (pair) =>
+          new Pair({
+            id: pair.id,
+            name: new PairNameVO(pair.name),
+            memberIdList: pairOnMember.map((member) => member.memberId),
+          })
+      ),
     });
   }
-
-  private async getByMemberIdFromMemberOnPair(memberId: string) {}
 
   public async getByPairId(pairId: string): Promise<Team | null> {
     const pair = await this.prismaClient.pair.findUnique({
@@ -121,7 +133,7 @@ export class TeamRepository implements ITeamRepository {
     }
 
     await this.updateTeam(currentTeam, team);
-    // pairと pairOnMemberテーブルの更新も必要
+    // pairと pairOnMemberテーブルの更新も必要?
 
     const { id, pairList } = currentTeam.getAllProperties();
 
@@ -171,7 +183,14 @@ export class TeamRepository implements ITeamRepository {
     return new Team({
       id: team.id,
       name: new TeamNameVO(team.name),
-      pairList: [],
+      pairList: team.pairs.map(
+        (pair) =>
+          new Pair({
+            id: pair.id,
+            name: new PairNameVO(pair.name),
+            memberIdList: pair.PairOnMember.map((member) => member.memberId),
+          })
+      ),
     });
   }
 }

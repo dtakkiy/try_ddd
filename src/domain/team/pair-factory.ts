@@ -1,5 +1,4 @@
 import { Identifier } from 'src/__share__/identifier';
-import { Member } from '../member/member';
 import { Pair } from './pair';
 import { PairNameVO } from './pair-name-vo';
 

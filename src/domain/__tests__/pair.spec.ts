@@ -63,20 +63,6 @@ describe('Pairのテスト', () => {
     ).toThrowError();
   });
 
-  it('3名のペアにメンバーを加えることはできない', () => {
-    const pairData = {
-      id: faker.datatype.uuid(),
-      name: new PairNameVO('b'),
-      memberIdList: [memberId1, memberId2, memberId3],
-    };
-
-    const pair = new Pair(pairData);
-    expect(pair).toBeInstanceOf(Pair);
-
-    const memberId5 = Identifier.generator();
-    expect(() => pair.addMember(memberId5)).toThrowError();
-  });
-
   it('ペアのメンバー数を取得することができる', () => {
     const pairData = {
       id: faker.datatype.uuid(),

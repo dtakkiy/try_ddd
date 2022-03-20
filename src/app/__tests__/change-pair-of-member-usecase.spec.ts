@@ -7,10 +7,8 @@ import { Pair } from 'src/domain/team/pair';
 import { PairNameVO } from 'src/domain/team/pair-name-vo';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { Member } from 'src/domain/member/member';
 import { ChangePairOfMemberUseCase } from '../change-pairs-of-member-usecase';
 import { Identifier } from 'src/__share__/identifier';
-import { MemberRepository } from 'src/infra/db/repository/member-repository';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');
@@ -18,7 +16,6 @@ jest.mock('src/infra/db/repository/member-repository');
 
 describe('【ユースケース】ペアのメンバーを変更する', () => {
   let mockTeamRepository: MockedObjectDeep<TeamRepository>;
-  let mockMemberRepository: MockedObjectDeep<MemberRepository>;
 
   let mockPair1: Pair;
   let mockPair2: Pair;
@@ -34,7 +31,6 @@ describe('【ユースケース】ペアのメンバーを変更する', () => {
   beforeAll(() => {
     const prisma = new PrismaClient();
     mockTeamRepository = mocked(new TeamRepository(prisma));
-    mockMemberRepository = mocked(new MemberRepository(prisma));
   });
 
   beforeEach(() => {
@@ -76,19 +72,24 @@ describe('【ユースケース】ペアのメンバーを変更する', () => {
   });
 
   it('メンバーを別のペアに変更', async () => {
-    //    mockTeamRepository.getByPairId.mockResolvedValueOnce(mockTeam1);
+    mockTeamRepository.getByPairId.mockResolvedValueOnce(mockTeam1);
+    mockTeamRepository.getByMemberId.mockResolvedValueOnce(mockTeam1);
 
     const changePairOfMemberUseCase = new ChangePairOfMemberUseCase(
-      mockTeamRepository,
-      mockMemberRepository
+      mockTeamRepository
     );
 
     expect(mockTeam1.getPairCount()).toBe(2);
     expect(mockTeam1.getMemberCount()).toBe(5);
+    expect(mockTeam1.getPairByMemberId(memberId1)).toBe(mockPair1);
 
-    // await changePairOfMemberUseCase.execute({
-    //   memberId: memberId1,
-    //   pairId: pairId2,
-    // });
+    await changePairOfMemberUseCase.execute({
+      memberId: memberId1,
+      pairId: pairId2,
+    });
+
+    expect(mockTeam1.getPairCount()).toBe(2);
+    expect(mockTeam1.getMemberCount()).toBe(5);
+    expect(mockTeam1.getPairByMemberId(memberId1)).toBe(mockPair2);
   });
 });
