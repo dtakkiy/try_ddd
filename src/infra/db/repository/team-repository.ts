@@ -25,6 +25,35 @@ export class TeamRepository implements ITeamRepository {
     return null;
   }
 
+  public async getByPairId(pairId: string): Promise<Team | null> {
+    const team = await this.prismaClient.team.findFirst({
+      include: {
+        pairs: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      where: {
+        pairs: {
+          every: {
+            id: pairId,
+          },
+        },
+      },
+    });
+
+    if (!team) {
+      return null;
+    }
+
+    return new Team({
+      id: team.id,
+      name: new TeamNameVO(team.name),
+      pairList: [],
+    });
+  }
+
   public async update(team: Team): Promise<Team> {
     const currentTeam = await this.getById(team.id);
 
@@ -51,10 +80,10 @@ export class TeamRepository implements ITeamRepository {
     });
   }
 
-  public async getById(id: string): Promise<Team | null> {
+  public async getById(teamId: string): Promise<Team | null> {
     const team = await this.prismaClient.team.findUnique({
       where: {
-        id: id,
+        id: teamId,
       },
       include: {
         pairs: {
