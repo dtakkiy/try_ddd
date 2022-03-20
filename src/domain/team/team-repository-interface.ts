@@ -5,4 +5,5 @@ export interface ITeamRepository {
   getById(teamId: string): Promise<Team | null>;
   update(team: Team): Promise<Team>;
   getByPairId(pairId: string): Promise<Team | null>;
+  getByMemberId(memberId: string): Promise<Team | null>;
 }

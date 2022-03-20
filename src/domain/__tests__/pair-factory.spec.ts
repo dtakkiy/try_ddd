@@ -1,24 +1,17 @@
 import { Pair } from '../team/pair';
 import { PairFactory } from '../team/pair-factory';
 import * as faker from 'faker';
-import { MemberFactory } from '../member/member-factory';
+import { Identifier } from 'src/__share__/identifier';
 
 describe('pair factoryのテスト', () => {
   it('正常系', () => {
-    const member1 = MemberFactory.execute({
-      name: faker.name.firstName(),
-      email: faker.internet.email(),
-    });
-
-    const member2 = MemberFactory.execute({
-      name: faker.name.firstName(),
-      email: faker.internet.email(),
-    });
+    const memberId1 = Identifier.generator();
+    const memberId2 = Identifier.generator();
 
     const data = {
       id: faker.datatype.uuid(),
       name: 'a',
-      memberList: [member1, member2],
+      memberIdList: [memberId1, memberId2],
     };
 
     expect(PairFactory.execute(data)).toBeInstanceOf(Pair);
