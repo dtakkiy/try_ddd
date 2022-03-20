@@ -37,6 +37,22 @@ export class Team {
     return this.props.name;
   }
 
+  public getPair(pairId: string): Pair {
+    const result = this.props.pairList.find((pair) => pair.id === pairId);
+
+    if (!result) {
+      throw new Error('pair not found');
+    }
+
+    return result;
+  }
+
+  public deletePair(pairId: string) {
+    this.props.pairList = this.props.pairList.filter(
+      (pair) => pair.id !== pairId
+    );
+  }
+
   public getPairList(): Pair[] {
     return this.props.pairList;
   }
@@ -58,24 +74,11 @@ export class Team {
     return team.props.id === this.props.id;
   };
 
-  // private validateTeamName(name: string) {
-  //   const pattern = '^[0-9]{1,3}$';
-  //   if (!name.match(pattern)) {
-  //     throw new Error(`team name is not appropriate.${name}`);
-  //   }
-  // }
-
   public getPairCount(): number {
     return this.props.pairList.length;
   }
 
   public addPair(pair: Pair) {
     this.props.pairList.push(pair);
-  }
-
-  public deletePair(targetPair: Pair) {
-    this.props.pairList = this.props.pairList.filter(
-      (pair) => pair.id === targetPair.id
-    );
   }
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class PutTeamRequest {
+export class PutPairRequest {
   @ApiProperty()
   readonly name!: string;
-  readonly pairId!: string;
+  readonly memberId!: string;
 }

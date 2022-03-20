@@ -1,12 +1,19 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
+import { ChangeTeamOfPairsUseCase } from 'src/app/change-team-of-pairs-usecase';
 import { GetTeamUseCase } from 'src/app/get-team-usecase';
-import { UpdateTeamUseCase } from 'src/app/update-team-usecase';
 import { Team } from 'src/domain/team/team';
 import { TeamQueryService } from 'src/infra/db/query-service/team-query-service';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
-import { idText, updateTypeParameterDeclaration } from 'typescript';
 import { PutTeamRequest } from './request/put-team-request';
 import { GetTeamResponse } from './response/get-team-response copy';
 
@@ -27,18 +34,25 @@ export class TeamController {
 
   @Put('/:id')
   @ApiResponse({ status: 200, type: Team })
+  @ApiResponse({ status: 500 })
   async PutTeamRequest(
     @Param('id') id: string,
     @Body() putTeamDTO: PutTeamRequest
-  ): Promise<Team> {
+  ): Promise<void> {
     const prisma = new PrismaClient();
     const teamRepository = new TeamRepository(prisma);
-    const usecase = new UpdateTeamUseCase(teamRepository);
+    const usecase = new ChangeTeamOfPairsUseCase(teamRepository);
 
-    const team = await usecase.execute({
-      id: id,
-      name: putTeamDTO.name,
-    });
-    return team;
+    try {
+      await usecase.execute({
+        pairId: putTeamDTO.pairId,
+        teamId: id,
+      });
+    } catch (e: any) {
+      throw new HttpException(
+        { status: HttpStatus.INTERNAL_SERVER_ERROR, error: e.message },
+        500
+      );
+    }
   }
 }
