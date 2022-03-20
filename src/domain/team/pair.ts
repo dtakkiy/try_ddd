@@ -1,11 +1,9 @@
 import { Identifier } from 'src/__share__/identifier';
-import { Member } from '../member/member';
 import { PairNameVO } from './pair-name-vo';
 
 interface IPair {
   id: string;
   name: PairNameVO;
-  //  memberList: Member[];
   memberIdList: string[];
 }
 
@@ -16,8 +14,6 @@ export class Pair {
 
   constructor(props: IPair) {
     const { id, name, memberIdList } = props;
-
-    //    this.validatePairName(name);
     this.validateMemberIdList(memberIdList);
 
     this.props = {
@@ -58,25 +54,22 @@ export class Pair {
     }
   }
 
+  public validateMemberCount() {
+    if (this.getMemberCount() < this.MIN_MEMBER_NUMBER) {
+      throw new Error();
+    }
+
+    if (this.getMemberCount() > this.MAX_MEMBER_NUMBER) {
+      throw new Error();
+    }
+  }
+
   public equals = (pair: Pair): boolean => {
     return pair.props.id === this.props.id;
   };
 
-  // private validatePairName(name: string) {
-  //   const pattern = '^[a-z]{1}$';
-  //   if (!name.match(pattern)) {
-  //     throw new Error(`pair name is not appropriate.${name}`);
-  //   }
-  // }
-
   public addMember = (memberId: string) => {
     this.props.memberIdList.push(memberId);
-    this.validateMemberIdList(this.props.memberIdList);
-
-    // const memberIdList = this.props.memberIdList.concat(member);
-    // this.validateMemberIdList(memberIdList);
-    // this.props.memberIdList = memberIdList;
-    // return this;
   };
 
   public deleteMember(memberId: string) {
@@ -87,5 +80,9 @@ export class Pair {
 
   public getMemberCount(): number {
     return this.props.memberIdList.length;
+  }
+
+  public isMemberExist(memberId: string): boolean {
+    return this.props.memberIdList.includes(memberId);
   }
 }

@@ -1,6 +1,5 @@
-import { IMemberRepository } from 'src/domain/member/member-repository-interface';
-import { MemberService } from 'src/domain/member/member-service';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
+import { TeamService } from 'src/domain/team/team-service';
 
 interface Params {
   memberId: string;
@@ -9,22 +8,15 @@ interface Params {
 
 export class ChangePairOfMemberUseCase {
   private teamRepository: ITeamRepository;
-  private memberRepository: IMemberRepository;
-  constructor(
-    teamRepository: ITeamRepository,
-    memberRepository: IMemberRepository
-  ) {
+  constructor(teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;
-    this.memberRepository = memberRepository;
   }
 
   public async execute(params: Params): Promise<void> {
     const { memberId, pairId } = params;
 
-    const teamService = new MemberService(
-      this.teamRepository,
-      this.memberRepository
-    );
+    const teamService = new TeamService(this.teamRepository);
+
     await teamService.changePairOfMember(memberId, pairId);
   }
 }
