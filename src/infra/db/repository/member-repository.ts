@@ -38,6 +38,25 @@ export class MemberRepository implements IMemberRepository {
     });
   }
 
+  public async getByEmail(email: string): Promise<Member | null> {
+    const member = await this.prismaClient.member.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!member) {
+      return null;
+    }
+
+    return new Member({
+      id: member.id,
+      name: new MemberNameVO(member.name),
+      email: new MemberEmailVO(member.email),
+      status: new MemberStatus(member.status),
+    });
+  }
+
   public async getAll(): Promise<Member[]> {
     const allMember = await this.prismaClient.member.findMany({
       include: {
