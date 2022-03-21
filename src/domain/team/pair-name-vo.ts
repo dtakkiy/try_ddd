@@ -1,5 +1,5 @@
 export class PairNameVO {
-  private readonly _value: string;
+  private _value: string;
   constructor(name: string) {
     this.validatePairName(name);
     this._value = name;
@@ -7,6 +7,11 @@ export class PairNameVO {
 
   public getValue() {
     return this._value;
+  }
+
+  public setValue(name: string) {
+    this.validatePairName(name);
+    this._value = name;
   }
 
   private validatePairName(name: string) {

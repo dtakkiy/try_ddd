@@ -56,11 +56,11 @@ export class Pair {
 
   public validateMemberCount() {
     if (this.getMemberCount() < this.MIN_MEMBER_NUMBER) {
-      throw new Error();
+      throw new Error('current number of member in a pair is too small.');
     }
 
     if (this.getMemberCount() > this.MAX_MEMBER_NUMBER) {
-      throw new Error();
+      throw new Error('current number of member in a pair is too large.');
     }
   }
 

@@ -44,7 +44,11 @@ export class Progress {
     );
   };
 
-  public changeStatusForward = (): Progress => {
+  public changeStatusForward = (memberId: string): Progress => {
+    if (memberId !== this.props.memberId) {
+      throw new Error('only the owner can change the task status.');
+    }
+
     if (this.props.status.isComplete()) {
       throw new Error(`already completed.`);
     }

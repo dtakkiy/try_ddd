@@ -10,6 +10,7 @@ export class TeamNameVO {
   }
 
   public setValue(name: string) {
+    this.validateTeamName(name);
     this._value = name;
   }
 

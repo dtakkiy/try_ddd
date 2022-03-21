@@ -29,10 +29,4 @@ describe('', () => {
     expect(member.name.getValue()).toMatch(/bob/);
     expect(member.email.getEmail()).toMatch(/bob@example.com/);
   });
-
-  // メールアドレスの重複は許容しない
-
-  // 在籍ステータスを持つ。在籍ステータスは、在籍中、休会中、退会済みの３つ。
-
-  // ステータスが在籍中ではない場合、どのチームにも所属できない。
 });
