@@ -80,7 +80,7 @@ export class Team {
   public deleteMember(memberId: string) {
     const pair = this.getPairByMemberId(memberId);
     if (!pair) {
-      throw new Error();
+      throw new Error('pair do not exist.');
     }
 
     pair.deleteMember(memberId);

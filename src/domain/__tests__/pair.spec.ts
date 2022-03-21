@@ -63,6 +63,38 @@ describe('Pairのテスト', () => {
     ).toThrowError();
   });
 
+  it('メンバーを追加できる', () => {
+    const pair = new Pair({
+      id: faker.datatype.uuid(),
+      name: new PairNameVO('a'),
+      memberIdList: [memberId1, memberId2],
+    });
+
+    expect(pair.getMemberCount()).toBe(2);
+    pair.addMember(memberId3);
+    expect(pair.getMemberCount()).toBe(3);
+  });
+
+  it('指定したメンバーが存在するか', () => {
+    const pair = new Pair({
+      id: faker.datatype.uuid(),
+      name: new PairNameVO('b'),
+      memberIdList: [memberId1, memberId2],
+    });
+
+    expect(pair.isMemberExist(memberId1)).toBe(true);
+  });
+
+  it('指定したメンバーが存在しない場合', () => {
+    const pair = new Pair({
+      id: faker.datatype.uuid(),
+      name: new PairNameVO('b'),
+      memberIdList: [memberId1, memberId2],
+    });
+
+    expect(pair.isMemberExist(memberId4)).toBe(false);
+  });
+
   it('ペアのメンバー数を取得することができる', () => {
     const pairData = {
       id: faker.datatype.uuid(),
