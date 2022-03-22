@@ -1,9 +1,6 @@
 import { Member } from 'src/domain/member/member';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
-import {
-  MemberStatus,
-  MemberStatusType,
-} from 'src/domain/member/member-status';
+import { MemberStatus } from 'src/domain/member/member-status';
 
 interface Params {
   id: string;
