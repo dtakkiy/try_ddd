@@ -1,4 +1,4 @@
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from '../team/pair';
 import * as faker from 'faker';
 import { PairNameVO } from '../team/pair-name-vo';

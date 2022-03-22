@@ -8,7 +8,7 @@ import { Pair } from 'src/domain/team/pair';
 import { PairNameVO } from 'src/domain/team/pair-name-vo';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');

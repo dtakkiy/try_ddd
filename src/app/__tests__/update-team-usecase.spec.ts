@@ -4,7 +4,7 @@ import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { UpdateTeamUseCase } from '../update-team-usecase';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { Team } from 'src/domain/team/team';
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { TeamNameVO } from 'src/domain/team/team-name-vo';
 
 jest.mock('@prisma/client');

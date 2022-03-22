@@ -13,12 +13,10 @@ export class ProgressRepository implements IProgressRepository {
   }
 
   public async getById(props: IProgressProps): Promise<Progress | null> {
-    const memberOnTask = await this.prismaClient.memberOnTask.findUnique({
+    const memberOnTask = await this.prismaClient.memberOnTask.findFirst({
       where: {
-        memberId_taskId: {
-          memberId: props.memberId,
-          taskId: props.taskId,
-        },
+        memberId: props.memberId,
+        taskId: props.taskId,
       },
     });
 
@@ -61,12 +59,16 @@ export class ProgressRepository implements IProgressRepository {
   }
 
   public async update(memberId: string, taskId: string, status: string) {
+    const progress = await this.prismaClient.memberOnTask.findFirst({
+      where: {
+        memberId: memberId,
+        taskId: taskId,
+      },
+    });
+
     const updateProgress = await this.prismaClient.memberOnTask.update({
       where: {
-        memberId_taskId: {
-          memberId: memberId,
-          taskId: taskId,
-        },
+        id: progress?.id,
       },
       data: {
         status: status,

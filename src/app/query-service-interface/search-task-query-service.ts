@@ -3,23 +3,17 @@ export class SearchDTO {
   public readonly name: string;
   public readonly email: string;
   public readonly status: string;
-  // public pair: any;
-  // public team: any;
 
   constructor(props: {
     id: string;
     name: string;
     email: string;
     status: string;
-    // pair: any;
-    // team: any;
   }) {
     this.id = props.id;
     this.name = props.name;
     this.email = props.email;
     this.status = props.status;
-    // this.pair = props.pair;
-    // this.team = props.team;
   }
 }
 
@@ -29,4 +23,10 @@ export interface ISearchQueryService {
     taskStatus: string,
     pageNumber?: string
   ): Promise<SearchDTO[]>;
+
+  // fetchByTaskIdAndTaskStatus(
+  //   taskId: string[],
+  //   taskStatus: string,
+  //   pagingCondition: PagingCondition
+  // ): Promise<Page<SearchDTO>>;
 }

@@ -1,4 +1,4 @@
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { Task } from './task';
 
 interface IProps {

@@ -17,14 +17,15 @@ export class SearchQueryService implements ISearchQueryService {
     pageNumber?: string
   ): Promise<SearchDTO[]> {
     const PAGE_SIZE = 10;
-
     let results: any[];
-
-    // pagingを実装する
 
     if (typeof pageNumber === 'string') {
       results = await this.prismaClient.memberOnTask.findMany({
         take: PAGE_SIZE,
+        skip: 1,
+        cursor: {
+          id: pageNumber,
+        },
         include: {
           task: true,
           member: true,
@@ -38,6 +39,9 @@ export class SearchQueryService implements ISearchQueryService {
               in: taskIdList,
             },
           },
+        },
+        orderBy: {
+          id: 'asc',
         },
       });
     } else {
@@ -56,6 +60,9 @@ export class SearchQueryService implements ISearchQueryService {
               in: taskIdList,
             },
           },
+        },
+        orderBy: {
+          id: 'asc',
         },
       });
     }

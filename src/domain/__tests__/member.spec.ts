@@ -1,4 +1,4 @@
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { Member } from '../member/member';
 import { MemberEmailVO } from '../member/member-email-vo';
 import { MemberNameVO } from '../member/member-name-vo';

@@ -1,7 +1,7 @@
 import { Pair } from '../team/pair';
 import { PairFactory } from '../team/pair-factory';
 import * as faker from 'faker';
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 
 describe('pair factoryのテスト', () => {
   it('正常系', () => {

@@ -12,8 +12,6 @@ export class GetSearchResponse {
         name,
         email,
         status,
-        // pair,
-        // team,
       });
     });
   }
@@ -32,25 +30,15 @@ class SearchData {
   @ApiProperty()
   status: string;
 
-  // @ApiProperty()
-  // pair: any;
-
-  // @ApiProperty()
-  // team: any;
-
   public constructor(params: {
     id: string;
     name: string;
     status: string;
     email: string;
-    // pair: any;
-    // team: any;
   }) {
     this.id = params.id;
     this.name = params.name;
     this.email = params.email;
     this.status = params.status;
-    // this.pair = params.pair;
-    // this.team = params.team;
   }
 }
