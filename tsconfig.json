@@ -13,6 +13,6 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "paths": {"@testUtil/*": ["testUtil/*"]}
+    "paths": {"@testUtil/*": ["testUtil/*"]},
   }
 }
