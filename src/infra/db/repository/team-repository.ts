@@ -132,10 +132,26 @@ export class TeamRepository implements ITeamRepository {
       throw new Error('the specified team does not exist.');
     }
 
-    await this.updateTeam(currentTeam, team);
-    // pairと pairOnMemberテーブルの更新も必要?
-
     const { id, pairList } = currentTeam.getAllProperties();
+
+    // prismaClient.$transaction([,])
+    await this.updateTeam(currentTeam, team);
+
+    await pairList.map(async (pair) => {
+      await this.prismaClient.pair.upsert({
+        where: {
+          id: pair.id,
+        },
+        update: {
+          teamId: id,
+        },
+        create: {
+          id: pair.id,
+          teamId: id,
+          name: pair.name.getValue(),
+        },
+      });
+    });
 
     return new Team({ name: team.name, id: id, pairList: pairList });
   }
