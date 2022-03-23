@@ -134,11 +134,44 @@ export class TeamRepository implements ITeamRepository {
 
     const { id, pairList } = currentTeam.getAllProperties();
 
-    // prismaClient.$transaction([,])
-    await this.updateTeam(currentTeam, team);
+    // await this.updateTeam(currentTeam, team);
 
-    await pairList.map(async (pair) => {
-      await this.prismaClient.pair.upsert({
+    // await pairList.map(async (pair) => {
+    //   await this.prismaClient.pair.upsert({
+    //     where: {
+    //       id: pair.id,
+    //     },
+    //     update: {
+    //       teamId: id,
+    //     },
+    //     create: {
+    //       id: pair.id,
+    //       teamId: id,
+    //       name: pair.name.getValue(),
+    //     },
+    //   });
+    // });
+    await this.updateTeamPair(currentTeam, team);
+
+    return new Team({ name: team.name, id: id, pairList: pairList });
+  }
+
+  private async updateTeamPair(currentTeam: Team, team: Team): Promise<void> {
+    const { id, pairList } = currentTeam.getAllProperties();
+
+    let arr: any;
+
+    const teamUpdate = this.prismaClient.team.update({
+      where: {
+        id: currentTeam.id,
+      },
+      data: {
+        name: team.name.getValue(),
+      },
+    });
+
+    const pairUpdateList = pairList.map((pair) => {
+      return this.prismaClient.pair.upsert({
         where: {
           id: pair.id,
         },
@@ -153,7 +186,17 @@ export class TeamRepository implements ITeamRepository {
       });
     });
 
-    return new Team({ name: team.name, id: id, pairList: pairList });
+    arr.push(teamUpdate);
+    arr.push(pairUpdateList);
+
+    try {
+      await this.prismaClient.$transaction(arr);
+    } catch (err: any) {
+      // rollback ??
+      throw new Error('update failure.');
+    } finally {
+      this.prismaClient.$disconnect();
+    }
   }
 
   private async updateTeam(currentTeam: Team, team: Team): Promise<void> {
