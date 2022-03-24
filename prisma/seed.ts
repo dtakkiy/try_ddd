@@ -8,6 +8,8 @@ const main = async () => {
     prisma.member.deleteMany(),
     prisma.pair.deleteMany(),
     prisma.team.deleteMany(),
+    prisma.taskStatus.deleteMany(),
+    prisma.memberStatus.deleteMany(),
   ]);
 
   const team1 = await prisma.team.upsert({
@@ -192,7 +194,35 @@ const main = async () => {
     ],
   });
 
-  console.log('seed finished.');
+  const taskStatus1 = await prisma.taskStatus.createMany({
+    data: [
+      {
+        status: '未着手',
+      },
+      {
+        status: 'レビュー待ち',
+      },
+      {
+        status: '完了',
+      },
+    ],
+  });
+
+  const memberStatus1 = await prisma.memberStatus.createMany({
+    data: [
+      {
+        status: '在籍中',
+      },
+      {
+        status: '休会中',
+      },
+      {
+        status: '退会済',
+      },
+    ],
+  });
+
+  console.log('complete addition of seed data.');
 };
 
 main()
