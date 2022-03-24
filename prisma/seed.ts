@@ -2,8 +2,13 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const delete1 = await prisma.memberOnTask.deleteMany();
-  const delete2 = await prisma.pairOnMember.deleteMany();
+  const delete1 = await prisma.$transaction([
+    prisma.memberOnTask.deleteMany(),
+    prisma.task.deleteMany(),
+    prisma.member.deleteMany(),
+    prisma.pair.deleteMany(),
+    prisma.team.deleteMany(),
+  ]);
 
   const team1 = await prisma.team.upsert({
     where: { id: 'a8c18f2c-a39d-4966-b901-74f7a4d04816' },
@@ -51,6 +56,7 @@ const main = async () => {
       name: 'tanaka',
       email: 'tanaka@example.co.jp',
       status: '在籍中',
+      pairId: '7cc62aeb-a47a-40dd-a43c-64f7fccb0412',
     },
   });
 
@@ -62,6 +68,7 @@ const main = async () => {
       name: 'wada',
       email: 'wada@example.co.jp',
       status: '在籍中',
+      pairId: '7cc62aeb-a47a-40dd-a43c-64f7fccb0412',
     },
   });
 
@@ -73,6 +80,7 @@ const main = async () => {
       name: 'suzuki',
       email: 'suzuki@example.co.jp',
       status: '在籍中',
+      pairId: '1d0b060e-2e71-42aa-875c-6abc040f6764',
     },
   });
 
@@ -84,6 +92,7 @@ const main = async () => {
       name: 'sato',
       email: 'sato@example.co.jp',
       status: '在籍中',
+      pairId: '1d0b060e-2e71-42aa-875c-6abc040f6764',
     },
   });
 
@@ -115,27 +124,6 @@ const main = async () => {
       title: '課題1',
       content: '本文XXXXXXXXXXXXXXXXXXXXXXX',
     },
-  });
-
-  const pairOnMember1 = await prisma.pairOnMember.createMany({
-    data: [
-      {
-        memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
-        pairId: '7cc62aeb-a47a-40dd-a43c-64f7fccb0412',
-      },
-      {
-        memberId: 'ffed9fb4-8895-45e7-8162-ad8ef09e4bc1',
-        pairId: '7cc62aeb-a47a-40dd-a43c-64f7fccb0412',
-      },
-      {
-        memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
-        pairId: '1d0b060e-2e71-42aa-875c-6abc040f6764',
-      },
-      {
-        memberId: '4753be68-5a70-42e8-adce-f6c3442f8c06',
-        pairId: '1d0b060e-2e71-42aa-875c-6abc040f6764',
-      },
-    ],
   });
 
   const memberOnTask1 = await prisma.memberOnTask.createMany({

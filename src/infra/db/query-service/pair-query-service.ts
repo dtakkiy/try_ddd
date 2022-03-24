@@ -13,7 +13,7 @@ export class PairQueryService implements IPairQueryService {
   public async getAll(): Promise<PairDTO[]> {
     const allPairs = await this.prismaClient.pair.findMany({
       include: {
-        PairOnMember: {},
+        members: true,
       },
     });
 
@@ -21,7 +21,7 @@ export class PairQueryService implements IPairQueryService {
       return {
         id: pairDM.id,
         name: pairDM.name,
-        members: pairDM.PairOnMember.map((member) => member.memberId),
+        members: pairDM.members.map((member) => member.id),
       };
     });
 

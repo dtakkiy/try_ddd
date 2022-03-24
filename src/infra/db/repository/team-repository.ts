@@ -16,7 +16,7 @@ export class TeamRepository implements ITeamRepository {
       include: {
         pairs: {
           include: {
-            PairOnMember: true,
+            members: true,
           },
         },
       },
@@ -26,9 +26,9 @@ export class TeamRepository implements ITeamRepository {
   }
 
   public async getByMemberId(memberId: string): Promise<Team | null> {
-    const pairOnMember = await this.prismaClient.pairOnMember.findMany({
+    const pairOnMember = await this.prismaClient.member.findMany({
       where: {
-        memberId: memberId,
+        id: memberId,
       },
     });
 
@@ -72,7 +72,7 @@ export class TeamRepository implements ITeamRepository {
           new Pair({
             id: pair.id,
             name: new PairNameVO(pair.name),
-            memberIdList: pairOnMember.map((member) => member.memberId),
+            memberIdList: pairOnMember.map((member) => member.id),
           })
       ),
     });
@@ -98,7 +98,7 @@ export class TeamRepository implements ITeamRepository {
           select: {
             id: true,
             name: true,
-            PairOnMember: true,
+            members: true,
           },
         },
       },
@@ -119,7 +119,7 @@ export class TeamRepository implements ITeamRepository {
           new Pair({
             id: pair.id,
             name: new PairNameVO(pair.name),
-            memberIdList: pair.PairOnMember.map((member) => member.memberId),
+            memberIdList: pair.members.map((member) => member.id),
           })
       ),
     });
@@ -134,23 +134,6 @@ export class TeamRepository implements ITeamRepository {
 
     const { id, pairList } = currentTeam.getAllProperties();
 
-    // await this.updateTeam(currentTeam, team);
-
-    // await pairList.map(async (pair) => {
-    //   await this.prismaClient.pair.upsert({
-    //     where: {
-    //       id: pair.id,
-    //     },
-    //     update: {
-    //       teamId: id,
-    //     },
-    //     create: {
-    //       id: pair.id,
-    //       teamId: id,
-    //       name: pair.name.getValue(),
-    //     },
-    //   });
-    // });
     await this.updateTeamPair(currentTeam, team);
 
     return new Team({ name: team.name, id: id, pairList: pairList });
@@ -218,18 +201,7 @@ export class TeamRepository implements ITeamRepository {
       include: {
         pairs: {
           include: {
-            PairOnMember: {
-              include: {
-                member: {
-                  select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    status: true,
-                  },
-                },
-              },
-            },
+            members: true,
           },
         },
       },
@@ -247,7 +219,7 @@ export class TeamRepository implements ITeamRepository {
           new Pair({
             id: pair.id,
             name: new PairNameVO(pair.name),
-            memberIdList: pair.PairOnMember.map((member) => member.memberId),
+            memberIdList: pair.members.map((member) => member.id),
           })
       ),
     });
