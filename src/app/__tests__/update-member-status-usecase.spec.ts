@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { UpdateMemberStatusUseCase } from '../update-member-status-usecase';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { Member } from 'src/domain/member/member';
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import {
   MemberStatus,
   MemberStatusType,

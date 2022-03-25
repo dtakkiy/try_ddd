@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { CreateMemberUseCase } from '../create-member-usecase';
 import { Member } from 'src/domain/member/member';
 import { MemberStatus } from 'src/domain/member/member-status';

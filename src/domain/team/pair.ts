@@ -1,11 +1,10 @@
-import { Identifier } from 'src/__share__/identifier';
-import { Member } from '../member/member';
+import { Identifier } from 'src/__shared__/identifier';
 import { PairNameVO } from './pair-name-vo';
 
 interface IPair {
   id: string;
   name: PairNameVO;
-  memberList: Member[];
+  memberIdList: string[];
 }
 
 export class Pair {
@@ -14,15 +13,13 @@ export class Pair {
   private MIN_MEMBER_NUMBER = 2;
 
   constructor(props: IPair) {
-    const { id, name, memberList } = props;
-
-    //    this.validatePairName(name);
-    this.validateMemberList(memberList);
+    const { id, name, memberIdList } = props;
+    this.validateMemberIdList(memberIdList);
 
     this.props = {
       id: id ?? Identifier.generator(),
       name: name,
-      memberList: memberList,
+      memberIdList: memberIdList,
     };
     this.props = props;
   }
@@ -31,7 +28,7 @@ export class Pair {
     return {
       id: this.props.id,
       name: this.props.name.getValue(),
-      memberList: this.props.memberList,
+      memberIdList: this.props.memberIdList,
     };
   }
 
@@ -43,17 +40,27 @@ export class Pair {
     return this.props.name;
   }
 
-  public getMemberList(): Member[] {
-    return this.props.memberList;
+  public getMemberIdList(): string[] {
+    return this.props.memberIdList;
   }
 
-  private validateMemberList(memberList: Member[]) {
-    if (memberList.length < this.MIN_MEMBER_NUMBER) {
-      throw new Error(`small number of member. ${memberList.length}`);
+  private validateMemberIdList(memberIdList: string[]) {
+    if (memberIdList.length < this.MIN_MEMBER_NUMBER) {
+      throw new Error(`small number of member. ${memberIdList.length}`);
     }
 
-    if (memberList.length > this.MAX_MEMBER_NUMBER) {
-      throw new Error(`large number of member. ${memberList.length}`);
+    if (memberIdList.length > this.MAX_MEMBER_NUMBER) {
+      throw new Error(`large number of member. ${memberIdList.length}`);
+    }
+  }
+
+  public validateMemberCount() {
+    if (this.getMemberCount() < this.MIN_MEMBER_NUMBER) {
+      throw new Error('current number of member in a pair is too small.');
+    }
+
+    if (this.getMemberCount() > this.MAX_MEMBER_NUMBER) {
+      throw new Error('current number of member in a pair is too large.');
     }
   }
 
@@ -61,27 +68,21 @@ export class Pair {
     return pair.props.id === this.props.id;
   };
 
-  // private validatePairName(name: string) {
-  //   const pattern = '^[a-z]{1}$';
-  //   if (!name.match(pattern)) {
-  //     throw new Error(`pair name is not appropriate.${name}`);
-  //   }
-  // }
-
-  public addMember = (member: Member): Pair => {
-    const memberList = this.props.memberList.concat(member);
-    this.validateMemberList(memberList);
-    this.props.memberList = memberList;
-    return this;
+  public addMember = (memberId: string) => {
+    this.props.memberIdList.push(memberId);
   };
 
   public deleteMember(memberId: string) {
-    this.props.memberList = this.props.memberList.filter(
-      (member) => member.id !== memberId
+    this.props.memberIdList = this.props.memberIdList.filter(
+      (id) => id !== memberId
     );
   }
 
   public getMemberCount(): number {
-    return this.props.memberList.length;
+    return this.props.memberIdList.length;
+  }
+
+  public isMemberExist(memberId: string): boolean {
+    return this.props.memberIdList.includes(memberId);
   }
 }

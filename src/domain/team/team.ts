@@ -1,4 +1,4 @@
-import { Identifier } from 'src/__share__/identifier';
+import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from './pair';
 import { TeamNameVO } from './team-name-vo';
 
@@ -9,10 +9,11 @@ interface ITeam {
 }
 
 export class Team {
+  MIN_MEMBER_NUMBER = 3;
+
   private props: ITeam;
   constructor(props: ITeam) {
     const { id, name, pairList } = props;
-    //    this.validateTeamName(name);
 
     this.props = {
       id: id ?? Identifier.generator(),
@@ -37,6 +38,22 @@ export class Team {
     return this.props.name;
   }
 
+  public getPair(pairId: string): Pair {
+    const result = this.props.pairList.find((pair) => pair.id === pairId);
+
+    if (!result) {
+      throw new Error('pair not found');
+    }
+
+    return result;
+  }
+
+  public deletePair(pairId: string) {
+    this.props.pairList = this.props.pairList.filter(
+      (pair) => pair.id !== pairId
+    );
+  }
+
   public getPairList(): Pair[] {
     return this.props.pairList;
   }
@@ -48,22 +65,9 @@ export class Team {
     );
   }
 
-  public getMinMemberPair(): Pair {
-    return this.props.pairList.reduce((prev, current) =>
-      prev.getMemberCount() < current.getMemberCount() ? prev : current
-    );
-  }
-
   public equals = (team: Team): boolean => {
     return team.props.id === this.props.id;
   };
-
-  // private validateTeamName(name: string) {
-  //   const pattern = '^[0-9]{1,3}$';
-  //   if (!name.match(pattern)) {
-  //     throw new Error(`team name is not appropriate.${name}`);
-  //   }
-  // }
 
   public getPairCount(): number {
     return this.props.pairList.length;
@@ -73,9 +77,50 @@ export class Team {
     this.props.pairList.push(pair);
   }
 
-  public deletePair(targetPair: Pair) {
-    this.props.pairList = this.props.pairList.filter(
-      (pair) => pair.id === targetPair.id
+  public deleteMember(memberId: string) {
+    const pair = this.getPairByMemberId(memberId);
+    if (!pair) {
+      throw new Error('pair do not exist.');
+    }
+
+    pair.deleteMember(memberId);
+
+    // 人数の確認
+    this.validatePairMemberCount();
+    this.validateTeamMemberCount();
+  }
+
+  public getPairByMemberId(memberId: string) {
+    return this.props.pairList.find((pair) => pair.isMemberExist(memberId));
+  }
+
+  private validatePairMemberCount() {
+    this.props.pairList.forEach((pair) => {
+      pair.validateMemberCount();
+    });
+  }
+
+  private validateTeamMemberCount() {
+    const memberCount = this.getMemberCount();
+    if (memberCount < this.MIN_MEMBER_NUMBER) {
+      throw new Error('team must have at least 3 member.');
+    }
+  }
+
+  public addMember(memberId: string): Pair {
+    // 最小人数のペアを探す
+    const pair = this.getMinMemberPair();
+    pair.addMember(memberId);
+
+    this.validatePairMemberCount();
+    this.validateTeamMemberCount();
+
+    return pair;
+  }
+
+  public getMinMemberPair(): Pair {
+    return this.props.pairList.reduce((prev, current) =>
+      prev.getMemberCount() < current.getMemberCount() ? prev : current
     );
   }
 }

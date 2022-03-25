@@ -13,13 +13,9 @@ export class MemberQueryService implements IMemberQueryService {
   public async getAll(): Promise<MemberDTO[]> {
     const allMembers = await this.prismaClient.member.findMany({
       include: {
-        PairOnMember: {
+        pair: {
           include: {
-            pair: {
-              include: {
-                team: true,
-              },
-            },
+            team: true,
           },
         },
       },
@@ -28,11 +24,8 @@ export class MemberQueryService implements IMemberQueryService {
     const memberList: MemberDTO[] = allMembers.map((memberDM) => {
       let teamId = null;
       let pairId = null;
-      memberDM.PairOnMember.map((pairOnMember) => {
-        teamId = pairOnMember.pair.teamId;
-        pairId = pairOnMember.pair.id;
-      });
-
+      teamId = memberDM.pair?.id;
+      pairId = memberDM.pair?.teamId;
       const { id, name, email, status } = memberDM;
       return { id, name, email, status, pair: pairId, team: teamId };
     });

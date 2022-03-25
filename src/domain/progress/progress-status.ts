@@ -40,4 +40,8 @@ export class ProgressStatus {
 
     throw new Error(`progress stepup error.`);
   }
+
+  public equals = (progress: ProgressStatus): boolean => {
+    return this._value === progress.getStatus();
+  };
 }

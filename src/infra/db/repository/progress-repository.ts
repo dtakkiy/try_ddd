@@ -13,12 +13,10 @@ export class ProgressRepository implements IProgressRepository {
   }
 
   public async getById(props: IProgressProps): Promise<Progress | null> {
-    const memberOnTask = this.prismaClient.memberOnTask.findUnique({
+    const memberOnTask = await this.prismaClient.memberOnTask.findFirst({
       where: {
-        memberId_taskId: {
-          memberId: props.memberId,
-          taskId: props.taskId,
-        },
+        memberId: props.memberId,
+        taskId: props.taskId,
       },
     });
 
@@ -27,9 +25,9 @@ export class ProgressRepository implements IProgressRepository {
     }
 
     return new Progress({
-      memberId: '',
-      taskId: '',
-      status: ProgressStatus.create(),
+      memberId: memberOnTask.memberId,
+      taskId: memberOnTask.taskId,
+      status: new ProgressStatus(memberOnTask.status),
     });
   }
 
@@ -57,6 +55,30 @@ export class ProgressRepository implements IProgressRepository {
 
     await this.prismaClient.memberOnTask.createMany({
       data: data,
+    });
+  }
+
+  public async update(memberId: string, taskId: string, status: string) {
+    const progress = await this.prismaClient.memberOnTask.findFirst({
+      where: {
+        memberId: memberId,
+        taskId: taskId,
+      },
+    });
+
+    const updateProgress = await this.prismaClient.memberOnTask.update({
+      where: {
+        id: progress?.id,
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    return new Progress({
+      memberId: updateProgress.memberId,
+      taskId: updateProgress.taskId,
+      status: new ProgressStatus(updateProgress.status),
     });
   }
 }

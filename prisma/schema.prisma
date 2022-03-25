@@ -17,13 +17,13 @@ model Team {
 }
 
 model Pair {
-  id           String         @id
-  name         String
-  team         Team           @relation(fields: [teamId], references: [id])
-  teamId       String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  PairOnMember PairOnMember[]
+  id        String   @id
+  name      String
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members   Member[]
 }
 
 model Member {
@@ -31,10 +31,11 @@ model Member {
   name         String
   status       String
   email        String         @unique
+  pair         Pair?          @relation(fields: [pairId], references: [id])
+  pairId       String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   MemberOnTask MemberOnTask[]
-  PairOnMember PairOnMember[]
 }
 
 model Task {
@@ -47,6 +48,7 @@ model Task {
 }
 
 model MemberOnTask {
+  id        String   @id @default(uuid())
   member    Member   @relation(fields: [memberId], references: [id])
   memberId  String
   task      Task     @relation(fields: [taskId], references: [id])
@@ -54,15 +56,14 @@ model MemberOnTask {
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@id([memberId, taskId])
 }
 
-model PairOnMember {
-  pair     Pair   @relation(fields: [pairId], references: [id])
-  pairId   String
-  member   Member @relation(fields: [memberId], references: [id])
-  memberId String
+model MemberStatus {
+  id     String @id @default(uuid())
+  status String
+}
 
-  @@id([memberId, pairId])
+model TaskStatus {
+  id     String @id @default(uuid())
+  status String
 }
