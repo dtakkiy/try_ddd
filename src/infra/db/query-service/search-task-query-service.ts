@@ -12,12 +12,28 @@ export class SearchQueryService implements ISearchQueryService {
   }
 
   public async findByTaskIdAndTaskStatus(
-    taskIdList: string[],
+    taskIdList: string,
     taskStatus: string,
     pageNumber?: string
   ): Promise<SearchDTO[]> {
     const PAGE_SIZE = 10;
     let results: any[];
+
+    if (typeof taskStatus !== 'string') {
+      taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
+    }
+
+    if (typeof taskIdList === 'undefined') {
+      throw new Error('input taskIdList invalid.');
+    }
+
+    let taskIds: string[] = [];
+
+    if (!taskIdList.includes(',')) {
+      taskIds.push(taskIdList);
+    } else {
+      taskIds = taskIdList.split(',');
+    }
 
     if (typeof pageNumber === 'string') {
       results = await this.prismaClient.memberOnTask.findMany({
@@ -36,7 +52,7 @@ export class SearchQueryService implements ISearchQueryService {
               equals: taskStatus,
             },
             taskId: {
-              in: taskIdList,
+              in: taskIds,
             },
           },
         },
@@ -57,7 +73,7 @@ export class SearchQueryService implements ISearchQueryService {
               equals: taskStatus,
             },
             taskId: {
-              in: taskIdList,
+              in: taskIds,
             },
           },
         },
@@ -71,8 +87,10 @@ export class SearchQueryService implements ISearchQueryService {
       (searchDM) =>
         new SearchDTO({
           id: searchDM.id,
-          name: searchDM.name,
-          email: searchDM.email,
+          name: searchDM.member.name,
+          email: searchDM.member.email,
+          taskId: searchDM.task.id,
+          title: searchDM.task.title,
           status: searchDM.status,
         })
     );

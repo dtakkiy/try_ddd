@@ -3,6 +3,12 @@ export const ProgressStatusType = {
   awaitingReview: 'レビュー待ち',
   completed: '完了',
 };
+
+export const validateProgressStatus = (status: string) => {
+  if (Object.values(ProgressStatusType).includes(status) === false) {
+    throw new Error(`not applicable progress status value. ${status}`);
+  }
+};
 export class ProgressStatus {
   private readonly _value: string;
 
