@@ -20,18 +20,20 @@ export class SearchQueryService implements ISearchQueryService {
     let results: any[];
 
     if (typeof taskStatus !== 'string') {
-      taskStatus = '未完了'; // タスクステータスが未入力だった場合、値を「未完了」とする
+      taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
     }
 
     if (typeof taskIdList === 'undefined') {
       throw new Error('input taskIdList invalid.');
     }
 
-    if (!taskIdList.includes(',')) {
-      throw new Error('input taskIdList invalid .');
-    }
+    let taskIds: string[] = [];
 
-    const taskIds = taskIdList.split(',');
+    if (!taskIdList.includes(',')) {
+      taskIds.push(taskIdList);
+    } else {
+      taskIds = taskIdList.split(',');
+    }
 
     if (typeof pageNumber === 'string') {
       results = await this.prismaClient.memberOnTask.findMany({

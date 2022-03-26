@@ -153,29 +153,29 @@ const main = async () => {
       {
         memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
         taskId: 'f57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
         taskId: '1854d175-facb-4768-ad2b-9d8d1f743399',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
         taskId: 'd4e88ff4-0b14-4f7e-a238-3764b42a8204',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
         memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
         taskId: 'x57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
         memberId: '6654f4fc-707a-4808-af05-a73490e3d881',
         taskId: 'y57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
@@ -186,24 +186,24 @@ const main = async () => {
       {
         memberId: 'ffed9fb4-8895-45e7-8162-ad8ef09e4bc1',
         taskId: '1854d175-facb-4768-ad2b-9d8d1f743399',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: 'ffed9fb4-8895-45e7-8162-ad8ef09e4bc1',
         taskId: 'd4e88ff4-0b14-4f7e-a238-3764b42a8204',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
         memberId: 'ffed9fb4-8895-45e7-8162-ad8ef09e4bc1',
         taskId: 'x57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
         memberId: 'ffed9fb4-8895-45e7-8162-ad8ef09e4bc1',
         taskId: 'y57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
@@ -213,22 +213,22 @@ const main = async () => {
       {
         memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
         taskId: '1854d175-facb-4768-ad2b-9d8d1f743399',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
         taskId: 'd4e88ff4-0b14-4f7e-a238-3764b42a8204',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
         taskId: 'x57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '180a879f-a95c-4b05-bd26-adf38ce29b25',
         taskId: 'y57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
 
       {
@@ -239,22 +239,22 @@ const main = async () => {
       {
         memberId: '4753be68-5a70-42e8-adce-f6c3442f8c06',
         taskId: '1854d175-facb-4768-ad2b-9d8d1f743399',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '4753be68-5a70-42e8-adce-f6c3442f8c06',
         taskId: 'd4e88ff4-0b14-4f7e-a238-3764b42a8204',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '4753be68-5a70-42e8-adce-f6c3442f8c06',
         taskId: 'x57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
       {
         memberId: '4753be68-5a70-42e8-adce-f6c3442f8c06',
         taskId: 'y57a2248-c1c3-434c-93a6-e8e26a0aea3c',
-        status: '未完了',
+        status: '未着手',
       },
     ],
   });

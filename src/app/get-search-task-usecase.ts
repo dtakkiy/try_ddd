@@ -1,3 +1,4 @@
+import { validateProgressStatus } from 'src/domain/progress/progress-status';
 import { ISearchQueryService } from './query-service-interface/search-task-query-service';
 
 interface Props {
@@ -13,11 +14,22 @@ export class GetSearchTaskUseCase {
   }
 
   public async execute(props: Props) {
+    const { taskIdList, taskStatus, pageNumber } = props;
+
+    if (
+      typeof taskIdList === 'undefined' ||
+      typeof taskStatus === 'undefined'
+    ) {
+      throw new Error('input value is invalid.');
+    }
+
+    validateProgressStatus(taskStatus);
+
     try {
       return await this.queryService.findByTaskIdAndTaskStatus(
-        props.taskIdList,
-        props.taskStatus,
-        props.pageNumber
+        taskIdList,
+        taskStatus,
+        pageNumber
       );
     } catch (error) {
       throw error;

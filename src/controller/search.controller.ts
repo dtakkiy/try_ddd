@@ -9,7 +9,7 @@ import { GetSearchResponse } from './response/get-search-response';
   path: '/search',
 })
 
-// 例) localhost:3001/search?taskStatus=000&taskIdList=111,222,333&pageNumber=2
+// 例) localhost:3001/search?taskStatus=000&taskIdList=111,222,333&pageNumber=04be3f32-f690-4beb-aa45-8f071aabac2e
 // タスクIDのリストは、カンマ区切りで渡す
 export class SearchController {
   @Get()

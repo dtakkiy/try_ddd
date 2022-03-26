@@ -29,7 +29,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const usecase = new GetSearchTaskUseCase(mockSearchQS);
 
     const taskIdList = '';
-    const taskStatus = '';
+    const taskStatus = '未着手';
 
     return await expect(
       usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
@@ -46,7 +46,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         email: 'taro@example.com',
         taskId: taskId1,
         title: '課題1',
-        status: '未完了',
+        status: '未着手',
       },
       {
         id: faker.datatype.uuid(),
@@ -54,14 +54,14 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         email: 'jiro@example.com',
         taskId: taskId2,
         title: '課題2',
-        status: '未完了',
+        status: '未着手',
       },
     ];
 
     mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectDatas);
 
     const taskIdList = `${taskId1},${taskId2}`;
-    const taskStatus = '未完了';
+    const taskStatus = '未着手';
 
     return await expect(
       usecase.execute({
@@ -69,5 +69,16 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
       })
     ).resolves.toBe(expectDatas);
+  });
+
+  it('タスクステータスの値が不正な場合', async () => {
+    const usecase = new GetSearchTaskUseCase(mockSearchQS);
+
+    const taskIdList = `${taskId1},${taskId2}`;
+    const taskStatus = '';
+
+    return await expect(
+      usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
+    ).rejects.toThrowError();
   });
 });
