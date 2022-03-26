@@ -1,10 +1,11 @@
-interface Props {
+interface MessageProps {
   from: string;
   to: string;
-  title: string;
-  content: string;
+  subject: string;
+  html: string;
+  text?: string;
 }
 
 export interface IEmailRepository {
-  sendMail(props: Props): Promise<boolean>;
+  sendMail(messageProps: MessageProps): Promise<boolean>;
 }
