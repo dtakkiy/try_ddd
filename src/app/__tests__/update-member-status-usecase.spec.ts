@@ -31,35 +31,35 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     mockTeamRepository = mocked(new TeamRepository(prisma), true);
   });
 
-  it('[正常系] 参加者の在籍ステータスを変更できる', () => {
-    const id = Identifier.generator();
-    const name = new MemberNameVO('test');
-    const email = new MemberEmailVO('test@example.com');
-    const status = MemberStatus.create();
-    const member = new Member({ id, name, email, status });
+  // it('[正常系] 参加者の在籍ステータスを変更できる', () => {
+  //   const id = Identifier.generator();
+  //   const name = new MemberNameVO('test');
+  //   const email = new MemberEmailVO('test@example.com');
+  //   const status = MemberStatus.create();
+  //   const member = new Member({ id, name, email, status });
 
-    mockMemberRepository.getById.mockResolvedValueOnce(member);
-    const updateMember = new Member({ id, name, email, status });
-    updateMember.setStatus(new MemberStatus(MemberStatusType.closed));
-    mockMemberRepository.update.mockResolvedValueOnce(updateMember);
+  //   mockMemberRepository.getById.mockResolvedValueOnce(member);
+  //   const updateMember = new Member({ id, name, email, status });
+  //   updateMember.setStatus(new MemberStatus(MemberStatusType.closed));
+  //   mockMemberRepository.update.mockResolvedValueOnce(updateMember);
 
-    const params = {
-      id: id,
-      status: MemberStatusType.closed,
-    };
+  //   const params = {
+  //     id: id,
+  //     status: MemberStatusType.closed,
+  //   };
 
-    const usecase = new UpdateMemberStatusUseCase(
-      mockMemberRepository,
-      mockEmailRepository,
-      mockTeamRepository
-    );
-    return expect(usecase.execute(params)).resolves.toBe(updateMember);
-  });
+  //   const usecase = new UpdateMemberStatusUseCase(
+  //     mockMemberRepository,
+  //     mockEmailRepository,
+  //     mockTeamRepository
+  //   );
+  //   return expect(usecase.execute(params)).resolves.toBe(updateMember);
+  // });
 
-  it('参加者が増加する場合', async () => {
-    // x ①ステータス変更メンバーのステータス値を確認
-    // x ②最も人数が少ないチームIDを取得
-    // x ③最も少ないペアを取得
+  it('参加者の在籍ステータスを変更し、参加人数が増加する場合', async () => {
+    // ①ステータス変更メンバーのステータス値を確認
+    // ②最も人数が少ないチームIDを取得
+    // ③最も少ないペアを取得
     // ④ペアに追加する
     // ⑤存在する全てのペアが上限の4名に達している場合、2-2でペア分割。
     // ⑥分割する場合、ペアの追加が必要。
@@ -67,7 +67,7 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     // ⑧確認後、ペアを追加する。
   });
 
-  it('参加者が減少する場合', async () => {
+  it('参加者の在籍ステータスを変更し、参加人数が減少する場合', async () => {
     // ①ステータス変更メンバーのステータス値を確認
     // ②チームが2名以下になる場合、管理者にメール送信。通知内容は、どの参加者が減ったか？どのチームが2名以下なのか、そのチームの現在の人数。 >> this.emailRepository.sendMail(???)
     // ③ペアの人数を確認。

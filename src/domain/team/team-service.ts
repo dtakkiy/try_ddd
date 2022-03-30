@@ -1,3 +1,4 @@
+import { Pair } from './pair';
 import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
 import { TeamSameNameExist } from './team-same-name-exist';
@@ -55,6 +56,7 @@ export class TeamService {
     return;
   }
 
+  // もっとも人数が少ないチームを取得
   public async getTeamFewestNumberOfMember(): Promise<Team> {
     const teams = await this.teamRepository.getAll();
 
@@ -64,6 +66,19 @@ export class TeamService {
 
     return teams?.reduce((fewTeam, team) => {
       return fewTeam.getMemberCount() > team.getMemberCount() ? team : fewTeam;
+    });
+  }
+
+  // もっとも人数が少ないペアを取得
+  public async getPairFewestNumberOfMember(teamId: string): Promise<Pair> {
+    const team = await this.teamRepository.getById(teamId);
+
+    if (team === null) {
+      throw new Error();
+    }
+
+    return team.getPairList().reduce((fewPair, pair) => {
+      return fewPair.getMemberCount() > pair.getMemberCount() ? pair : fewPair;
     });
   }
 

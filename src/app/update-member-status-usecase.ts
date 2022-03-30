@@ -82,11 +82,69 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isActiveStatus(currentStatus) &&
       MemberStatus.isClosedOrEndedStatus(status)
     ) {
-      // なんらかの処理
+      const joinTeam = await this.teamRepository.getByMemberId(member.id);
+
+      if (joinTeam === null) {
+        throw new Error('number of team members could not be retrieved.');
+      }
+
+      const joinPair = await this.teamRepository.getPairIdByMemberId(member.id);
+      if (joinPair === null) {
+        throw new Error('pair infomation could not be retrieved.');
+      }
+
+      // ユーザをリストから削除
+      joinPair.deleteMember(member.id);
+      const joinMemberOfNumber = joinPair.getMemberCount();
+
+      // ペアが1名以下になった場合の処理
+      if (joinMemberOfNumber <= 1) {
+        // 解散するペアのメンバーを取得する
+        const deleteMemberList = await joinPair.getMemberIdList();
+        let deleteMemberId = '';
+
+        if (
+          typeof deleteMemberList[0] === 'undefined' ||
+          deleteMemberList.length < 1
+        ) {
+          throw new Error(
+            'failed to retrieve the member of the pair to be disbanded.'
+          );
+        } else {
+          deleteMemberId = deleteMemberList[0];
+        }
+        // ペアを削除する
+        joinTeam.deletePair(joinPair.id);
+        // 解散したペアメンバーを同じチームの他のペアに合流させる
+        // (合流先ペアが無いのは、どういうケースが考えられる？)
+        const teamService = new TeamService(this.teamRepository);
+        const mergePair = await teamService.getPairFewestNumberOfMember(
+          joinTeam.id
+        );
+
+        // あぶれたメンバーをペアに合流させる
+        mergePair.addMember(deleteMemberId);
+        await this.teamRepository.update(joinTeam);
+      }
+
+      // チームが2名以下になった場合の処理
+      const joinTeamOfMember = joinTeam.getMemberCount();
+      if (joinTeamOfMember <= 2) {
+        const message = {
+          to: 'admin@example.com',
+          from: 'xxx@example.com',
+          subject: 'チームの人数が2名以下です',
+          html: `減った参加者ID: ${
+            member.id
+          }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${
+            joinTeamOfMember - 1
+          }`,
+        };
+        await this.emailRepository.sendMail(message);
+      }
     }
 
     member.setStatus(new MemberStatus(status));
-
     const updateMember = await this.memberRepository.update(member);
 
     return updateMember;
