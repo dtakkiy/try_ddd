@@ -1,7 +1,7 @@
 import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
 
-export class TeamChange {
+export class TeamService {
   private teamRepository: ITeamRepository;
   constructor(teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;

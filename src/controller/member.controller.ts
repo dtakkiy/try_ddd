@@ -9,6 +9,7 @@ import { MemberQueryService } from 'src/infra/db/query-service/member-query-serv
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
+import { EmailRepository } from 'src/infra/email/email-repository';
 import { PostMemberRequest } from './request/post-member-request';
 import { PutMemberRequest } from './request/put-member-request';
 import { GetMemberResponse } from './response/get-member-response';
@@ -56,7 +57,11 @@ export class MemberController {
   ): Promise<Member> {
     const prisma = new PrismaClient();
     const memberRepository = new MemberRepository(prisma);
-    const usecase = new UpdateMemberStatusUseCase(memberRepository);
+    const emailRepository = new EmailRepository();
+    const usecase = new UpdateMemberStatusUseCase(
+      memberRepository,
+      emailRepository
+    );
 
     const member = await usecase.execute({
       id: id,
