@@ -53,4 +53,16 @@ export class TeamService {
 
     return;
   }
+
+  public async GetTeamFewestNumberOfMember(): Promise<Team> {
+    const teams = await this.teamRepository.getAll();
+
+    if (teams === null) {
+      throw new Error();
+    }
+
+    return teams?.reduce((fewTeam, team) => {
+      return fewTeam.getMemberCount() > team.getMemberCount() ? team : fewTeam;
+    });
+  }
 }

@@ -12,19 +12,23 @@ import {
 import { MemberEmailVO } from 'src/domain/member/member-email-vo';
 import { MemberNameVO } from 'src/domain/member/member-name-vo';
 import { EmailRepository } from 'src/infra/email/email-repository';
+import { TeamRepository } from 'src/infra/db/repository/team-repository';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
 jest.mock('src/infra/email/email-repository');
+jest.mock('src/infra/db/repository/team-repository');
 
 describe('【ユースケース】参加者の在籍ステータスを変更する', () => {
   let mockMemberRepository: MockedObjectDeep<MemberRepository>;
   let mockEmailRepository: MockedObjectDeep<EmailRepository>;
+  let mockTeamRepository: MockedObjectDeep<TeamRepository>;
 
   beforeAll(() => {
     const prisma = new PrismaClient();
     mockMemberRepository = mocked(new MemberRepository(prisma), true);
     mockEmailRepository = mocked(new EmailRepository(), true);
+    mockTeamRepository = mocked(new TeamRepository(prisma), true);
   });
 
   it('[正常系] 参加者の在籍ステータスを変更できる', () => {
@@ -46,15 +50,16 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
 
     const usecase = new UpdateMemberStatusUseCase(
       mockMemberRepository,
-      mockEmailRepository
+      mockEmailRepository,
+      mockTeamRepository
     );
     return expect(usecase.execute(params)).resolves.toBe(updateMember);
   });
 
   it('参加者が増加する場合', async () => {
-    // ①ステータス変更メンバーのステータス値を確認
-    // ②最も人数が少ないチームIDを取得
-    // ③最も少ないペアを取得
+    // x ①ステータス変更メンバーのステータス値を確認
+    // x ②最も人数が少ないチームIDを取得
+    // x ③最も少ないペアを取得
     // ④ペアに追加する
     // ⑤存在する全てのペアが上限の4名に達している場合、2-2でペア分割。
     // ⑥分割する場合、ペアの追加が必要。

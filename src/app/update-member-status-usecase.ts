@@ -1,6 +1,9 @@
 import { Member } from 'src/domain/member/member';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
 import { MemberStatus } from 'src/domain/member/member-status';
+import { ITeamRepository } from 'src/domain/team/team-repository-interface';
+import { TeamService } from 'src/domain/team/team-service';
+import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 
 interface Params {
@@ -11,12 +14,16 @@ interface Params {
 export class UpdateMemberStatusUseCase {
   private readonly memberRepository: IMemberRepository;
   private readonly emailRepository: IEmailRepository;
+  private readonly teamRepository: ITeamRepository;
+
   constructor(
     memberRepository: IMemberRepository,
-    emailRepository: IEmailRepository
+    emailRepository: IEmailRepository,
+    teamRepository: ITeamRepository
   ) {
     this.memberRepository = memberRepository;
     this.emailRepository = emailRepository;
+    this.teamRepository = teamRepository;
   }
 
   public execute = async (params: Params): Promise<Member> => {
@@ -34,6 +41,9 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isClosedOrEndedStatus(currentStatus) &&
       MemberStatus.isActiveStatus(status)
     ) {
+      const teamService = new TeamService(this.teamRepository);
+      const fewestTeam = await teamService.GetTeamFewestNumberOfMember();
+      const fewestPair = await fewestTeam.getMinMemberPair();
       // なんらかの処理
     }
 
