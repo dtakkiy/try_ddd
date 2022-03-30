@@ -1,5 +1,6 @@
 import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
+import { TeamSameNameExist } from './team-same-name-exist';
 
 export class TeamService {
   private teamRepository: ITeamRepository;
@@ -54,7 +55,7 @@ export class TeamService {
     return;
   }
 
-  public async GetTeamFewestNumberOfMember(): Promise<Team> {
+  public async getTeamFewestNumberOfMember(): Promise<Team> {
     const teams = await this.teamRepository.getAll();
 
     if (teams === null) {
@@ -64,5 +65,50 @@ export class TeamService {
     return teams?.reduce((fewTeam, team) => {
       return fewTeam.getMemberCount() > team.getMemberCount() ? team : fewTeam;
     });
+  }
+
+  public async generateNewPairName(): Promise<string> {
+    const pairNameList = [
+      'a',
+      'b',
+      'c',
+      'd',
+      'e',
+      'f',
+      'g',
+      'h',
+      'i',
+      'j',
+      'k',
+      'l',
+      'm',
+      'n',
+      'o',
+      'p',
+      'q',
+      'r',
+      's',
+      't',
+      'u',
+      'v',
+      'w',
+      'x',
+      'y',
+      'z',
+    ];
+
+    const blankPairName = pairNameList.find(async (pairName) => {
+      const teamSameNameExist = new TeamSameNameExist(
+        pairName,
+        this.teamRepository
+      );
+      const result = await teamSameNameExist.execute();
+
+      if (result) {
+        return pairName;
+      }
+    });
+
+    return typeof blankPairName === 'string' ? blankPairName : '';
   }
 }

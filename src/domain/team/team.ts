@@ -112,8 +112,8 @@ export class Team {
     const pair = this.getMinMemberPair();
     pair.addMember(memberId);
 
-    this.validatePairMemberCount();
-    this.validateTeamMemberCount();
+    //    this.validatePairMemberCount();
+    //    this.validateTeamMemberCount();
 
     return pair;
   }
