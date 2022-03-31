@@ -5,6 +5,7 @@ import { CreateMemberUseCase } from 'src/app/create-member-usecase';
 import { GetMemberListUseCase } from 'src/app/get-member-list-usecase';
 import { UpdateMemberStatusUseCase } from 'src/app/update-member-status-usecase';
 import { Member } from 'src/domain/member/member';
+import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
@@ -60,10 +61,13 @@ export class MemberController {
     const memberRepository = new MemberRepository(prisma);
     const emailRepository = new EmailRepository();
     const teamRepository = new TeamRepository(prisma);
+    const teamMemberUpdate = new TeamMemberUpdate(prisma);
+
     const usecase = new UpdateMemberStatusUseCase(
       memberRepository,
       emailRepository,
-      teamRepository
+      teamRepository,
+      teamMemberUpdate
     );
 
     const member = await usecase.execute({
