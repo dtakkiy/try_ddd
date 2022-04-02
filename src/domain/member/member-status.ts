@@ -32,4 +32,23 @@ export class MemberStatus {
   public isJoinPair = (): boolean => {
     return this._value === MemberStatusType.active;
   };
+
+  public static isClosedOrEndedStatus(status: string): boolean {
+    if (
+      MemberStatusType.closed === status ||
+      MemberStatusType.ended === status
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public static isActiveStatus(status: string): boolean {
+    if (MemberStatusType.active === status) {
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -103,7 +103,9 @@ export class Team {
   private validateTeamMemberCount() {
     const memberCount = this.getMemberCount();
     if (memberCount < this.MIN_MEMBER_NUMBER) {
-      throw new Error('team must have at least 3 member.');
+      throw new Error(
+        `team must have at least ${this.MIN_MEMBER_NUMBER} member.`
+      );
     }
   }
 

@@ -1,14 +1,17 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 import { CreateMemberUseCase } from 'src/app/create-member-usecase';
 import { GetMemberListUseCase } from 'src/app/get-member-list-usecase';
 import { UpdateMemberStatusUseCase } from 'src/app/update-member-status-usecase';
 import { Member } from 'src/domain/member/member';
+import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
+import { TeamRepository } from 'src/infra/db/repository/team-repository';
+import { EmailRepository } from 'src/infra/email/email-repository';
 import { PostMemberRequest } from './request/post-member-request';
 import { PutMemberRequest } from './request/put-member-request';
 import { GetMemberResponse } from './response/get-member-response';
@@ -56,7 +59,16 @@ export class MemberController {
   ): Promise<Member> {
     const prisma = new PrismaClient();
     const memberRepository = new MemberRepository(prisma);
-    const usecase = new UpdateMemberStatusUseCase(memberRepository);
+    const emailRepository = new EmailRepository();
+    const teamRepository = new TeamRepository(prisma);
+    const teamMemberUpdate = new TeamMemberUpdate(prisma);
+
+    const usecase = new UpdateMemberStatusUseCase(
+      memberRepository,
+      emailRepository,
+      teamRepository,
+      teamMemberUpdate
+    );
 
     const member = await usecase.execute({
       id: id,

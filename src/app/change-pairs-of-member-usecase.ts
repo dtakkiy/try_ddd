@@ -1,5 +1,5 @@
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
-import { TeamChange } from 'src/domain/team/team-change';
+import { TeamService } from 'src/domain/team/team-service';
 
 interface Params {
   memberId: string;
@@ -15,7 +15,7 @@ export class ChangePairOfMemberUseCase {
   public async execute(params: Params): Promise<void> {
     const { memberId, pairId } = params;
 
-    const teamChange = new TeamChange(this.teamRepository);
+    const teamChange = new TeamService(this.teamRepository);
 
     await teamChange.changePairOfMember(memberId, pairId);
   }
