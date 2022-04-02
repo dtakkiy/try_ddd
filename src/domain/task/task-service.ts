@@ -22,13 +22,8 @@ export class TaskService {
       },
     });
 
-    const query: any[] = [];
-
-    query.push(deleteTask);
-    query.push(deleteMemberOnTasks);
-
     try {
-      await this.prismaClient.$transaction(query);
+      await this.prismaClient.$transaction([deleteMemberOnTasks, deleteTask]);
     } catch (e) {
       throw new Error('failed to delete task.');
     } finally {
