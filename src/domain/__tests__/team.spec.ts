@@ -117,22 +117,22 @@ describe('Teamエンティティのテスト', () => {
       expect(team.getMemberCount()).toBe(3);
     });
 
-    // it('チームメンバー数が最大数を超えた場合', () => {
-    //   const pair = new Pair({
-    //     id: pairId1,
-    //     name: new PairNameVO('a'),
-    //     memberIdList: [memberId1, memberId2, memberId3],
-    //   });
+    it('チームメンバー数が最大数を超えた場合', () => {
+      const pair = new Pair({
+        id: pairId1,
+        name: new PairNameVO('a'),
+        memberIdList: [memberId1, memberId2, memberId3],
+      });
 
-    //   const team = new Team({
-    //     id: faker.datatype.uuid(),
-    //     name: new TeamNameVO('1'),
-    //     pairList: [pair],
-    //   });
+      const team = new Team({
+        id: faker.datatype.uuid(),
+        name: new TeamNameVO('1'),
+        pairList: [pair],
+      });
 
-    //   expect(team.getMemberCount()).toBe(3);
-    //   expect(() => team.addMember(memberId4)).toThrowError();
-    // });
+      expect(team.getMemberCount()).toBe(3);
+      expect(() => team.addMember(memberId4)).toThrowError();
+    });
 
     it('チームメンバーを削除した際、最少人数を下回った場合', () => {
       const pair = new Pair({
