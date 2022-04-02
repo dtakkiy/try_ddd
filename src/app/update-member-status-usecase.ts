@@ -1,12 +1,10 @@
 import { Member } from 'src/domain/member/member';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
 import { MemberStatus } from 'src/domain/member/member-status';
-import { Pair } from 'src/domain/team/pair';
-import { PairNameVO } from 'src/domain/team/pair-name-vo';
+import { AddMemberToFewestTeam } from 'src/domain/team/team-add-member-to-fewest-team';
+import { DeleteMemberToTeam } from 'src/domain/team/team-delete-member';
 import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
-import { TeamService } from 'src/domain/team/team-service';
-import { Identifier } from 'src/__shared__/identifier';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 
 interface Params {
@@ -41,7 +39,6 @@ export class UpdateMemberStatusUseCase {
     }
 
     const currentStatus = member.status.getStatus();
-
     member.setStatus(new MemberStatus(status));
 
     // 参加者が増える
@@ -49,50 +46,15 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isClosedOrEndedStatus(currentStatus) &&
       MemberStatus.isActiveStatus(status)
     ) {
-      const teamService = new TeamService(this.teamRepository);
-      const fewestTeam = await teamService.getTeamFewestNumberOfMember();
-      const fewestPair = fewestTeam.getMinMemberPair();
-      fewestTeam.deletePair(fewestPair.id);
+      const addMemberToFewestTeam = new AddMemberToFewestTeam(
+        this.teamRepository
+      );
+      const fewestTeam = await addMemberToFewestTeam.execute(member);
 
-      if (fewestPair.getMemberCount() < 3) {
-        fewestPair.addMember(member.id);
-        fewestTeam.addPair(fewestPair);
-
-        await this.teamMemberUpdate.update({
-          team: fewestTeam,
-          member: member,
-        });
-      } else {
-        // ペアを分割
-        const deleteUsers: string[] = [];
-        const currentPairMemberIdList = fewestPair.getMemberIdList();
-
-        if (currentPairMemberIdList[2] && currentPairMemberIdList[3]) {
-          deleteUsers.push(currentPairMemberIdList[2]);
-          deleteUsers.push(currentPairMemberIdList[3]);
-
-          fewestPair.deleteMember(currentPairMemberIdList[2]);
-          fewestPair.deleteMember(currentPairMemberIdList[3]);
-        }
-
-        const newPairName = await teamService.generateNewPairName(
-          fewestTeam.id
-        );
-
-        const newPair = new Pair({
-          id: Identifier.generator(),
-          name: new PairNameVO(newPairName),
-          memberIdList: deleteUsers,
-        });
-
-        fewestTeam.addPair(fewestPair);
-        fewestTeam.addPair(newPair);
-
-        await this.teamMemberUpdate.update({
-          team: fewestTeam,
-          member: member,
-        });
-      }
+      await this.teamMemberUpdate.update({
+        team: fewestTeam,
+        member: member,
+      });
     }
 
     // 参加者が減る
@@ -100,56 +62,13 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isActiveStatus(currentStatus) &&
       MemberStatus.isClosedOrEndedStatus(status)
     ) {
-      const joinTeam = await this.teamRepository.getByMemberId(member.id);
+      const deleteMemberToTeam = new DeleteMemberToTeam(this.teamRepository);
+      const joinTeam = await deleteMemberToTeam.execute(member);
 
-      if (joinTeam === null) {
-        throw new Error('number of team members could not be retrieved.');
-      }
-
-      const joinPair = await this.teamRepository.getPairIdByMemberId(member.id);
-      if (joinPair === null) {
-        throw new Error('pair information could not be retrieved.');
-      }
-
-      // ユーザをリストから削除
-      joinPair.deleteMember(member.id);
-      const joinMemberOfNumber = joinPair.getMemberCount();
-
-      // ペアが1名以下になった場合の処理
-      if (joinMemberOfNumber <= 1) {
-        // 解散するペアのメンバーを取得する
-        const deleteMemberList = await joinPair.getMemberIdList();
-        let deleteMemberId = '';
-
-        if (
-          typeof deleteMemberList[0] === 'undefined' ||
-          deleteMemberList.length < 1
-        ) {
-          throw new Error(
-            'failed to retrieve the member of the pair to be disbanded.'
-          );
-        } else {
-          deleteMemberId = deleteMemberList[0];
-        }
-        // ペアを削除する
-        joinTeam.deletePair(joinPair.id);
-        // 解散したペアメンバーを同じチームの他のペアに合流させる
-        const teamService = new TeamService(this.teamRepository);
-        const mergePair = await teamService.getPairFewestNumberOfMember(
-          joinTeam.id
-        );
-
-        // あぶれたメンバーをペアに合流させる
-        mergePair.addMember(deleteMemberId);
-        joinTeam.deletePair(mergePair.id);
-        joinTeam.addPair(mergePair);
-        await this.teamMemberUpdate.update({ team: joinTeam, member: member });
-      } else {
-        // ペアの情報をアップデートする
-        joinTeam.deletePair(joinPair.id);
-        joinTeam.addPair(joinPair);
-        await this.teamMemberUpdate.update({ team: joinTeam, member: member });
-      }
+      await this.teamMemberUpdate.update({
+        team: joinTeam,
+        member: member,
+      });
 
       // チームが2名以下になった場合の処理
       const joinTeamOfMember = joinTeam.getMemberCount();
