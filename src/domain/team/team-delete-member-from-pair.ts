@@ -20,7 +20,6 @@ export class DeleteMemberFromPair {
     if (joinPair === null) {
       throw new Error('pair information could not be retrieved.');
     }
-
     // ユーザをリストから削除
     joinPair.deleteMember(member.id);
     const joinMemberOfNumber = joinPair.getMemberCount();
@@ -58,6 +57,7 @@ export class DeleteMemberFromPair {
       joinTeam.deletePair(joinPair.id);
       joinTeam.addPair(joinPair);
     }
+
     return joinTeam;
   }
 }
