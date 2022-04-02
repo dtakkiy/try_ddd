@@ -2,7 +2,7 @@ import { Member } from 'src/domain/member/member';
 import { IMemberRepository } from 'src/domain/member/member-repository-interface';
 import { MemberStatus } from 'src/domain/member/member-status';
 import { AddMemberToFewestTeam } from 'src/domain/team/team-add-member-to-fewest-team';
-import { DeleteMemberToTeam } from 'src/domain/team/team-delete-member';
+import { DeleteMemberFromPair } from 'src/domain/team/team-delete-member-from-pair';
 import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
@@ -62,8 +62,10 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isActiveStatus(currentStatus) &&
       MemberStatus.isClosedOrEndedStatus(status)
     ) {
-      const deleteMemberToTeam = new DeleteMemberToTeam(this.teamRepository);
-      const joinTeam = await deleteMemberToTeam.execute(member);
+      const deleteMemberFromPair = new DeleteMemberFromPair(
+        this.teamRepository
+      );
+      const joinTeam = await deleteMemberFromPair.execute(member);
 
       await this.teamMemberUpdate.update({
         team: joinTeam,

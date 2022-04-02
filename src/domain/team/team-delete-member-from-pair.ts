@@ -3,7 +3,7 @@ import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
 import { TeamService } from './team-service';
 
-export class DeleteMemberToTeam {
+export class DeleteMemberFromPair {
   private teamRepository: ITeamRepository;
   constructor(teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;

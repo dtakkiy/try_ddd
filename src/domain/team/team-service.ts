@@ -1,7 +1,4 @@
-import { Identifier } from 'src/__shared__/identifier';
-import { Member } from '../member/member';
 import { Pair } from './pair';
-import { PairNameVO } from './pair-name-vo';
 import { PairSameNameExist } from './pair-same-name-exists';
 import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
