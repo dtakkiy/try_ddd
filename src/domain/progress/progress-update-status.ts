@@ -15,10 +15,6 @@ export class ProgressUpdateStatus {
   ): Promise<void> => {
     status.stepUp();
 
-    const result = await this.progressRepository.update(
-      memberId,
-      taskId,
-      status.getStatus()
-    );
+    await this.progressRepository.update(memberId, taskId, status.getStatus());
   };
 }

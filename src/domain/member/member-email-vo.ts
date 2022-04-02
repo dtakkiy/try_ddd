@@ -1,5 +1,3 @@
-import { mainModule } from 'process';
-
 export class MemberEmailVO {
   private _value: string;
 

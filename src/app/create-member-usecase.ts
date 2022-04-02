@@ -5,7 +5,6 @@ import { MemberSameEmailExist } from 'src/domain/member/member-same-email-exist'
 import { IProgressRepository } from 'src/domain/progress/progress-repository-interface';
 import { ITaskRepository } from 'src/domain/task/task-repository-interface';
 import { ProgressFactory } from 'src/domain/progress/progress-factory';
-import { idText } from 'typescript';
 
 interface Params {
   name: string;

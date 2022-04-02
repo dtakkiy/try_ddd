@@ -29,10 +29,4 @@ export interface ISearchQueryService {
     taskStatus: string,
     pageNumber?: string
   ): Promise<SearchDTO[]>;
-
-  // fetchByTaskIdAndTaskStatus(
-  //   taskId: string[],
-  //   taskStatus: string,
-  //   pagingCondition: PagingCondition
-  // ): Promise<Page<SearchDTO>>;
 }

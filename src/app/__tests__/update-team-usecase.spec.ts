@@ -18,8 +18,6 @@ describe('【ユースケース】チームの更新', () => {
     mockTeamRepository = mocked(new TeamRepository(prisma), true);
   });
 
-  it('【正常系】チームに所属するペアを変更できる', async () => {});
-
   it('【正常系】チーム名を変更できる', async () => {
     const id = Identifier.generator();
     const name = new TeamNameVO('5');
