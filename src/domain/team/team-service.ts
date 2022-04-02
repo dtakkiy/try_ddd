@@ -1,4 +1,5 @@
 import { Pair } from './pair';
+import { PairSameNameExist } from './pair-same-name-exists';
 import { Team } from './team';
 import { ITeamRepository } from './team-repository-interface';
 import { TeamSameNameExist } from './team-same-name-exist';
@@ -82,7 +83,7 @@ export class TeamService {
     });
   }
 
-  public async generateNewPairName(): Promise<string> {
+  public async generateNewPairName(teamId: string): Promise<string> {
     const pairNameList = [
       'a',
       'b',
@@ -113,11 +114,11 @@ export class TeamService {
     ];
 
     const blankPairName = pairNameList.find(async (pairName) => {
-      const teamSameNameExist = new TeamSameNameExist(
-        pairName,
-        this.teamRepository
-      );
-      const result = await teamSameNameExist.execute();
+      const pairSameNameExist = new PairSameNameExist({
+        pairName: pairName,
+        repository: this.teamRepository,
+      });
+      const result = await pairSameNameExist.execute(teamId);
 
       if (result) {
         return pairName;

@@ -75,7 +75,9 @@ export class UpdateMemberStatusUseCase {
           fewestPair.deleteMember(currentPairMemberIdList[3]);
         }
 
-        const newPairName = await teamService.generateNewPairName();
+        const newPairName = await teamService.generateNewPairName(
+          fewestTeam.id
+        );
 
         const newPair = new Pair({
           id: Identifier.generator(),
@@ -106,7 +108,7 @@ export class UpdateMemberStatusUseCase {
 
       const joinPair = await this.teamRepository.getPairIdByMemberId(member.id);
       if (joinPair === null) {
-        throw new Error('pair infomation could not be retrieved.');
+        throw new Error('pair information could not be retrieved.');
       }
 
       // ユーザをリストから削除
