@@ -64,7 +64,7 @@ export class TeamService {
       throw new Error();
     }
 
-    return teams?.reduce((fewTeam, team) => {
+    return teams.reduce((fewTeam, team) => {
       return fewTeam.getMemberCount() > team.getMemberCount() ? team : fewTeam;
     });
   }
