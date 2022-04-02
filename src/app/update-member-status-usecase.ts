@@ -6,7 +6,6 @@ import { PairNameVO } from 'src/domain/team/pair-name-vo';
 import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
 import { ITeamRepository } from 'src/domain/team/team-repository-interface';
 import { TeamService } from 'src/domain/team/team-service';
-import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { Identifier } from 'src/__shared__/identifier';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 
@@ -53,9 +52,12 @@ export class UpdateMemberStatusUseCase {
       const teamService = new TeamService(this.teamRepository);
       const fewestTeam = await teamService.getTeamFewestNumberOfMember();
       const fewestPair = fewestTeam.getMinMemberPair();
+      fewestTeam.deletePair(fewestPair.id);
 
       if (fewestPair.getMemberCount() < 3) {
         fewestPair.addMember(member.id);
+        fewestTeam.addPair(fewestPair);
+
         await this.teamMemberUpdate.update({
           team: fewestTeam,
           member: member,
@@ -81,7 +83,9 @@ export class UpdateMemberStatusUseCase {
           memberIdList: deleteUsers,
         });
 
+        fewestTeam.addPair(fewestPair);
         fewestTeam.addPair(newPair);
+
         await this.teamMemberUpdate.update({
           team: fewestTeam,
           member: member,
@@ -135,6 +139,13 @@ export class UpdateMemberStatusUseCase {
 
         // あぶれたメンバーをペアに合流させる
         mergePair.addMember(deleteMemberId);
+        joinTeam.deletePair(mergePair.id);
+        joinTeam.addPair(mergePair);
+        await this.teamMemberUpdate.update({ team: joinTeam, member: member });
+      } else {
+        // ペアの情報をアップデートする
+        joinTeam.deletePair(joinPair.id);
+        joinTeam.addPair(joinPair);
         await this.teamMemberUpdate.update({ team: joinTeam, member: member });
       }
 
