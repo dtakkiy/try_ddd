@@ -89,8 +89,6 @@ export class UpdateMemberStatusUseCase {
       }
     }
 
-    console.log('ゆーす', member);
-
     return member;
   };
 }
