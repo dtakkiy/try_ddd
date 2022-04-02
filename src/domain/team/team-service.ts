@@ -127,4 +127,22 @@ export class TeamService {
 
     return typeof blankPairName === 'string' ? blankPairName : '';
   }
+
+  public async generateNewTeamName(): Promise<string> {
+    const MAX_TEAM_COUNT = 999;
+
+    for (let i = 1; i < MAX_TEAM_COUNT; i++) {
+      const teamSameNameExist = new TeamSameNameExist(
+        String(i),
+        this.teamRepository
+      );
+      const result = await teamSameNameExist.execute();
+
+      if (!result) {
+        return String(i);
+      }
+    }
+
+    throw new Error('failed to generate team name.');
+  }
 }
