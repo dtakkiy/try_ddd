@@ -12,9 +12,6 @@ export class GetSearchResponse {
         id,
         name,
         email,
-        // taskId,
-        // title,
-        // status,
       });
     });
   }
@@ -30,28 +27,9 @@ class SearchData {
   @ApiProperty()
   email: string;
 
-  // @ApiProperty()
-  // taskId: string;
-
-  // @ApiProperty()
-  // title: string;
-
-  // @ApiProperty()
-  // status: string;
-
-  public constructor(params: {
-    id: string;
-    name: string;
-    //    status: string;
-    // taskId: string;
-    // title: string;
-    email: string;
-  }) {
+  public constructor(params: { id: string; name: string; email: string }) {
     this.id = params.id;
     this.name = params.name;
     this.email = params.email;
-    // this.taskId = params.taskId;
-    // this.title = params.title;
-    // this.status = params.status;
   }
 }
