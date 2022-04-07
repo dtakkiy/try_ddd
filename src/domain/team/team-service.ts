@@ -89,7 +89,7 @@ export class TeamService {
   }
 
   public async generateNewPairName(teamId: string): Promise<string> {
-    const pairNameList = [
+    const PAIR_NAME_LIST = [
       'a',
       'b',
       'c',
@@ -126,7 +126,7 @@ export class TeamService {
       teamId
     );
 
-    const blankPairName = pairNameList.find((pairName) => {
+    const blankPairName = PAIR_NAME_LIST.find((pairName) => {
       const result = currentPairNameList.some((pair) => {
         pair === pairName;
       });
