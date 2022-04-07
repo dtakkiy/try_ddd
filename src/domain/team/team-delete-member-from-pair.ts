@@ -1,12 +1,22 @@
+import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 import { Member } from '../member/member';
 import { Team } from './team';
+import { TeamMemberUpdate } from './team-member-update';
 import { ITeamRepository } from './team-repository-interface';
 import { TeamService } from './team-service';
 
 export class DeleteMemberFromPair {
   private teamRepository: ITeamRepository;
-  constructor(teamRepository: ITeamRepository) {
+  private readonly emailRepository: IEmailRepository;
+  private readonly teamMemberUpdate: TeamMemberUpdate;
+  constructor(
+    teamRepository: ITeamRepository,
+    emailRepository: IEmailRepository,
+    teamMemberUpdate: TeamMemberUpdate
+  ) {
     this.teamRepository = teamRepository;
+    this.emailRepository = emailRepository;
+    this.teamMemberUpdate = teamMemberUpdate;
   }
 
   public async execute(member: Member): Promise<Team> {
@@ -56,6 +66,27 @@ export class DeleteMemberFromPair {
       // ペアの情報をアップデートする
       joinTeam.deletePair(joinPair.id);
       joinTeam.addPair(joinPair);
+    }
+
+    await this.teamMemberUpdate.update({
+      team: joinTeam,
+      member: member,
+    });
+
+    // チームが2名以下になった場合の処理
+    const joinTeamOfMember = joinTeam.getMemberCount();
+    if (joinTeamOfMember <= 2) {
+      const message = {
+        to: 'admin@example.com',
+        from: 'xxx@example.com',
+        subject: 'チームの人数が2名以下です',
+        html: `減った参加者ID: ${
+          member.id
+        }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${
+          joinTeamOfMember - 1
+        }`,
+      };
+      await this.emailRepository.sendMail(message);
     }
 
     return joinTeam;
