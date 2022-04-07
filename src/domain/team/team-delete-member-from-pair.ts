@@ -13,7 +13,8 @@ export class DeleteMemberFromPair {
 
   TO_EMAIL_ADDRESS = 'admin@example.com';
   FROM_EMAIL_ADDRESS = 'admin@example.com';
-  EMAIL_SUBJECT = 'チームの人数が2名以下です';
+  EMAIL_SUBJECT_2_PEOPLE_LESS = 'チームの人数が2名以下です';
+  EMAIL_SUBJECT_NO_MERGING_PAIR = '合流するペアが存在しない';
 
   constructor(
     teamRepository: ITeamRepository,
@@ -66,6 +67,15 @@ export class DeleteMemberFromPair {
         joinTeam.id
       );
 
+      if (mergePair === null) {
+        await this.sendMail(
+          this.EMAIL_SUBJECT_NO_MERGING_PAIR,
+          member,
+          joinTeam
+        );
+        return joinTeam;
+      }
+
       // あぶれたメンバーをペアに合流させる
       mergePair.addMember(deleteMemberId);
 
@@ -84,7 +94,12 @@ export class DeleteMemberFromPair {
     // チームが2名以下になった場合の処理
     const joinTeamOfMember = joinTeam.getMemberCount();
     if (joinTeamOfMember <= 2) {
-      await this.sendMail(member, joinTeam, joinTeamOfMember - 1);
+      await this.sendMail(
+        this.EMAIL_SUBJECT_2_PEOPLE_LESS,
+        member,
+        joinTeam,
+        joinTeamOfMember - 1
+      );
     }
 
     return joinTeam;
@@ -108,16 +123,17 @@ export class DeleteMemberFromPair {
   }
 
   private async sendMail(
+    subject: string,
     member: Member,
     joinTeam: Team,
-    joinTeamOfMember: number
+    joinTeamOfMember?: number
   ) {
     const message = {
       to: this.TO_EMAIL_ADDRESS,
       from: this.FROM_EMAIL_ADDRESS,
-      subject: this.EMAIL_SUBJECT,
-      html: `減った参加者ID: ${
-        member.id
+      subject: subject,
+      html: `減った参加者ID: ${member.id}, ${
+        member.name
       }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${joinTeamOfMember}`,
     };
 
