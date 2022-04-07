@@ -89,7 +89,7 @@ export class TeamService {
   }
 
   public async generateNewPairName(teamId: string): Promise<string> {
-    const pairNameList = [
+    const PAIR_NAME_LIST = [
       'a',
       'b',
       'c',
@@ -126,7 +126,7 @@ export class TeamService {
       teamId
     );
 
-    const blankPairName = pairNameList.find((pairName) => {
+    const blankPairName = PAIR_NAME_LIST.find((pairName) => {
       const result = currentPairNameList.some((pair) => {
         pair === pairName;
       });
@@ -140,14 +140,14 @@ export class TeamService {
   }
 
   public async generateNewTeamName(): Promise<string> {
+    const MIN_TEAM_COUNT = 1;
     const MAX_TEAM_COUNT = 999;
 
-    for (let i = 1; i < MAX_TEAM_COUNT; i++) {
-      const teamSameNameExist = new TeamSameNameExist(
-        String(i),
-        this.teamRepository
-      );
-      const result = await teamSameNameExist.execute();
+    const teamSameNameExist = new TeamSameNameExist(this.teamRepository);
+    const currentTeamNameList = await teamSameNameExist.getTeamNameList();
+
+    for (let i = MIN_TEAM_COUNT; i < MAX_TEAM_COUNT; i++) {
+      const result = currentTeamNameList.some((teamName) => teamName === i);
 
       if (!result) {
         return String(i);
