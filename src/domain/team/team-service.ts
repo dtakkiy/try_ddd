@@ -118,12 +118,18 @@ export class TeamService {
       'z',
     ];
 
-    const blankPairName = pairNameList.find(async (pairName) => {
-      const pairSameNameExist = new PairSameNameExist({
-        pairName: pairName,
-        repository: this.teamRepository,
+    const pairSameNameExist = new PairSameNameExist({
+      repository: this.teamRepository,
+    });
+
+    const currentPairNameList = await pairSameNameExist.getPairNameListByTeamId(
+      teamId
+    );
+
+    const blankPairName = pairNameList.find((pairName) => {
+      const result = currentPairNameList.some((pair) => {
+        pair === pairName;
       });
-      const result = await pairSameNameExist.execute(teamId);
 
       if (result) {
         return pairName;
