@@ -3,13 +3,20 @@ import { Member } from '../member/member';
 import { Pair } from './pair';
 import { PairNameVO } from './pair-name-vo';
 import { Team } from './team';
+import { TeamMemberUpdate } from './team-member-update';
 import { ITeamRepository } from './team-repository-interface';
 import { TeamService } from './team-service';
 
 export class AddMemberToFewestTeam {
   private teamRepository: ITeamRepository;
-  constructor(teamRepository: ITeamRepository) {
+  private readonly teamMemberUpdate: TeamMemberUpdate;
+
+  constructor(
+    teamRepository: ITeamRepository,
+    teamMemberUpdate: TeamMemberUpdate
+  ) {
     this.teamRepository = teamRepository;
+    this.teamMemberUpdate = teamMemberUpdate;
   }
 
   public async execute(member: Member): Promise<Team> {
@@ -45,6 +52,12 @@ export class AddMemberToFewestTeam {
       fewestTeam.addPair(fewestPair);
       fewestTeam.addPair(newPair);
     }
+
+    await this.teamMemberUpdate.update({
+      team: fewestTeam,
+      member: member,
+    });
+
     return fewestTeam;
   }
 }

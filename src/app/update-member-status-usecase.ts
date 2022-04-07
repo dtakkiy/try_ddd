@@ -47,14 +47,10 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isActiveStatus(status)
     ) {
       const addMemberToFewestTeam = new AddMemberToFewestTeam(
-        this.teamRepository
+        this.teamRepository,
+        this.teamMemberUpdate
       );
-      const fewestTeam = await addMemberToFewestTeam.execute(member);
-
-      await this.teamMemberUpdate.update({
-        team: fewestTeam,
-        member: member,
-      });
+      await addMemberToFewestTeam.execute(member);
     }
 
     // 参加者が減る
@@ -63,30 +59,11 @@ export class UpdateMemberStatusUseCase {
       MemberStatus.isClosedOrEndedStatus(status)
     ) {
       const deleteMemberFromPair = new DeleteMemberFromPair(
-        this.teamRepository
+        this.teamRepository,
+        this.emailRepository,
+        this.teamMemberUpdate
       );
-      const joinTeam = await deleteMemberFromPair.execute(member);
-
-      await this.teamMemberUpdate.update({
-        team: joinTeam,
-        member: member,
-      });
-
-      // チームが2名以下になった場合の処理
-      const joinTeamOfMember = joinTeam.getMemberCount();
-      if (joinTeamOfMember <= 2) {
-        const message = {
-          to: 'admin@example.com',
-          from: 'xxx@example.com',
-          subject: 'チームの人数が2名以下です',
-          html: `減った参加者ID: ${
-            member.id
-          }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${
-            joinTeamOfMember - 1
-          }`,
-        };
-        await this.emailRepository.sendMail(message);
-      }
+      await deleteMemberFromPair.execute(member);
     }
 
     return member;

@@ -62,7 +62,7 @@ export class TeamService {
     const teams = await this.teamRepository.getAll();
 
     if (teams === null) {
-      throw new Error();
+      throw new Error('team not found.');
     }
 
     return teams.reduce((fewTeam, team) => {
@@ -71,13 +71,18 @@ export class TeamService {
   }
 
   // もっとも人数が少ないペアを取得
-  public async getPairFewestNumberOfMember(teamId: string): Promise<Pair> {
+  public async getPairFewestNumberOfMember(
+    teamId: string
+  ): Promise<Pair | null> {
     const team = await this.teamRepository.getById(teamId);
 
     if (team === null) {
-      throw new Error();
+      throw new Error('team not found.');
     }
 
+    if (team.getPairList().length === 0) {
+      return null;
+    }
     return team.getPairList().reduce((fewPair, pair) => {
       return fewPair.getMemberCount() > pair.getMemberCount() ? pair : fewPair;
     });
