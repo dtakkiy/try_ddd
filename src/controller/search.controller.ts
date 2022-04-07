@@ -17,7 +17,8 @@ export class SearchController {
   async getSearch(
     @Query('taskIdList') taskIdList: string,
     @Query('taskStatus') taskStatus: string,
-    @Query('pageNumber') pageNumber: string
+    @Query('pageNumber') pageNumber: number,
+    @Query('pageSize') pageSize: number
   ): Promise<GetSearchResponse | void> {
     const prisma = new PrismaClient();
     const qs = new SearchQueryService(prisma);
@@ -25,7 +26,10 @@ export class SearchController {
     const result = await usecase.execute({
       taskIdList: taskIdList,
       taskStatus: taskStatus,
-      pageNumber: pageNumber,
+      pagingCondition: {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      },
     });
     const response = new GetSearchResponse({ searchDatas: result });
     return response;

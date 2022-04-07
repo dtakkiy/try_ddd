@@ -3,7 +3,7 @@ import {
   SearchDTO,
   ISearchQueryService,
 } from 'src/app/query-service-interface/search-task-query-service';
-import { Page, Paging } from 'src/domain/__shared__/Page';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/Page';
 
 export class SearchQueryService implements ISearchQueryService {
   private prismaClient: PrismaClient;
@@ -15,13 +15,10 @@ export class SearchQueryService implements ISearchQueryService {
   public async findByTaskIdAndTaskStatus(
     taskIdList: string,
     taskStatus: string,
-    pageNumber?: string
+    pagingCondition: PagingCondition
   ): Promise<Page<SearchDTO>> {
-    const PAGE_SIZE = 10;
-
-    if (typeof pageNumber === 'undefined') {
-      pageNumber = '0';
-    }
+    const pageSize = pagingCondition.pageSize;
+    const pageNumber = pagingCondition.pageNumber;
 
     if (typeof taskStatus !== 'string') {
       taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
@@ -107,14 +104,14 @@ export class SearchQueryService implements ISearchQueryService {
 
     // ページング処理
     const targetItems: SearchDTO[] = items.slice(
-      Number(pageNumber) * PAGE_SIZE,
-      Number(pageNumber) * PAGE_SIZE + PAGE_SIZE
+      pageNumber * pageSize,
+      pageNumber * pageSize + pageSize
     );
 
     const paging: Paging = {
       totalCount: items.length,
-      pageSize: PAGE_SIZE,
-      pageNumber: Number(pageNumber),
+      pageSize: pageSize,
+      pageNumber: pageNumber,
     };
 
     const page: Page<SearchDTO> = {

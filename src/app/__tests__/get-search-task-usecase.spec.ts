@@ -5,7 +5,7 @@ import { GetSearchTaskUseCase } from '../get-search-task-usecase';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import * as faker from 'faker';
 import { SearchDTO } from '../query-service-interface/search-task-query-service';
-import { Page, Paging } from 'src/domain/__shared__/Page';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/Page';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/search-task-query-service');
@@ -32,8 +32,17 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const taskIdList = '';
     const taskStatus = '未着手';
 
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
+
     return await expect(
-      usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
+      usecase.execute({
+        taskIdList: taskIdList,
+        taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
+      })
     ).resolves.toBe(undefined);
   });
 
@@ -69,10 +78,16 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '未着手';
 
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
+
     return await expect(
       usecase.execute({
         taskIdList: taskIdList,
         taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
       })
     ).resolves.toBe(expectPage);
   });
@@ -83,8 +98,17 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '';
 
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
+
     return await expect(
-      usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
+      usecase.execute({
+        taskIdList: taskIdList,
+        taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
+      })
     ).rejects.toThrowError();
   });
 });
