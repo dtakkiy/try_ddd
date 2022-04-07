@@ -1,5 +1,6 @@
 import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 import { Member } from '../member/member';
+import { Pair } from './pair';
 import { Team } from './team';
 import { TeamMemberUpdate } from './team-member-update';
 import { ITeamRepository } from './team-repository-interface';
@@ -9,6 +10,11 @@ export class DeleteMemberFromPair {
   private teamRepository: ITeamRepository;
   private readonly emailRepository: IEmailRepository;
   private readonly teamMemberUpdate: TeamMemberUpdate;
+
+  TO_EMAIL_ADDRESS = 'admin@example.com';
+  FROM_EMAIL_ADDRESS = 'admin@example.com';
+  EMAIL_SUBJECT = 'チームの人数が2名以下です';
+
   constructor(
     teamRepository: ITeamRepository,
     emailRepository: IEmailRepository,
@@ -26,10 +32,12 @@ export class DeleteMemberFromPair {
       throw new Error('number of team members could not be retrieved.');
     }
 
-    const joinPair = await this.teamRepository.getPairIdByMemberId(member.id);
+    const joinPair = this.getPairIdByMemberId(joinTeam, member.id);
+
     if (joinPair === null) {
       throw new Error('pair information could not be retrieved.');
     }
+
     // ユーザをリストから削除
     joinPair.deleteMember(member.id);
     const joinMemberOfNumber = joinPair.getMemberCount();
@@ -50,7 +58,7 @@ export class DeleteMemberFromPair {
       } else {
         deleteMemberId = deleteMemberList[0];
       }
-      // ペアを削除する
+
       joinTeam.deletePair(joinPair.id);
       // 解散したペアメンバーを同じチームの他のペアに合流させる
       const teamService = new TeamService(this.teamRepository);
@@ -60,10 +68,10 @@ export class DeleteMemberFromPair {
 
       // あぶれたメンバーをペアに合流させる
       mergePair.addMember(deleteMemberId);
+
       joinTeam.deletePair(mergePair.id);
       joinTeam.addPair(mergePair);
     } else {
-      // ペアの情報をアップデートする
       joinTeam.deletePair(joinPair.id);
       joinTeam.addPair(joinPair);
     }
@@ -76,19 +84,43 @@ export class DeleteMemberFromPair {
     // チームが2名以下になった場合の処理
     const joinTeamOfMember = joinTeam.getMemberCount();
     if (joinTeamOfMember <= 2) {
-      const message = {
-        to: 'admin@example.com',
-        from: 'xxx@example.com',
-        subject: 'チームの人数が2名以下です',
-        html: `減った参加者ID: ${
-          member.id
-        }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${
-          joinTeamOfMember - 1
-        }`,
-      };
-      await this.emailRepository.sendMail(message);
+      await this.sendMail(member, joinTeam, joinTeamOfMember - 1);
     }
 
     return joinTeam;
+  }
+
+  private getPairIdByMemberId(team: Team, memberId: string): Pair | null {
+    const joinPair = team.getPairList().find((pair) => {
+      const result = pair
+        .getMemberIdList()
+        .filter((MemberId) => MemberId === memberId);
+      if (result) {
+        return pair;
+      }
+    });
+
+    if (typeof joinPair === 'undefined') {
+      return null;
+    }
+
+    return joinPair;
+  }
+
+  private async sendMail(
+    member: Member,
+    joinTeam: Team,
+    joinTeamOfMember: number
+  ) {
+    const message = {
+      to: this.TO_EMAIL_ADDRESS,
+      from: this.FROM_EMAIL_ADDRESS,
+      subject: this.EMAIL_SUBJECT,
+      html: `減った参加者ID: ${
+        member.id
+      }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${joinTeamOfMember}`,
+    };
+
+    await this.emailRepository.sendMail(message);
   }
 }

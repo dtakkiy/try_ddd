@@ -25,51 +25,51 @@ export class TeamRepository implements ITeamRepository {
     return null;
   }
 
-  public async getPairIdByMemberId(memberId: string): Promise<Pair | null> {
-    const pairOnMember = await this.prismaClient.member.findMany({
-      where: {
-        id: memberId,
-      },
-    });
+  // public async getPairIdByMemberId(memberId: string): Promise<Pair | null> {
+  //   const pairOnMember = await this.prismaClient.member.findMany({
+  //     where: {
+  //       id: memberId,
+  //     },
+  //   });
 
-    if (!pairOnMember) {
-      return null;
-    }
+  //   if (!pairOnMember) {
+  //     return null;
+  //   }
 
-    let pairId: string | undefined = '';
-    if (pairOnMember.length > 0) {
-      pairId = pairOnMember[0]?.pairId;
-    }
+  //   let pairId: string | undefined = '';
+  //   if (pairOnMember.length > 0) {
+  //     pairId = pairOnMember[0]?.pairId;
+  //   }
 
-    if (!pairId) {
-      return null;
-    }
+  //   if (!pairId) {
+  //     return null;
+  //   }
 
-    const pair = await this.prismaClient.pair.findFirst({
-      include: {
-        team: {
-          select: {
-            id: true,
-            name: true,
-            pairs: true,
-          },
-        },
-      },
-      where: {
-        id: pairId,
-      },
-    });
+  //   const pair = await this.prismaClient.pair.findFirst({
+  //     include: {
+  //       team: {
+  //         select: {
+  //           id: true,
+  //           name: true,
+  //           pairs: true,
+  //         },
+  //       },
+  //     },
+  //     where: {
+  //       id: pairId,
+  //     },
+  //   });
 
-    if (!pair) {
-      return null;
-    }
+  //   if (!pair) {
+  //     return null;
+  //   }
 
-    return new Pair({
-      id: pair.id,
-      name: new PairNameVO(pair.name),
-      memberIdList: pairOnMember.map((member) => member.id),
-    });
-  }
+  //   return new Pair({
+  //     id: pair.id,
+  //     name: new PairNameVO(pair.name),
+  //     memberIdList: pairOnMember.map((member) => member.id),
+  //   });
+  // }
 
   public async getByMemberId(memberId: string): Promise<Team | null> {
     const pairOnMember = await this.prismaClient.member.findMany({

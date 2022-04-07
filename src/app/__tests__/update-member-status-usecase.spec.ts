@@ -72,7 +72,6 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     const updateMember = new Member({ id: memberId, name, email, status });
     updateMember.setStatus(new MemberStatus(MemberStatusType.closed));
     mockMemberRepository.update.mockResolvedValueOnce(updateMember);
-    mockTeamRepository.getPairIdByMemberId.mockResolvedValueOnce(pairData);
     mockTeamRepository.getByMemberId.mockResolvedValueOnce(team);
 
     const params = {
