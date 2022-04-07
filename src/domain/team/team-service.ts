@@ -62,7 +62,7 @@ export class TeamService {
     const teams = await this.teamRepository.getAll();
 
     if (teams === null) {
-      throw new Error();
+      throw new Error('team not found.');
     }
 
     return teams.reduce((fewTeam, team) => {
