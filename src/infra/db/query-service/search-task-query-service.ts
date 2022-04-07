@@ -18,7 +18,10 @@ export class SearchQueryService implements ISearchQueryService {
     pageNumber?: string
   ): Promise<Page<SearchDTO>> {
     const PAGE_SIZE = 10;
-    let results: any[];
+
+    if (typeof pageNumber === 'undefined') {
+      pageNumber = '0';
+    }
 
     if (typeof taskStatus !== 'string') {
       taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
@@ -102,14 +105,11 @@ export class SearchQueryService implements ISearchQueryService {
         })
     );
 
-    let targetItems: SearchDTO[];
-
     // ページング処理
-    if (typeof pageNumber === 'string') {
-      targetItems = items.slice(Number(pageNumber) * PAGE_SIZE, PAGE_SIZE);
-    } else {
-      targetItems = items.slice(0, PAGE_SIZE);
-    }
+    const targetItems: SearchDTO[] = items.slice(
+      Number(pageNumber) * PAGE_SIZE,
+      Number(pageNumber) * PAGE_SIZE + PAGE_SIZE
+    );
 
     const paging: Paging = {
       totalCount: items.length,
