@@ -3,6 +3,7 @@ import {
   SearchDTO,
   ISearchQueryService,
 } from 'src/app/query-service-interface/search-task-query-service';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/Page';
 
 export class SearchQueryService implements ISearchQueryService {
   private prismaClient: PrismaClient;
@@ -14,10 +15,10 @@ export class SearchQueryService implements ISearchQueryService {
   public async findByTaskIdAndTaskStatus(
     taskIdList: string,
     taskStatus: string,
-    pageNumber?: string
-  ): Promise<SearchDTO[]> {
-    const PAGE_SIZE = 10;
-    let results: any[];
+    pagingCondition: PagingCondition
+  ): Promise<Page<SearchDTO>> {
+    const pageSize = pagingCondition.pageSize;
+    const pageNumber = pagingCondition.pageNumber;
 
     if (typeof taskStatus !== 'string') {
       taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
@@ -35,19 +36,18 @@ export class SearchQueryService implements ISearchQueryService {
       taskIds = taskIdList.split(',');
     }
 
-    if (typeof pageNumber === 'string') {
-      results = await this.prismaClient.memberOnTask.findMany({
-        take: PAGE_SIZE,
-        skip: 1,
-        cursor: {
-          id: pageNumber,
+    // 参加者一覧を取得
+    const members = await this.prismaClient.member.findMany({
+      include: {
+        MemberOnTask: {
+          include: {
+            task: true,
+          },
         },
-        include: {
-          task: true,
-          member: true,
-        },
-        where: {
-          AND: {
+      },
+      where: {
+        MemberOnTask: {
+          some: {
             status: {
               equals: taskStatus,
             },
@@ -56,43 +56,69 @@ export class SearchQueryService implements ISearchQueryService {
             },
           },
         },
-        orderBy: {
-          id: 'asc',
-        },
-      });
-    } else {
-      results = await this.prismaClient.memberOnTask.findMany({
-        take: PAGE_SIZE,
-        include: {
-          task: true,
-          member: true,
-        },
-        where: {
-          AND: {
-            status: {
-              equals: taskStatus,
-            },
-            taskId: {
-              in: taskIds,
-            },
-          },
-        },
-        orderBy: {
-          id: 'asc',
-        },
-      });
-    }
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
 
-    return results.map(
-      (searchDM) =>
+    // 課題進捗の一覧を取得
+    const tasks = await this.prismaClient.memberOnTask.findMany({
+      include: {
+        task: true,
+        member: true,
+      },
+      where: {
+        AND: {
+          status: {
+            equals: taskStatus,
+          },
+          taskId: {
+            in: taskIds,
+          },
+        },
+      },
+    });
+
+    // 参加者と課題進捗を突き合わせ
+    const targetMember = members.filter((member) => {
+      const memberTasks = tasks.filter((task) => {
+        return task.memberId === member.id;
+      });
+
+      const x = memberTasks.map((memberTask) => {
+        return memberTask.status === taskStatus;
+      });
+
+      return x.length === taskIds.length;
+    });
+
+    const items = targetMember.map(
+      (DM) =>
         new SearchDTO({
-          id: searchDM.id,
-          name: searchDM.member.name,
-          email: searchDM.member.email,
-          taskId: searchDM.task.id,
-          title: searchDM.task.title,
-          status: searchDM.status,
+          id: DM.id,
+          name: DM.name,
+          email: DM.email,
         })
     );
+
+    // ページング処理
+    const targetItems: SearchDTO[] = items.slice(
+      pageNumber * pageSize,
+      pageNumber * pageSize + pageSize
+    );
+
+    const paging: Paging = {
+      totalCount: items.length,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+    };
+
+    const page: Page<SearchDTO> = {
+      items: targetItems,
+      paging: paging,
+    };
+
+    return page;
   }
 }

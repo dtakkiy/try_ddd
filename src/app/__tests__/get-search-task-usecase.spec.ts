@@ -5,6 +5,7 @@ import { GetSearchTaskUseCase } from '../get-search-task-usecase';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import * as faker from 'faker';
 import { SearchDTO } from '../query-service-interface/search-task-query-service';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/Page';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/search-task-query-service');
@@ -31,8 +32,17 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const taskIdList = '';
     const taskStatus = '未着手';
 
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
+
     return await expect(
-      usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
+      usecase.execute({
+        taskIdList: taskIdList,
+        taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
+      })
     ).resolves.toBe(undefined);
   });
 
@@ -44,31 +54,42 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         id: faker.datatype.uuid(),
         name: 'taro',
         email: 'taro@example.com',
-        taskId: taskId1,
-        title: '課題1',
-        status: '未着手',
       },
       {
         id: faker.datatype.uuid(),
         name: 'jiro',
         email: 'jiro@example.com',
-        taskId: taskId2,
-        title: '課題2',
-        status: '未着手',
       },
     ];
 
-    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectDatas);
+    const paging: Paging = {
+      totalCount: 2,
+      pageSize: 10,
+      pageNumber: 1,
+    };
+
+    const expectPage: Page<SearchDTO> = {
+      items: expectDatas,
+      paging: paging,
+    };
+
+    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectPage);
 
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '未着手';
+
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
 
     return await expect(
       usecase.execute({
         taskIdList: taskIdList,
         taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
       })
-    ).resolves.toBe(expectDatas);
+    ).resolves.toBe(expectPage);
   });
 
   it('タスクステータスの値が不正な場合', async () => {
@@ -77,8 +98,17 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '';
 
+    const pagingCondition: PagingCondition = {
+      pageNumber: 0,
+      pageSize: 10,
+    };
+
     return await expect(
-      usecase.execute({ taskIdList: taskIdList, taskStatus: taskStatus })
+      usecase.execute({
+        taskIdList: taskIdList,
+        taskStatus: taskStatus,
+        pagingCondition: pagingCondition,
+      })
     ).rejects.toThrowError();
   });
 });
