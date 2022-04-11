@@ -20,7 +20,7 @@ export class SearchController {
     @Query('pageNumber') pageNumber: number,
     @Query('pageSize') pageSize: number
   ): Promise<GetSearchResponse | void> {
-    const prisma = new PrismaClient({ log: ['query'] });
+    const prisma = new PrismaClient();
     const qs = new SearchQueryService(prisma);
     const usecase = new GetSearchTaskUseCase(qs);
     const result = await usecase.execute({

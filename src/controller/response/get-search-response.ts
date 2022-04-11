@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SearchDTO } from 'src/app/query-service-interface/search-task-query-service';
-import { Page } from 'src/domain/__shared__/Page';
 export class GetSearchResponse {
   @ApiProperty({ type: () => [SearchData] })
   searchData: SearchData[];
