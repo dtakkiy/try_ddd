@@ -5,9 +5,9 @@ export class GetSearchResponse {
   @ApiProperty({ type: () => [SearchData] })
   searchData: SearchData[];
 
-  public constructor(params: { searchDatas: Page<SearchDTO> }) {
+  public constructor(params: { searchDatas: SearchDTO[] }) {
     const { searchDatas } = params;
-    this.searchData = searchDatas.items.map(({ id, name, email }) => {
+    this.searchData = searchDatas.map(({ id, name, email }) => {
       return new SearchData({
         id,
         name,

@@ -17,5 +17,5 @@ export interface ISearchQueryService {
     taskIdList: string,
     taskStatus: string,
     pagingCondition: PagingCondition
-  ): Promise<Page<SearchDTO>>;
+  ): Promise<SearchDTO[]>;
 }
