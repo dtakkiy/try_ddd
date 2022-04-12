@@ -35,13 +35,23 @@ export class SearchQueryService implements ISearchQueryService {
     } else {
       taskIds = taskIdList.split(',');
     }
-    interface result {
+
+    const query = (arr: string[]) =>
+      arr.reduce((previous, current) => {
+        return `
+          ${previous}
+          AND
+            "public"."MemberOnTask"."taskId" = ${current}
+        `;
+      }, '');
+
+    interface Results {
       id: string;
       name: string;
       email: string;
     }
 
-    const results: result[] = await this.prismaClient.$queryRaw(
+    const results: Results[] = await this.prismaClient.$queryRaw(
       Prisma.sql`
       SELECT
         "public"."Member"."id",
@@ -54,7 +64,7 @@ export class SearchQueryService implements ISearchQueryService {
       ON
         "public"."MemberOnTask"."memberId" = "public"."Member"."id"
       WHERE
-        "MemberOnTask"."status" = ${taskStatus}
+        "public"."MemberOnTask"."status" = ${taskStatus}
       AND
         "public"."MemberOnTask"."taskId" = ${taskIds[0]}
       AND
@@ -66,14 +76,12 @@ export class SearchQueryService implements ISearchQueryService {
       `
     );
 
-    const data = results.map((result) => {
+    return results.map((result) => {
       return new SearchDTO({
         id: result.id,
         name: result.name,
         email: result.email,
       });
     });
-
-    return data;
   }
 }
