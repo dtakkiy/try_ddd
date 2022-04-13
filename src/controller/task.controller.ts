@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Delete, Param, Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
-import { GetTaskUseCase } from 'src/app/get-task-usecae';
+import { GetTaskUseCase } from 'src/app/get-task-usecase';
 import { UpdateTaskStatusUseCase } from 'src/app/update-task-status-usecase';
 import { Progress } from 'src/domain/progress';
 import { Task } from 'src/domain/task';
