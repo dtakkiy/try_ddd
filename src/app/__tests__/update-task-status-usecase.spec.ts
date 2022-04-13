@@ -6,7 +6,7 @@ import { UpdateTaskStatusUseCase } from '../update-task-status-usecase';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
 import { Progress } from 'src/domain/progress';
 import {
-  ProgressStatus,
+  ProgressStatusVO,
   ProgressStatusType,
 } from 'src/domain/progress-status-vo';
 
@@ -29,13 +29,13 @@ describe('【ユースケース】課題進捗の更新', () => {
     const progress = new Progress({
       memberId: memberId,
       taskId: taskId,
-      status: new ProgressStatus(ProgressStatusType.notStarted),
+      status: new ProgressStatusVO(ProgressStatusType.notStarted),
     });
 
     const updateProgress = new Progress({
       memberId: memberId,
       taskId: taskId,
-      status: new ProgressStatus(ProgressStatusType.awaitingReview),
+      status: new ProgressStatusVO(ProgressStatusType.awaitingReview),
     });
 
     mockProgressRepository.getById.mockResolvedValueOnce(progress);

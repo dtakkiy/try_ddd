@@ -4,7 +4,7 @@ import {
   IProgressRepository,
   IProgressProps,
 } from 'src/domain/repository-interface/progress-repository-interface';
-import { ProgressStatus } from 'src/domain/progress-status-vo';
+import { ProgressStatusVO } from 'src/domain/progress-status-vo';
 
 export class ProgressRepository implements IProgressRepository {
   private readonly prismaClient;
@@ -27,7 +27,7 @@ export class ProgressRepository implements IProgressRepository {
     return new Progress({
       memberId: memberOnTask.memberId,
       taskId: memberOnTask.taskId,
-      status: new ProgressStatus(memberOnTask.status),
+      status: new ProgressStatusVO(memberOnTask.status),
     });
   }
 
@@ -39,7 +39,7 @@ export class ProgressRepository implements IProgressRepository {
         new Progress({
           memberId: memberOnTask.memberId,
           taskId: memberOnTask.taskId,
-          status: new ProgressStatus(memberOnTask.status),
+          status: new ProgressStatusVO(memberOnTask.status),
         })
     );
   }
@@ -78,7 +78,7 @@ export class ProgressRepository implements IProgressRepository {
     return new Progress({
       memberId: updateProgress.memberId,
       taskId: updateProgress.taskId,
-      status: new ProgressStatus(updateProgress.status),
+      status: new ProgressStatusVO(updateProgress.status),
     });
   }
 }

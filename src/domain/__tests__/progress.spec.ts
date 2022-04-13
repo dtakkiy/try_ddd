@@ -1,13 +1,13 @@
 import * as faker from 'faker';
 import { Progress } from '../progress';
-import { ProgressStatus, ProgressStatusType } from '../progress-status-vo';
+import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 
 describe('progressエンティティのテスト', () => {
   it('エンティティを生成できるか', () => {
     const data = {
       memberId: faker.datatype.uuid(),
       taskId: faker.datatype.uuid(),
-      status: ProgressStatus.create(),
+      status: ProgressStatusVO.create(),
     };
     const progress = new Progress(data);
     expect(progress).toBeInstanceOf(Progress);
@@ -19,7 +19,7 @@ describe('progressエンティティのテスト', () => {
     const data = {
       memberId: memberId,
       taskId: faker.datatype.uuid(),
-      status: new ProgressStatus(ProgressStatusType.notStarted),
+      status: new ProgressStatusVO(ProgressStatusType.notStarted),
     };
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.notStarted);
@@ -35,7 +35,7 @@ describe('progressエンティティのテスト', () => {
     const data = {
       memberId: memberId,
       taskId: faker.datatype.uuid(),
-      status: new ProgressStatus(ProgressStatusType.completed),
+      status: new ProgressStatusVO(ProgressStatusType.completed),
     };
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.completed);
@@ -52,7 +52,7 @@ describe('progressエンティティのテスト', () => {
     const data = {
       memberId: memberId1,
       taskId: faker.datatype.uuid(),
-      status: new ProgressStatus(ProgressStatusType.completed),
+      status: new ProgressStatusVO(ProgressStatusType.completed),
     };
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.completed);
