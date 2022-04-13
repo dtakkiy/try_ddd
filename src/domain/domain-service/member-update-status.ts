@@ -1,5 +1,5 @@
 import { Member } from '../member';
-import { IMemberRepository } from '../repository/member-repository-interface';
+import { IMemberRepository } from '../repository-interface/member-repository-interface';
 import { MemberStatus } from '../member-status-vo';
 
 export class MemberUpdateStatus {

@@ -1,4 +1,4 @@
-import { ITeamRepository } from '../repository/team-repository-interface';
+import { ITeamRepository } from '../repository-interface/team-repository-interface';
 
 interface Props {
   repository: ITeamRepository;

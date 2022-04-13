@@ -3,7 +3,7 @@ import { Progress } from 'src/domain/progress';
 import {
   IProgressRepository,
   IProgressProps,
-} from 'src/domain/repository/progress-repository-interface';
+} from 'src/domain/repository-interface/progress-repository-interface';
 import { ProgressStatus } from 'src/domain/progress-status-vo';
 
 export class ProgressRepository implements IProgressRepository {

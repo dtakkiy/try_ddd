@@ -1,4 +1,4 @@
-import { IProgressRepository } from '../repository/progress-repository-interface';
+import { IProgressRepository } from '../repository-interface/progress-repository-interface';
 import { ProgressStatus } from '../progress-status-vo';
 
 export class ProgressUpdateStatus {

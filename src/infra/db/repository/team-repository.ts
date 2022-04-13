@@ -3,7 +3,7 @@ import { Pair } from 'src/domain/pair';
 import { PairNameVO } from 'src/domain/pair-name-vo';
 import { Team } from 'src/domain/team';
 import { TeamNameVO } from 'src/domain/team-name-vo';
-import { ITeamRepository } from 'src/domain/repository/team-repository-interface';
+import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
 
 export class TeamRepository implements ITeamRepository {
   private prismaClient: PrismaClient;

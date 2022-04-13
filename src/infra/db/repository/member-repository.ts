@@ -3,7 +3,7 @@ import { Member } from 'src/domain/member';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
 import { MemberFactory } from 'src/domain/domain-service/member-factory';
 import { MemberNameVO } from 'src/domain/member-name-vo';
-import { IMemberRepository } from 'src/domain/repository/member-repository-interface';
+import { IMemberRepository } from 'src/domain/repository-interface/member-repository-interface';
 import { MemberStatus, MemberStatusType } from 'src/domain/member-status-vo';
 
 export class MemberRepository implements IMemberRepository {
