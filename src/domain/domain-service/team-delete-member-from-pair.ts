@@ -16,6 +16,9 @@ export class DeleteMemberFromPair {
   EMAIL_SUBJECT_2_PEOPLE_LESS = 'チームの人数が2名以下です';
   EMAIL_SUBJECT_NO_MERGING_PAIR = '合流するペアが存在しない';
 
+  MIN_MEMBER_NUMBER = 1;
+  SEND_EMAIL_MEMBER_NUMBER = 2;
+
   constructor(
     teamRepository: ITeamRepository,
     emailRepository: IEmailRepository,
@@ -44,14 +47,14 @@ export class DeleteMemberFromPair {
     const joinMemberOfNumber = joinPair.getMemberCount();
 
     // ペアが1名以下になった場合の処理
-    if (joinMemberOfNumber <= 1) {
+    if (joinMemberOfNumber <= this.MIN_MEMBER_NUMBER) {
       // 解散するペアのメンバーを取得する
       const deleteMemberList = await joinPair.getMemberIdList();
       let deleteMemberId = '';
 
       if (
         typeof deleteMemberList[0] === 'undefined' ||
-        deleteMemberList.length < 1
+        deleteMemberList.length < this.MIN_MEMBER_NUMBER
       ) {
         throw new Error(
           'failed to retrieve the member of the pair to be disbanded.'
@@ -93,7 +96,7 @@ export class DeleteMemberFromPair {
 
     // チームが2名以下になった場合の処理
     const joinTeamOfMember = joinTeam.getMemberCount();
-    if (joinTeamOfMember <= 2) {
+    if (joinTeamOfMember <= this.SEND_EMAIL_MEMBER_NUMBER) {
       await this.sendMail(
         this.EMAIL_SUBJECT_2_PEOPLE_LESS,
         member,
