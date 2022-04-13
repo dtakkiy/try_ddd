@@ -1,4 +1,4 @@
-import { TeamNameVO } from '../team/team-name-vo';
+import { TeamNameVO } from '../team-name-vo';
 
 describe('team-name-voのテスト', () => {
   it('インスタンスが生成できる', () => {

@@ -1,9 +1,6 @@
 import * as faker from 'faker';
-import { Progress } from '../progress/progress';
-import {
-  ProgressStatus,
-  ProgressStatusType,
-} from '../progress/progress-status';
+import { Progress } from '../progress';
+import { ProgressStatus, ProgressStatusType } from '../progress-status-vo';
 
 describe('progressエンティティのテスト', () => {
   it('エンティティを生成できるか', () => {

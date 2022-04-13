@@ -1,4 +1,4 @@
-import { Progress } from './progress';
+import { Progress } from '../progress';
 
 export interface IProgressProps {
   taskId: string;

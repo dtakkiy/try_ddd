@@ -1,4 +1,4 @@
-import { ProgressStatus } from './progress-status';
+import { ProgressStatus } from './progress-status-vo';
 
 interface IProgress {
   memberId: string;

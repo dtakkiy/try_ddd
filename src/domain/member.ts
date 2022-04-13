@@ -1,7 +1,7 @@
 import { Identifier } from 'src/__shared__/identifier';
 import { MemberEmailVO } from './member-email-vo';
 import { MemberNameVO } from './member-name-vo';
-import { MemberStatus } from './member-status';
+import { MemberStatus } from './member-status-vo';
 
 interface IMember {
   id: string;

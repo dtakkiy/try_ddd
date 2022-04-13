@@ -1,7 +1,4 @@
-import {
-  ProgressStatus,
-  ProgressStatusType,
-} from '../progress/progress-status';
+import { ProgressStatus, ProgressStatusType } from '../progress-status-vo';
 
 describe('progress-statusのテスト', () => {
   it('未着手でインスタンスを作成する', () => {

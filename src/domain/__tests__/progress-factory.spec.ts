@@ -1,10 +1,10 @@
 import * as faker from 'faker';
-import { Member } from '../member/member';
-import { MemberEmailVO } from '../member/member-email-vo';
-import { MemberNameVO } from '../member/member-name-vo';
-import { MemberStatus } from '../member/member-status';
-import { ProgressFactory } from '../progress/progress-factory';
-import { Task } from '../task/task';
+import { Member } from '../member';
+import { MemberEmailVO } from '../member-email-vo';
+import { MemberNameVO } from '../member-name-vo';
+import { MemberStatus } from '../member-status-vo';
+import { ProgressFactory } from '../domain-service/progress-factory';
+import { Task } from '../task';
 
 describe('progress factoryのテスト', () => {
   it('正常系', () => {

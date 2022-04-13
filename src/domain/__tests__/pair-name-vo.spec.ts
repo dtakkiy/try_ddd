@@ -1,4 +1,4 @@
-import { PairNameVO } from '../team/pair-name-vo';
+import { PairNameVO } from '../pair-name-vo';
 
 describe('pair-name-voのテスト', () => {
   it('インスタンスが生成できる', () => {

@@ -1,4 +1,4 @@
-import { MemberNameVO } from '../member/member-name-vo';
+import { MemberNameVO } from '../member-name-vo';
 
 describe('memberNameVOのテスト', () => {
   it('インスタンスが生成できること', () => {

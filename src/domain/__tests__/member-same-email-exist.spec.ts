@@ -2,8 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { MemberFactory } from '../member/member-factory';
-import { MemberSameEmailExist } from '../member/member-same-email-exist';
+import { MemberFactory } from '../domain-service/member-factory';
+import { MemberSameEmailExist } from '../domain-service/member-same-email-exist';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');

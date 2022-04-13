@@ -4,11 +4,11 @@ import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import * as faker from 'faker';
 import { UpdateTaskStatusUseCase } from '../update-task-status-usecase';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
-import { Progress } from 'src/domain/progress/progress';
+import { Progress } from 'src/domain/progress';
 import {
   ProgressStatus,
   ProgressStatusType,
-} from 'src/domain/progress/progress-status';
+} from 'src/domain/progress-status-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/progress-repository');

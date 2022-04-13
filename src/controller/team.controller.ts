@@ -11,7 +11,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 import { ChangeTeamOfPairsUseCase } from 'src/app/change-team-of-pairs-usecase';
 import { GetTeamUseCase } from 'src/app/get-team-usecase';
-import { Team } from 'src/domain/team/team';
+import { Team } from 'src/domain/team';
 import { TeamQueryService } from 'src/infra/db/query-service/team-query-service';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { PutTeamRequest } from './request/put-team-request';

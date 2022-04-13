@@ -1,4 +1,4 @@
-import { MemberEmailVO } from '../member/member-email-vo';
+import { MemberEmailVO } from '../member-email-vo';
 
 describe('memberEmailVOのテスト', () => {
   it('インスタンスが生成できること', () => {

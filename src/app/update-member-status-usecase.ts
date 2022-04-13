@@ -1,10 +1,10 @@
-import { Member } from 'src/domain/member/member';
-import { IMemberRepository } from 'src/domain/member/member-repository-interface';
-import { MemberStatus } from 'src/domain/member/member-status';
-import { AddMemberToFewestTeam } from 'src/domain/team/team-add-member-to-fewest-team';
-import { DeleteMemberFromPair } from 'src/domain/team/team-delete-member-from-pair';
-import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
-import { ITeamRepository } from 'src/domain/team/team-repository-interface';
+import { Member } from 'src/domain/member';
+import { IMemberRepository } from 'src/domain/repository/member-repository-interface';
+import { MemberStatus } from 'src/domain/member-status-vo';
+import { AddMemberToFewestTeam } from 'src/domain/domain-service/team-add-member-to-fewest-team';
+import { DeleteMemberFromPair } from 'src/domain/domain-service/team-delete-member-from-pair';
+import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
+import { ITeamRepository } from 'src/domain/repository/team-repository-interface';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 
 interface Params {

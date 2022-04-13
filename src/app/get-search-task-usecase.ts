@@ -1,5 +1,5 @@
-import { validateProgressStatus } from 'src/domain/progress/progress-status';
-import { PagingCondition } from 'src/domain/__shared__/Page';
+import { validateProgressStatus } from 'src/domain/progress-status-vo';
+import { PagingCondition } from 'src/domain/__shared__/page';
 import { ISearchQueryService } from './query-service-interface/search-task-query-service';
 
 interface Props {

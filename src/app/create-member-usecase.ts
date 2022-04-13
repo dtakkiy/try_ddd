@@ -1,10 +1,10 @@
-import { Member } from 'src/domain/member/member';
-import { MemberFactory } from 'src/domain/member/member-factory';
-import { IMemberRepository } from 'src/domain/member/member-repository-interface';
-import { MemberSameEmailExist } from 'src/domain/member/member-same-email-exist';
-import { IProgressRepository } from 'src/domain/progress/progress-repository-interface';
-import { ITaskRepository } from 'src/domain/task/task-repository-interface';
-import { ProgressFactory } from 'src/domain/progress/progress-factory';
+import { Member } from 'src/domain/member';
+import { MemberFactory } from 'src/domain/domain-service/member-factory';
+import { IMemberRepository } from 'src/domain/repository/member-repository-interface';
+import { MemberSameEmailExist } from 'src/domain/domain-service/member-same-email-exist';
+import { IProgressRepository } from 'src/domain/repository/progress-repository-interface';
+import { ITaskRepository } from 'src/domain/repository/task-repository-interface';
+import { ProgressFactory } from 'src/domain/domain-service/progress-factory';
 
 interface Params {
   name: string;

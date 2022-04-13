@@ -4,12 +4,12 @@ import { DeleteTaskUseCase } from '../delete-task-usecase';
 import * as faker from 'faker';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { Task } from 'src/domain/task/task';
-import { TaskService } from 'src/domain/task/task-service';
+import { Task } from 'src/domain/task';
+import { TaskService } from 'src/domain/domain-service/task-service';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/task-repository');
-jest.mock('src/domain/task/task-service');
+jest.mock('src/domain/domain-service/task-service');
 
 describe('課題の削除', () => {
   let prisma: PrismaClient;

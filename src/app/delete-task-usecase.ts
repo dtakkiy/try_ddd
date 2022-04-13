@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Task } from 'src/domain/task/task';
-import { TaskService } from 'src/domain/task/task-service';
+import { Task } from 'src/domain/task';
+import { TaskService } from 'src/domain/domain-service/task-service';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
 
 interface Props {
