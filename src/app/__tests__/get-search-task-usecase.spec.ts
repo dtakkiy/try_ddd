@@ -73,7 +73,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       paging: paging,
     };
 
-    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectPage);
+    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectDatas);
 
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '未着手';
