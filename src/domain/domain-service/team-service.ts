@@ -1,7 +1,7 @@
-import { Pair } from './pair';
+import { Pair } from '../pair';
 import { PairSameNameExist } from './pair-same-name-exists';
-import { Team } from './team';
-import { ITeamRepository } from './team-repository-interface';
+import { Team } from '../team';
+import { ITeamRepository } from '../repository/team-repository-interface';
 import { TeamSameNameExist } from './team-same-name-exist';
 
 export class TeamService {

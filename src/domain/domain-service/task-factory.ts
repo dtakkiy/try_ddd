@@ -1,5 +1,5 @@
 import { Identifier } from 'src/__shared__/identifier';
-import { Task } from './task';
+import { Task } from '../task';
 
 interface IProps {
   id: string;

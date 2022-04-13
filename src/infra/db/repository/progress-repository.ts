@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { Progress } from 'src/domain/progress/progress';
+import { Progress } from 'src/domain/progress';
 import {
   IProgressRepository,
   IProgressProps,
-} from 'src/domain/progress/progress-repository-interface';
-import { ProgressStatus } from 'src/domain/progress/progress-status';
+} from 'src/domain/repository/progress-repository-interface';
+import { ProgressStatus } from 'src/domain/progress-status-vo';
 
 export class ProgressRepository implements IProgressRepository {
   private readonly prismaClient;

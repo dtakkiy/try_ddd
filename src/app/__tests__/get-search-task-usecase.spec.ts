@@ -5,7 +5,7 @@ import { GetSearchTaskUseCase } from '../get-search-task-usecase';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import * as faker from 'faker';
 import { SearchDTO } from '../query-service-interface/search-task-query-service';
-import { Page, Paging, PagingCondition } from 'src/domain/__shared__/Page';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/search-task-query-service');
@@ -89,7 +89,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).resolves.toBe(expectPage);
+    ).resolves.toBe(expectDatas);
   });
 
   it('タスクステータスの値が不正な場合', async () => {

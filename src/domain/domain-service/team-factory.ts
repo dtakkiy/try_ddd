@@ -1,7 +1,7 @@
 import { Identifier } from 'src/__shared__/identifier';
-import { Pair } from './pair';
-import { Team } from './team';
-import { TeamNameVO } from './team-name-vo';
+import { Pair } from '../pair';
+import { Team } from '../team';
+import { TeamNameVO } from '../team-name-vo';
 
 interface IProps {
   id: string;

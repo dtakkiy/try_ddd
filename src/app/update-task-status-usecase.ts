@@ -1,5 +1,5 @@
-import { Progress } from 'src/domain/progress/progress';
-import { IProgressRepository } from 'src/domain/progress/progress-repository-interface';
+import { Progress } from 'src/domain/progress';
+import { IProgressRepository } from 'src/domain/repository/progress-repository-interface';
 
 interface Params {
   memberId: string;

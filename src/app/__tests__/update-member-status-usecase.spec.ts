@@ -3,27 +3,24 @@ import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { PrismaClient } from '@prisma/client';
 import { UpdateMemberStatusUseCase } from '../update-member-status-usecase';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
-import { Member } from 'src/domain/member/member';
+import { Member } from 'src/domain/member';
 import { Identifier } from 'src/__shared__/identifier';
-import {
-  MemberStatus,
-  MemberStatusType,
-} from 'src/domain/member/member-status';
-import { MemberEmailVO } from 'src/domain/member/member-email-vo';
-import { MemberNameVO } from 'src/domain/member/member-name-vo';
+import { MemberEmailVO } from 'src/domain/member-email-vo';
+import { MemberNameVO } from 'src/domain/member-name-vo';
 import { EmailRepository } from 'src/infra/email/email-repository';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
-import { TeamMemberUpdate } from 'src/domain/team/team-member-update';
-import { Pair } from 'src/domain/team/pair';
-import { PairNameVO } from 'src/domain/team/pair-name-vo';
-import { MemberFactory } from 'src/domain/member/member-factory';
-import { TeamFactory } from 'src/domain/team/team-factory';
+import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
+import { Pair } from 'src/domain/pair';
+import { PairNameVO } from 'src/domain/pair-name-vo';
+import { MemberFactory } from 'src/domain/domain-service/member-factory';
+import { TeamFactory } from 'src/domain/domain-service/team-factory';
+import { MemberStatus, MemberStatusType } from 'src/domain/member-status-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
 jest.mock('src/infra/email/email-repository');
 jest.mock('src/infra/db/repository/team-repository');
-jest.mock('src/domain/team/team-member-update');
+jest.mock('src/domain/domain-service/team-member-update');
 
 describe('【ユースケース】参加者の在籍ステータスを変更する', () => {
   let mockMemberRepository: MockedObjectDeep<MemberRepository>;

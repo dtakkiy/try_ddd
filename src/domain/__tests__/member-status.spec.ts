@@ -1,4 +1,4 @@
-import { MemberStatus, MemberStatusType } from '../member/member-status';
+import { MemberStatus, MemberStatusType } from '../member-status-vo';
 
 describe('member-statusのテスト', () => {
   it('在籍中でインスタンスを作成する', () => {

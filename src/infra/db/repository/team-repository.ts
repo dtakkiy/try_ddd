@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { Pair } from 'src/domain/team/pair';
-import { PairNameVO } from 'src/domain/team/pair-name-vo';
-import { Team } from 'src/domain/team/team';
-import { TeamNameVO } from 'src/domain/team/team-name-vo';
-import { ITeamRepository } from 'src/domain/team/team-repository-interface';
+import { Pair } from 'src/domain/pair';
+import { PairNameVO } from 'src/domain/pair-name-vo';
+import { Team } from 'src/domain/team';
+import { TeamNameVO } from 'src/domain/team-name-vo';
+import { ITeamRepository } from 'src/domain/repository/team-repository-interface';
 
 export class TeamRepository implements ITeamRepository {
   private prismaClient: PrismaClient;

@@ -1,5 +1,5 @@
-import { ITeamRepository } from 'src/domain/team/team-repository-interface';
-import { TeamService } from 'src/domain/team/team-service';
+import { ITeamRepository } from 'src/domain/repository/team-repository-interface';
+import { TeamService } from 'src/domain/domain-service/team-service';
 
 interface Params {
   pairId: string;

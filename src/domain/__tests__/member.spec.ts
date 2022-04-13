@@ -1,8 +1,8 @@
 import { Identifier } from 'src/__shared__/identifier';
-import { Member } from '../member/member';
-import { MemberEmailVO } from '../member/member-email-vo';
-import { MemberNameVO } from '../member/member-name-vo';
-import { MemberStatus } from '../member/member-status';
+import { Member } from '../member';
+import { MemberEmailVO } from '../member-email-vo';
+import { MemberNameVO } from '../member-name-vo';
+import { MemberStatus } from '../member-status-vo';
 
 describe('', () => {
   it('memberエンティティを生成できる', () => {

@@ -1,5 +1,5 @@
-import { Pair } from '../team/pair';
-import { PairFactory } from '../team/pair-factory';
+import { Pair } from '../pair';
+import { PairFactory } from '../domain-service/pair-factory';
 import * as faker from 'faker';
 import { Identifier } from 'src/__shared__/identifier';
 
