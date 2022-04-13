@@ -14,7 +14,7 @@ import { Pair } from 'src/domain/pair';
 import { PairNameVO } from 'src/domain/pair-name-vo';
 import { MemberFactory } from 'src/domain/domain-service/member-factory';
 import { TeamFactory } from 'src/domain/domain-service/team-factory';
-import { MemberStatus, MemberStatusType } from 'src/domain/member-status-vo';
+import { MemberStatusVO, MemberStatusType } from 'src/domain/member-status-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');
@@ -40,7 +40,7 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     const memberId = Identifier.generator();
     const name = new MemberNameVO('test');
     const email = new MemberEmailVO('test@example.com');
-    const status = MemberStatus.create();
+    const status = MemberStatusVO.create();
     const member = new Member({ id: memberId, name, email, status });
 
     const member2 = MemberFactory.execute({
@@ -67,7 +67,7 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
 
     mockMemberRepository.getById.mockResolvedValueOnce(member);
     const updateMember = new Member({ id: memberId, name, email, status });
-    updateMember.setStatus(new MemberStatus(MemberStatusType.closed));
+    updateMember.setStatus(new MemberStatusVO(MemberStatusType.closed));
     mockMemberRepository.update.mockResolvedValueOnce(updateMember);
     mockTeamRepository.getByMemberId.mockResolvedValueOnce(team);
 

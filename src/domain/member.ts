@@ -1,13 +1,13 @@
 import { Identifier } from 'src/__shared__/identifier';
 import { MemberEmailVO } from './member-email-vo';
 import { MemberNameVO } from './member-name-vo';
-import { MemberStatus } from './member-status-vo';
+import { MemberStatusVO } from './member-status-vo';
 
 interface IMember {
   id: string;
   name: MemberNameVO;
   email: MemberEmailVO;
-  status: MemberStatus;
+  status: MemberStatusVO;
 }
 
 export class Member {
@@ -48,7 +48,7 @@ export class Member {
     return this.props.status;
   }
 
-  public setStatus(status: MemberStatus) {
+  public setStatus(status: MemberStatusVO) {
     this.props.status = status;
   }
 

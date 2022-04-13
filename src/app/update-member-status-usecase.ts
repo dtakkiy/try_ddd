@@ -1,6 +1,6 @@
 import { Member } from 'src/domain/member';
 import { IMemberRepository } from 'src/domain/repository-interface/member-repository-interface';
-import { MemberStatus } from 'src/domain/member-status-vo';
+import { MemberStatusVO } from 'src/domain/member-status-vo';
 import { AddMemberToFewestTeam } from 'src/domain/domain-service/team-add-member-to-fewest-team';
 import { DeleteMemberFromPair } from 'src/domain/domain-service/team-delete-member-from-pair';
 import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
@@ -39,12 +39,12 @@ export class UpdateMemberStatusUseCase {
     }
 
     const currentStatus = member.status.getStatus();
-    member.setStatus(new MemberStatus(status));
+    member.setStatus(new MemberStatusVO(status));
 
     // 参加者が増える
     if (
-      MemberStatus.isClosedOrEndedStatus(currentStatus) &&
-      MemberStatus.isActiveStatus(status)
+      MemberStatusVO.isClosedOrEndedStatus(currentStatus) &&
+      MemberStatusVO.isActiveStatus(status)
     ) {
       const addMemberToFewestTeam = new AddMemberToFewestTeam(
         this.teamRepository,
@@ -55,8 +55,8 @@ export class UpdateMemberStatusUseCase {
 
     // 参加者が減る
     if (
-      MemberStatus.isActiveStatus(currentStatus) &&
-      MemberStatus.isClosedOrEndedStatus(status)
+      MemberStatusVO.isActiveStatus(currentStatus) &&
+      MemberStatusVO.isClosedOrEndedStatus(status)
     ) {
       const deleteMemberFromPair = new DeleteMemberFromPair(
         this.teamRepository,
