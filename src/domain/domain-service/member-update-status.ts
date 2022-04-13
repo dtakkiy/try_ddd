@@ -1,6 +1,6 @@
 import { Member } from '../member';
-import { IMemberRepository } from '../repository/member-repository-interface';
-import { MemberStatus } from '../member-status-vo';
+import { IMemberRepository } from '../repository-interface/member-repository-interface';
+import { MemberStatusVO } from '../member-status-vo';
 
 export class MemberUpdateStatus {
   private readonly memberRepository: IMemberRepository;
@@ -11,7 +11,7 @@ export class MemberUpdateStatus {
 
   public execute = async (
     member: Member,
-    status: MemberStatus
+    status: MemberStatusVO
   ): Promise<void> => {
     if (status.equals(member.status)) {
       throw new Error('status has already been changed.');

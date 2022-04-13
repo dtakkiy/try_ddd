@@ -1,9 +1,9 @@
-import { ProgressStatus } from './progress-status-vo';
+import { ProgressStatusVO } from './progress-status-vo';
 
 interface IProgress {
   memberId: string;
   taskId: string;
-  status: ProgressStatus;
+  status: ProgressStatusVO;
 }
 
 export class Progress {

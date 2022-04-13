@@ -1,7 +1,7 @@
 import { Member } from '../member';
 import { Task } from '../task';
 import { Progress } from '../progress';
-import { ProgressStatus, ProgressStatusType } from '../progress-status-vo';
+import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 
 interface IProps {
   member: Member;
@@ -17,7 +17,7 @@ export class ProgressFactory {
     return props.taskList.map((task) => {
       const memberId = props.member.id;
       const taskId = task.id;
-      const status = new ProgressStatus(ProgressStatusType.notStarted);
+      const status = new ProgressStatusVO(ProgressStatusType.notStarted);
 
       return new Progress({ memberId, taskId, status });
     });

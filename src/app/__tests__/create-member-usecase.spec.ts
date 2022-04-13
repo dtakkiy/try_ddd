@@ -3,7 +3,7 @@ import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { Identifier } from 'src/__shared__/identifier';
 import { CreateMemberUseCase } from '../create-member-usecase';
 import { Member } from 'src/domain/member';
-import { MemberStatus } from 'src/domain/member-status-vo';
+import { MemberStatusVO } from 'src/domain/member-status-vo';
 import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
 import { Task } from 'src/domain/task';
 import { mocked } from 'ts-jest/utils';
@@ -38,7 +38,7 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const memberId = Identifier.generator();
     const name = new MemberNameVO('test');
     const email = new MemberEmailVO('test@example.co.jp');
-    const status = MemberStatus.create();
+    const status = MemberStatusVO.create();
 
     const mockTask = mocked(
       new Task({

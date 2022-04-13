@@ -3,8 +3,8 @@ import { Member } from 'src/domain/member';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
 import { MemberFactory } from 'src/domain/domain-service/member-factory';
 import { MemberNameVO } from 'src/domain/member-name-vo';
-import { IMemberRepository } from 'src/domain/repository/member-repository-interface';
-import { MemberStatus, MemberStatusType } from 'src/domain/member-status-vo';
+import { IMemberRepository } from 'src/domain/repository-interface/member-repository-interface';
+import { MemberStatusVO, MemberStatusType } from 'src/domain/member-status-vo';
 
 export class MemberRepository implements IMemberRepository {
   private prismaClient: PrismaClient;
@@ -25,7 +25,7 @@ export class MemberRepository implements IMemberRepository {
 
     const name = new MemberNameVO(member.name);
     const email = new MemberEmailVO(member.email);
-    const status = new MemberStatus(member.status);
+    const status = new MemberStatusVO(member.status);
 
     return new Member({
       id: member?.id,
@@ -50,7 +50,7 @@ export class MemberRepository implements IMemberRepository {
       id: member.id,
       name: new MemberNameVO(member.name),
       email: new MemberEmailVO(member.email),
-      status: new MemberStatus(member.status),
+      status: new MemberStatusVO(member.status),
     });
   }
 

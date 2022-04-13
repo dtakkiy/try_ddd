@@ -2,7 +2,7 @@ import { Identifier } from 'src/__shared__/identifier';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';
 import { MemberNameVO } from '../member-name-vo';
-import { MemberStatus } from '../member-status-vo';
+import { MemberStatusVO } from '../member-status-vo';
 
 describe('', () => {
   it('memberエンティティを生成できる', () => {
@@ -10,7 +10,7 @@ describe('', () => {
       id: Identifier.generator(),
       name: new MemberNameVO('bob'),
       email: new MemberEmailVO('bob@example.com'),
-      status: MemberStatus.create(),
+      status: MemberStatusVO.create(),
     };
 
     const member = new Member(data);
@@ -22,7 +22,7 @@ describe('', () => {
       id: Identifier.generator(),
       name: new MemberNameVO('bob'),
       email: new MemberEmailVO('bob@example.com'),
-      status: MemberStatus.create(),
+      status: MemberStatusVO.create(),
     };
 
     const member = new Member(data);

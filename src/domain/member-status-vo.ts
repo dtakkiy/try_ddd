@@ -3,7 +3,7 @@ export const MemberStatusType = {
   closed: '休会中',
   ended: '退会済',
 };
-export class MemberStatus {
+export class MemberStatusVO {
   private readonly _value: string;
 
   constructor(status: string) {
@@ -12,7 +12,7 @@ export class MemberStatus {
   }
 
   public static create() {
-    return new MemberStatus(MemberStatusType.active);
+    return new MemberStatusVO(MemberStatusType.active);
   }
 
   private validateStatus(status: string) {
@@ -25,7 +25,7 @@ export class MemberStatus {
     return this._value;
   }
 
-  public equals = (member: MemberStatus): boolean => {
+  public equals = (member: MemberStatusVO): boolean => {
     return this._value === member.getStatus();
   };
 

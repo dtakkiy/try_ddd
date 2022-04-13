@@ -3,7 +3,7 @@ import { Pair } from 'src/domain/pair';
 import { PairNameVO } from 'src/domain/pair-name-vo';
 import { Team } from 'src/domain/team';
 import { TeamNameVO } from 'src/domain/team-name-vo';
-import { ITeamRepository } from 'src/domain/repository/team-repository-interface';
+import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
 
 export class TeamRepository implements ITeamRepository {
   private prismaClient: PrismaClient;
@@ -22,54 +22,27 @@ export class TeamRepository implements ITeamRepository {
       },
     });
 
-    return null;
+    if (!allTeam) {
+      return null;
+    }
+
+    return allTeam.map((teamDM) => {
+      return new Team({
+        id: teamDM.id,
+        name: new TeamNameVO(teamDM.name),
+        pairList: teamDM.pairs.map(
+          (pair) =>
+            new Pair({
+              id: pair.id,
+              name: new PairNameVO(pair.name),
+              memberIdList: pair.members.map((member) => {
+                return member.id;
+              }),
+            })
+        ),
+      });
+    });
   }
-
-  // public async getPairIdByMemberId(memberId: string): Promise<Pair | null> {
-  //   const pairOnMember = await this.prismaClient.member.findMany({
-  //     where: {
-  //       id: memberId,
-  //     },
-  //   });
-
-  //   if (!pairOnMember) {
-  //     return null;
-  //   }
-
-  //   let pairId: string | undefined = '';
-  //   if (pairOnMember.length > 0) {
-  //     pairId = pairOnMember[0]?.pairId;
-  //   }
-
-  //   if (!pairId) {
-  //     return null;
-  //   }
-
-  //   const pair = await this.prismaClient.pair.findFirst({
-  //     include: {
-  //       team: {
-  //         select: {
-  //           id: true,
-  //           name: true,
-  //           pairs: true,
-  //         },
-  //       },
-  //     },
-  //     where: {
-  //       id: pairId,
-  //     },
-  //   });
-
-  //   if (!pair) {
-  //     return null;
-  //   }
-
-  //   return new Pair({
-  //     id: pair.id,
-  //     name: new PairNameVO(pair.name),
-  //     memberIdList: pairOnMember.map((member) => member.id),
-  //   });
-  // }
 
   public async getByMemberId(memberId: string): Promise<Team | null> {
     const pairOnMember = await this.prismaClient.member.findMany({

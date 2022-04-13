@@ -1,5 +1,5 @@
-import { IProgressRepository } from '../repository/progress-repository-interface';
-import { ProgressStatus } from '../progress-status-vo';
+import { IProgressRepository } from '../repository-interface/progress-repository-interface';
+import { ProgressStatusVO } from '../progress-status-vo';
 
 export class ProgressUpdateStatus {
   private readonly progressRepository: IProgressRepository;
@@ -11,7 +11,7 @@ export class ProgressUpdateStatus {
   public execute = async (
     memberId: string,
     taskId: string,
-    status: ProgressStatus
+    status: ProgressStatusVO
   ): Promise<void> => {
     status.stepUp();
 

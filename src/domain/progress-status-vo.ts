@@ -9,7 +9,7 @@ export const validateProgressStatus = (status: string) => {
     throw new Error(`not applicable progress status value. ${status}`);
   }
 };
-export class ProgressStatus {
+export class ProgressStatusVO {
   private readonly _value: string;
 
   constructor(status: string) {
@@ -28,26 +28,26 @@ export class ProgressStatus {
   }
 
   public static create() {
-    return new ProgressStatus(ProgressStatusType.notStarted);
+    return new ProgressStatusVO(ProgressStatusType.notStarted);
   }
 
   public isComplete(): boolean {
     return this._value === ProgressStatusType.completed;
   }
 
-  public stepUp(): ProgressStatus {
+  public stepUp(): ProgressStatusVO {
     if (this._value === ProgressStatusType.notStarted) {
-      return new ProgressStatus(ProgressStatusType.awaitingReview);
+      return new ProgressStatusVO(ProgressStatusType.awaitingReview);
     }
 
     if (this._value === ProgressStatusType.awaitingReview) {
-      return new ProgressStatus(ProgressStatusType.completed);
+      return new ProgressStatusVO(ProgressStatusType.completed);
     }
 
     throw new Error(`progress stepup error.`);
   }
 
-  public equals = (progress: ProgressStatus): boolean => {
+  public equals = (progress: ProgressStatusVO): boolean => {
     return this._value === progress.getStatus();
   };
 }

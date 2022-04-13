@@ -2,7 +2,7 @@ import * as faker from 'faker';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';
 import { MemberNameVO } from '../member-name-vo';
-import { MemberStatus } from '../member-status-vo';
+import { MemberStatusVO } from '../member-status-vo';
 import { ProgressFactory } from '../domain-service/progress-factory';
 import { Task } from '../task';
 
@@ -12,7 +12,7 @@ describe('progress factoryのテスト', () => {
       id: faker.datatype.uuid(),
       name: new MemberNameVO(faker.name.firstName()),
       email: new MemberEmailVO(faker.internet.email()),
-      status: MemberStatus.create(),
+      status: MemberStatusVO.create(),
     });
 
     const data = {

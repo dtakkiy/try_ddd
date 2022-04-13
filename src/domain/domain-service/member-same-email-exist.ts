@@ -1,4 +1,4 @@
-import { IMemberRepository } from '../repository/member-repository-interface';
+import { IMemberRepository } from '../repository-interface/member-repository-interface';
 
 export class MemberSameEmailExist {
   private readonly repository: IMemberRepository;

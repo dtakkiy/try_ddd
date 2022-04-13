@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Task } from 'src/domain/task';
 import { TaskFactory } from 'src/domain/domain-service/task-factory';
-import { ITaskRepository } from 'src/domain/repository/task-repository-interface';
+import { ITaskRepository } from 'src/domain/repository-interface/task-repository-interface';
 
 export class TaskRepository implements ITaskRepository {
   private readonly prismaClient: PrismaClient;
