@@ -11,7 +11,6 @@ describe('Teamエンティティのテスト', () => {
   let memberId3: string;
   let memberId4: string;
   let memberId5: string;
-  let memberId6: string;
 
   let pairId1: string;
   let pairId2: string;

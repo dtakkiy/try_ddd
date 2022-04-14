@@ -100,15 +100,12 @@ export class TeamService {
     );
 
     const blankPairName = PAIR_NAME_LIST.find((pairName) => {
-      const result = currentPairNameList.some((pair) => {
-        pair === pairName;
-      });
+      const result = currentPairNameList.some((pair) => pair === pairName);
 
-      if (result) {
+      if (!result) {
         return pairName;
       }
     });
-
     return typeof blankPairName === 'string' ? blankPairName : '';
   }
 

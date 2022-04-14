@@ -13,18 +13,16 @@ export class PairSameNameExist {
 
   public async isPairName(pairName: string, teamId: string): Promise<boolean> {
     const team = await this.repository.getById(teamId);
-    if (team === null) {
+    if (team === null || team === undefined) {
       return false;
     }
 
-    return team.getPairList().some((pair) => {
-      pair.name.getValue() === pairName;
-    });
+    return team.getPairList().some((pair) => pair.name.getValue() === pairName);
   }
 
   public async getPairNameListByTeamId(teamId: string): Promise<string[]> {
     const team = await this.repository.getById(teamId);
-    if (team === null) {
+    if (team === null || team === undefined) {
       return [];
     }
 

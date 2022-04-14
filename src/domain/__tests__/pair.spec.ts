@@ -10,10 +10,10 @@ describe('Pairのテスト', () => {
   let memberId4: string;
 
   beforeEach(() => {
-    memberId1 = Identifier.generator();
-    memberId2 = Identifier.generator();
-    memberId3 = Identifier.generator();
-    memberId4 = Identifier.generator();
+    memberId1 = faker.datatype.uuid();
+    memberId2 = faker.datatype.uuid();
+    memberId3 = faker.datatype.uuid();
+    memberId4 = faker.datatype.uuid();
   });
 
   it('ペアの名前は1文字でなければならない', () => {
