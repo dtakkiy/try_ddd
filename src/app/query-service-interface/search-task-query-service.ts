@@ -1,4 +1,4 @@
-import { PagingCondition } from 'src/domain/__shared__/page';
+import { Page, PagingCondition } from 'src/domain/__shared__/page';
 
 export class SearchDTO {
   public readonly id: string;
@@ -17,5 +17,5 @@ export interface ISearchQueryService {
     taskIdList: string,
     taskStatus: string,
     pagingCondition: PagingCondition
-  ): Promise<SearchDTO[]>;
+  ): Promise<Page<SearchDTO>>;
 }

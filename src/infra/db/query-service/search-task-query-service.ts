@@ -3,7 +3,7 @@ import {
   SearchDTO,
   ISearchQueryService,
 } from 'src/app/query-service-interface/search-task-query-service';
-import { PagingCondition } from 'src/domain/__shared__/page';
+import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
 
 export class SearchQueryService implements ISearchQueryService {
   private prismaClient: PrismaClient;
@@ -16,7 +16,7 @@ export class SearchQueryService implements ISearchQueryService {
     taskIdList: string,
     taskStatus: string,
     pagingCondition: PagingCondition
-  ): Promise<SearchDTO[]> {
+  ): Promise<Page<SearchDTO>> {
     const pageSize = pagingCondition.pageSize;
     const pageNumber = pagingCondition.pageNumber;
 
@@ -76,12 +76,21 @@ export class SearchQueryService implements ISearchQueryService {
       `
     );
 
-    return results.map((result) => {
-      return new SearchDTO({
-        id: result.id,
-        name: result.name,
-        email: result.email,
-      });
-    });
+    const paging: Paging = {
+      totalCount: results.length,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+    };
+
+    return {
+      items: results.map((result) => {
+        return new SearchDTO({
+          id: result.id,
+          name: result.name,
+          email: result.email,
+        });
+      }),
+      paging: paging,
+    };
   }
 }
