@@ -73,7 +73,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       paging: paging,
     };
 
-    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectDatas);
+    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectPage);
 
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '未着手';
@@ -89,7 +89,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).resolves.toBe(expectDatas);
+    ).resolves.toBe(expectPage);
   });
 
   it('タスクステータスの値が不正な場合', async () => {

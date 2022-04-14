@@ -12,6 +12,7 @@ describe('pair-name-voのテスト', () => {
   it('名前を変更できる', () => {
     const pairNameVO = new PairNameVO('a');
     expect(pairNameVO.getValue()).toMatch(/a/);
+
     pairNameVO.setValue('b');
     expect(pairNameVO.getValue()).toMatch(/b/);
   });

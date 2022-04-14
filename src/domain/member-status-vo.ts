@@ -45,10 +45,6 @@ export class MemberStatusVO {
   }
 
   public static isActiveStatus(status: string): boolean {
-    if (MemberStatusType.active === status) {
-      return true;
-    }
-
-    return false;
+    return MemberStatusType.active === status;
   }
 }
