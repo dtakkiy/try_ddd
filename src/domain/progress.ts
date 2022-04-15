@@ -1,4 +1,4 @@
-import { ProgressStatusVO } from './progress-status-vo';
+import { ProgressStatusVO, ProgressStatusType } from './progress-status-vo';
 
 interface IProgress {
   memberId: string;
@@ -53,7 +53,18 @@ export class Progress {
       throw new Error(`already completed.`);
     }
 
-    this.props.status = this.props.status.stepUp();
+    let updateStatus: ProgressStatusVO;
+    const tmpStatus = this.props.status.getStatus();
+
+    if (tmpStatus === ProgressStatusType.notStarted) {
+      updateStatus = new ProgressStatusVO(ProgressStatusType.awaitingReview);
+    } else if (tmpStatus === ProgressStatusType.awaitingReview) {
+      updateStatus = new ProgressStatusVO(ProgressStatusType.completed);
+    } else {
+      throw new Error(`progress stepup error.`);
+    }
+
+    this.props.status = updateStatus;
     return this;
   };
 }

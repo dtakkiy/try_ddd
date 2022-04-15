@@ -1,6 +1,5 @@
 import { Team } from 'src/domain/team';
 import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
-import { TeamNameVO } from 'src/domain/team-name-vo';
 
 interface Params {
   id: string;

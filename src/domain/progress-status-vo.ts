@@ -36,18 +36,6 @@ export class ProgressStatusVO {
     return this._value === ProgressStatusType.completed;
   }
 
-  public stepUp(): ProgressStatusVO {
-    if (this._value === ProgressStatusType.notStarted) {
-      return new ProgressStatusVO(ProgressStatusType.awaitingReview);
-    }
-
-    if (this._value === ProgressStatusType.awaitingReview) {
-      return new ProgressStatusVO(ProgressStatusType.completed);
-    }
-
-    throw new Error(`progress stepup error.`);
-  }
-
   public equals = (progress: ProgressStatusVO): boolean => {
     return this._value === progress.getStatus();
   };
