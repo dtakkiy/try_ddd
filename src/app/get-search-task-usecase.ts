@@ -8,10 +8,10 @@ interface Props {
   pagingCondition: PagingCondition;
 }
 export class GetSearchTaskUseCase {
-  private readonly queryService: ISearchQueryService;
+  private readonly searchQueryService: ISearchQueryService;
 
-  constructor(queryService: ISearchQueryService) {
-    this.queryService = queryService;
+  constructor(searchQueryService: ISearchQueryService) {
+    this.searchQueryService = searchQueryService;
   }
 
   public async execute(props: Props) {
@@ -35,7 +35,7 @@ export class GetSearchTaskUseCase {
     }
 
     try {
-      return await this.queryService.findByTaskIdAndTaskStatus(
+      return await this.searchQueryService.findByTaskIdAndTaskStatus(
         taskIdList,
         taskStatus,
         pagingCondition

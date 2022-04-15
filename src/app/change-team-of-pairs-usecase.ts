@@ -7,15 +7,15 @@ interface Params {
 }
 
 export class ChangeTeamOfPairsUseCase {
-  private repository: ITeamRepository;
-  constructor(repository: ITeamRepository) {
-    this.repository = repository;
+  private teamRepository: ITeamRepository;
+  constructor(teamRepository: ITeamRepository) {
+    this.teamRepository = teamRepository;
   }
 
   public async execute(params: Params): Promise<void> {
     const { pairId, teamId } = params;
 
-    const teamChange = new TeamService(this.repository);
+    const teamChange = new TeamService(this.teamRepository);
     await teamChange.changeTeamOfPair(pairId, teamId);
   }
 }

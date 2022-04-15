@@ -1,15 +1,15 @@
 import { IMemberQueryService } from './query-service-interface/member-query-service';
 
 export class GetMemberListUseCase {
-  private readonly queryService: IMemberQueryService;
+  private readonly memberQueryService: IMemberQueryService;
 
-  constructor(queryService: IMemberQueryService) {
-    this.queryService = queryService;
+  constructor(memberQueryService: IMemberQueryService) {
+    this.memberQueryService = memberQueryService;
   }
 
   public async execute() {
     try {
-      return await this.queryService.getAll();
+      return await this.memberQueryService.getAll();
     } catch (error) {
       throw error;
     }

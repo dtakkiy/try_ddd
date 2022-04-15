@@ -1,6 +1,6 @@
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 
-interface Props {
+interface MessageProps {
   from: string;
   to: string;
   subject: string;
@@ -9,12 +9,12 @@ interface Props {
 }
 
 export class SendEmailUseCase {
-  private readonly repo: IEmailRepository;
-  constructor(repo: IEmailRepository) {
-    this.repo = repo;
+  private readonly emailRepository: IEmailRepository;
+  constructor(emailRepository: IEmailRepository) {
+    this.emailRepository = emailRepository;
   }
 
-  public async execute(props: Props) {
-    return await this.repo.sendMail(props);
+  public async execute(messageProps: MessageProps) {
+    return await this.emailRepository.sendMail(messageProps);
   }
 }

@@ -1,15 +1,15 @@
 import { ITeamQueryService } from './query-service-interface/team-query-service';
 
 export class GetTeamUseCase {
-  private readonly queryService: ITeamQueryService;
+  private readonly teamQueryService: ITeamQueryService;
 
-  constructor(queryService: ITeamQueryService) {
-    this.queryService = queryService;
+  constructor(teamQueryService: ITeamQueryService) {
+    this.teamQueryService = teamQueryService;
   }
 
   public async execute() {
     try {
-      return await this.queryService.getAll();
+      return await this.teamQueryService.getAll();
     } catch (error) {
       throw error;
     }

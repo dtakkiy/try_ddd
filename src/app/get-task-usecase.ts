@@ -1,14 +1,14 @@
 import { ITaskQueryService } from './query-service-interface/task-query-service';
 
 export class GetTaskUseCase {
-  queryService: ITaskQueryService;
-  constructor(queryService: ITaskQueryService) {
-    this.queryService = queryService;
+  taskQueryService: ITaskQueryService;
+  constructor(taskQueryService: ITaskQueryService) {
+    this.taskQueryService = taskQueryService;
   }
 
   public async execute() {
     try {
-      return await this.queryService.getAll();
+      return await this.taskQueryService.getAll();
     } catch (e) {
       throw e;
     }
