@@ -11,12 +11,16 @@ export class DeleteMemberFromPair {
   private readonly emailRepository: IEmailRepository;
   private readonly teamMemberUpdate: TeamMemberUpdate;
 
+  // 管理者宛の送信メール設定値
   TO_EMAIL_ADDRESS = 'admin@example.com';
   FROM_EMAIL_ADDRESS = 'admin@example.com';
   EMAIL_SUBJECT_2_PEOPLE_LESS = 'チームの人数が2名以下です';
   EMAIL_SUBJECT_NO_MERGING_PAIR = '合流するペアが存在しない';
 
+  // ペアの参加者の最小人数
   MIN_MEMBER_NUMBER = 1;
+
+  // チームの参加者が何名になった場合、メール送るか？
   SEND_EMAIL_MEMBER_NUMBER = 2;
 
   constructor(

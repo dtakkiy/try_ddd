@@ -6,8 +6,7 @@ import {
 import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
 
 export class SearchQueryService implements ISearchQueryService {
-  private prismaClient: PrismaClient;
-
+  private readonly prismaClient: PrismaClient;
   public constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
@@ -36,14 +35,14 @@ export class SearchQueryService implements ISearchQueryService {
       taskIds = taskIdList.split(',');
     }
 
-    const query = (arr: string[]) =>
-      arr.reduce((previous, current) => {
-        return `
-          ${previous}
-          AND
-            "public"."MemberOnTask"."taskId" = ${current}
-        `;
-      }, '');
+    // const query = (arr: string[]) =>
+    //   arr.reduce((previous, current) => {
+    //     return `
+    //       ${previous}
+    //       AND
+    //         "public"."MemberOnTask"."taskId" = ${current}
+    //     `;
+    //   }, '');
 
     interface Results {
       id: string;

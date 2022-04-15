@@ -6,7 +6,7 @@ import { TeamNameVO } from 'src/domain/team-name-vo';
 import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
 
 export class TeamRepository implements ITeamRepository {
-  private prismaClient: PrismaClient;
+  private readonly prismaClient: PrismaClient;
   constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }

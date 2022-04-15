@@ -1,7 +1,7 @@
 export class PairDTO {
   public readonly id: string;
   public readonly name: string;
-  public members: any;
+  public readonly members: any;
 
   constructor(props: { id: string; name: string; members: any }) {
     this.id = props.id;

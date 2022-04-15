@@ -1,3 +1,4 @@
+// 在籍ステータスは、「在籍中」「休会中」「退会済」の3種類
 export const MemberStatusType = {
   active: '在籍中',
   closed: '休会中',

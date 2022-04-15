@@ -116,12 +116,12 @@ describe('team-serviceのテスト', () => {
   it('新しいペア名を生成する', async () => {
     const teamService = new TeamService(mockTeamRepository);
     mockTeamRepository.getById.mockResolvedValueOnce(team);
-    await expect(teamService.generateNewPairName(teamId)).resolves.toBe('c');
+    await expect(teamService.createNewPairName(teamId)).resolves.toBe('c');
   });
 
   it('新しいチーム名を生成する', async () => {
     const teamService = new TeamService(mockTeamRepository);
     mockTeamRepository.getAll.mockResolvedValueOnce([team]);
-    await expect(teamService.generateNewTeamName()).resolves.toBe('2');
+    await expect(teamService.createNewTeamName()).resolves.toBe('2');
   });
 });

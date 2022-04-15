@@ -7,7 +7,7 @@ import { IMemberRepository } from 'src/domain/repository-interface/member-reposi
 import { MemberStatusVO, MemberStatusType } from 'src/domain/member-status-vo';
 
 export class MemberRepository implements IMemberRepository {
-  private prismaClient: PrismaClient;
+  private readonly prismaClient: PrismaClient;
   constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }

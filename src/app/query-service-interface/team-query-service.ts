@@ -1,7 +1,7 @@
 export class TeamDTO {
   public readonly id: string;
   public readonly name: string;
-  public pair: any;
+  public readonly pair: any;
 
   constructor(props: { id: string; name: string; pair: any }) {
     this.id = props.id;

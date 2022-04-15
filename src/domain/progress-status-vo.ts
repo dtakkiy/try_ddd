@@ -1,3 +1,4 @@
+// 課題進捗は、「未着手」「レビュー待ち」「完了」の3種類
 export const ProgressStatusType = {
   notStarted: '未着手',
   awaitingReview: 'レビュー待ち',

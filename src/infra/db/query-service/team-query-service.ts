@@ -5,7 +5,7 @@ import {
 } from 'src/app/query-service-interface/team-query-service';
 
 export class TeamQueryService implements ITeamQueryService {
-  private prismaClient: PrismaClient;
+  private readonly prismaClient: PrismaClient;
   public constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
