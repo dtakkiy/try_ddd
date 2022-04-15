@@ -36,14 +36,14 @@ export class SearchQueryService implements ISearchQueryService {
       taskIds = taskIdList.split(',');
     }
 
-    const query = (arr: string[]) =>
-      arr.reduce((previous, current) => {
-        return `
-          ${previous}
-          AND
-            "public"."MemberOnTask"."taskId" = ${current}
-        `;
-      }, '');
+    // const query = (arr: string[]) =>
+    //   arr.reduce((previous, current) => {
+    //     return `
+    //       ${previous}
+    //       AND
+    //         "public"."MemberOnTask"."taskId" = ${current}
+    //     `;
+    //   }, '');
 
     interface Results {
       id: string;
