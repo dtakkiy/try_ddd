@@ -89,6 +89,7 @@ export class TeamService {
   }
 
   public async createNewPairName(teamId: string): Promise<string> {
+    // ペア名は、a-z
     const PAIR_NAME_LIST: string[] = [...'abcdefghijklmnopqrstuvwxyz'];
 
     const pairSameNameExist = new PairSameNameExist({
@@ -110,6 +111,7 @@ export class TeamService {
   }
 
   public async createNewTeamName(): Promise<string> {
+    // チーム名は、1-999
     const MIN_TEAM_COUNT = 1;
     const MAX_TEAM_COUNT = 999;
 
