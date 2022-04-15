@@ -5,7 +5,7 @@ import {
 } from 'src/app/query-service-interface/task-query-service';
 
 export class TaskQueryService implements ITaskQueryService {
-  private prismaClient: PrismaClient;
+  private readonly prismaClient: PrismaClient;
   constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }

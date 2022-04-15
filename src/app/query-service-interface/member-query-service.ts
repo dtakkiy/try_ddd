@@ -3,8 +3,8 @@ export class MemberDTO {
   public readonly name: string;
   public readonly email: string;
   public readonly status: string;
-  public pair: any;
-  public team: any;
+  public readonly pair: any;
+  public readonly team: any;
 
   constructor(props: {
     id: string;

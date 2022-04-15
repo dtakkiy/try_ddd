@@ -5,7 +5,7 @@ import {
 } from 'src/app/query-service-interface/pair-query-service';
 
 export class PairQueryService implements IPairQueryService {
-  private prismaClient: PrismaClient;
+  private readonly prismaClient: PrismaClient;
   public constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }

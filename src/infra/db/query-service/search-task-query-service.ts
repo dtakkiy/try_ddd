@@ -6,8 +6,7 @@ import {
 import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
 
 export class SearchQueryService implements ISearchQueryService {
-  private prismaClient: PrismaClient;
-
+  private readonly prismaClient: PrismaClient;
   public constructor(prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
