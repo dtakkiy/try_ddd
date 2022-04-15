@@ -22,21 +22,4 @@ describe('progress-statusのテスト', () => {
   it('規定のステータス値以外で生成できないこと', () => {
     expect(() => new ProgressStatusVO('レビュー完了！！！！')).toThrowError();
   });
-
-  it('未着手で進捗を進めた場合、レビュー待ちになる', () => {
-    const status = new ProgressStatusVO(ProgressStatusType.notStarted);
-    const updateStatus = status.stepUp();
-    expect(updateStatus.getStatus()).toMatch(/レビュー待ち/);
-  });
-
-  it('レビュー待ちで進捗を進めた場合、完了になる', () => {
-    const status = new ProgressStatusVO(ProgressStatusType.awaitingReview);
-    const udpateStatus = status.stepUp();
-    expect(udpateStatus.getStatus()).toMatch(/完了/);
-  });
-
-  it('ステータスが完了の場合、エラーとなる', () => {
-    const status = new ProgressStatusVO(ProgressStatusType.completed);
-    expect(() => status.stepUp()).toThrowError();
-  });
 });

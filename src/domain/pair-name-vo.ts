@@ -9,11 +9,6 @@ export class PairNameVO {
     return this._value;
   }
 
-  public setValue(name: string) {
-    this.validatePairName(name);
-    this._value = name;
-  }
-
   private validatePairName(name: string) {
     const pattern = '^[a-z]{1}$';
     if (!name.match(pattern)) {

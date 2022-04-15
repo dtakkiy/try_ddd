@@ -1,5 +1,5 @@
 import { IProgressRepository } from '../repository-interface/progress-repository-interface';
-import { ProgressStatusVO } from '../progress-status-vo';
+import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 
 export class ProgressUpdateStatus {
   private readonly progressRepository: IProgressRepository;
@@ -13,8 +13,21 @@ export class ProgressUpdateStatus {
     taskId: string,
     status: ProgressStatusVO
   ): Promise<void> => {
-    status.stepUp();
+    let updateStatus: ProgressStatusVO;
+    const tmpStatus = status.getStatus();
 
-    await this.progressRepository.update(memberId, taskId, status.getStatus());
+    if (tmpStatus === ProgressStatusType.notStarted) {
+      updateStatus = new ProgressStatusVO(ProgressStatusType.awaitingReview);
+    } else if (tmpStatus === ProgressStatusType.awaitingReview) {
+      updateStatus = new ProgressStatusVO(ProgressStatusType.completed);
+    } else {
+      throw new Error(`progress stepup error.`);
+    }
+
+    await this.progressRepository.update(
+      memberId,
+      taskId,
+      updateStatus.getStatus()
+    );
   };
 }
