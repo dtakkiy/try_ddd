@@ -17,10 +17,6 @@ describe('team-member-updateのテスト', () => {
   let team: Team;
   let pair1: Pair;
   let pair2: Pair;
-  let teamId2: string;
-  let team2: Team;
-  let teamId3: string;
-  let team3: Team;
   let member1: Member;
 
   beforeAll(() => {
@@ -70,20 +66,6 @@ describe('team-member-updateのテスト', () => {
     team = new Team({
       id: teamId,
       name: new TeamNameVO('1'),
-      pairList: [pair1, pair2],
-    });
-
-    teamId2 = faker.datatype.uuid();
-    team2 = new Team({
-      id: teamId2,
-      name: new TeamNameVO('2'),
-      pairList: [pair1, pair2],
-    });
-
-    teamId3 = faker.datatype.uuid();
-    team3 = new Team({
-      id: teamId3,
-      name: new TeamNameVO('3'),
       pairList: [pair1, pair2],
     });
   });
