@@ -88,7 +88,7 @@ export class TeamService {
     });
   }
 
-  public async generateNewPairName(teamId: string): Promise<string> {
+  public async createNewPairName(teamId: string): Promise<string> {
     const PAIR_NAME_LIST: string[] = [...'abcdefghijklmnopqrstuvwxyz'];
 
     const pairSameNameExist = new PairSameNameExist({
@@ -109,7 +109,7 @@ export class TeamService {
     return typeof blankPairName === 'string' ? blankPairName : '';
   }
 
-  public async generateNewTeamName(): Promise<string> {
+  public async createNewTeamName(): Promise<string> {
     const MIN_TEAM_COUNT = 1;
     const MAX_TEAM_COUNT = 999;
 
