@@ -15,8 +15,4 @@ export class MemberNameVO {
   public getValue() {
     return this._var;
   }
-
-  public setValue(name: string) {
-    this._var = name;
-  }
 }
