@@ -1,5 +1,6 @@
 import { Team } from 'src/domain/team';
 import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
+import { TeamNameVO } from 'src/domain/team-name-vo';
 
 interface Params {
   id: string;
@@ -21,7 +22,7 @@ export class UpdateTeamUseCase {
       throw new Error('team does not exists.');
     }
 
-    team.name.setValue(name);
+    team.setName(name);
 
     const updateTeam = await this.teamRepository.update(team);
     return updateTeam;

@@ -38,6 +38,10 @@ export class Team {
     return this.props.name;
   }
 
+  public setName(name: string) {
+    this.props.name = new TeamNameVO(name);
+  }
+
   public getPair(pairId: string): Pair {
     const result = this.props.pairList.find((pair) => pair.id === pairId);
 
