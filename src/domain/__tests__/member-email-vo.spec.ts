@@ -17,11 +17,4 @@ describe('memberEmailVOのテスト', () => {
     const memberEmailVO = new MemberEmailVO('b@example.com');
     expect(memberEmailVO.getEmail()).toMatch(/b@example.com/);
   });
-
-  it('メールが設定できること', () => {
-    const expectEmail = 'c@example.com';
-    const memberEmailVO = new MemberEmailVO('b@example.com');
-    memberEmailVO.setEmail(expectEmail);
-    expect(memberEmailVO.getEmail()).toMatch(expectEmail);
-  });
 });
