@@ -29,6 +29,6 @@ jobs:
     - run: yarn
     - run: yarn build
     - run: yarn prisma migrate deploy
-    - run: yarn prisma db seed
+    - run: yarn seed
     - name: yarn test
       run: yarn test:unit

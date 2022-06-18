@@ -20,6 +20,7 @@
     "migrate:dev:reset": "dotenv -e .local.env -- prisma migrate reset --preview-feature",
     "studio:dev": "dotenv -e .local.env -- prisma studio",
     "seed:dev": "dotenv -e .local.env -- ts-node prisma/seed.ts",
+    "seed": "ts-node prisma/seed.ts",
     "migrate:test": "dotenv -e .test.env -- prisma migrate reset --force --preview-feature",
     "migrate:prd": "prisma migrate deploy --preview-feature",
     "test:unit": "dotenv -e .test.env -- jest",
