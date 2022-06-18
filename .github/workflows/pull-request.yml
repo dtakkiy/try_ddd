@@ -2,6 +2,9 @@ name: when pull_request
 on:
   pull_request:
    branches: []
+env:
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
 jobs:
   build:
    runs-on: ubuntu-latest
@@ -26,3 +29,5 @@ jobs:
       uses: bahmutov/npm-install@v1
     - name: unit test
       run: yarn test:unit
+    - name: echo
+      run: echo "job finished."
