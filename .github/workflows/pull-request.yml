@@ -7,10 +7,10 @@ env:
   POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
 jobs:
   build:
-   runs-on: ubuntu-18.04
+   runs-on: ubuntu-latest
    strategy:
     matrix:
-     node-version: [14.x]
+     node-version: [16.x]
    services:
      postgres:
        image: postgres
