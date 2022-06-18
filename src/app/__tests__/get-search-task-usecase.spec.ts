@@ -5,7 +5,7 @@ import { GetSearchTaskUseCase } from '../get-search-task-usecase';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import * as faker from 'faker';
 import { SearchDTO } from '../query-service-interface/search-task-query-service';
-import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
+import { Page, Paging, PagingCondition } from 'src/__shared__/page';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/search-task-query-service');

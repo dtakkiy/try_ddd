@@ -3,7 +3,7 @@ import {
   SearchDTO,
   ISearchQueryService,
 } from 'src/app/query-service-interface/search-task-query-service';
-import { Page, Paging, PagingCondition } from 'src/domain/__shared__/page';
+import { Page, Paging, PagingCondition } from 'src/__shared__/page';
 
 export class SearchQueryService implements ISearchQueryService {
   private readonly prismaClient: PrismaClient;
