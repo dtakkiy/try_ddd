@@ -15,13 +15,15 @@ export class GetSearchResponse {
   public constructor(params: { searchDatas: Page<SearchDTO> }) {
     const { searchDatas } = params;
     this.pagingData = searchDatas.paging;
-    this.searchData = searchDatas.items.map(({ id, name, email }) => {
-      return new SearchData({
-        id,
-        name,
-        email,
-      });
-    });
+    this.searchData = searchDatas.items.map(
+      ({ id, name, email }: { id: string; name: string; email: string }) => {
+        return new SearchData({
+          id,
+          name,
+          email,
+        });
+      }
+    );
   }
 }
 
