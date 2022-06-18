@@ -28,9 +28,7 @@ jobs:
         cache: npm
     - run: yarn
     - run: yarn build
-    - run: yarn prisma migrate deploy --preview-feature
-    - run: yarn prisma db seed --preview-feature
-    - name: yarn unit test
+    - run: yarn prisma migrate deploy
+    - run: yarn prisma db seed
+    - name: yarn test
       run: yarn test:unit
-    # - name: yarn integration test
-    #   run: yarn test:integration
