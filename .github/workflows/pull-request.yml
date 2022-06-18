@@ -1,0 +1,28 @@
+name: when pull_request
+on:
+  pull_request:
+   branches: []
+jobs:
+  build:
+   runs-on: ubuntu-latest
+   strategy:
+    matrix:
+     node-version: [14.x]
+   services:
+     postgres:
+       image: postgres
+       ports:
+         - 5432:5432
+       env:
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_INITDB_ARGS: ${{ secrets.POSTGRES_INITDB_ARGS }}
+        TZ: ${{ secrets.TZ }}
+   steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: yarn cache
+      uses: bahmutov/npm-install@v1
+    - name: unit test
+      run: yarn test:unit
