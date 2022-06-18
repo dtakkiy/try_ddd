@@ -10,7 +10,7 @@ jobs:
    runs-on: ubuntu-latest
    strategy:
     matrix:
-     node-version: [14.17.x]
+     node-version: [14.x, 15.x, 16.x]
    services:
      postgres:
        image: postgres
@@ -24,9 +24,11 @@ jobs:
         TZ: ${{ secrets.TZ }}
    steps:
     - name: checkout
-      uses: actions/checkout@v2
-    - name: yarn cache
+      uses: actions/checkout@v3
+    - name: yarn cache ${{ matrix.node-version }}
       uses: bahmutov/npm-install@v1
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: unit test
       run: yarn test:unit
     - name: echo
