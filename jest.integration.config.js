@@ -3,5 +3,5 @@ const defaultConfig = require('./jest.config.common');
 
 module.exports = {
   ...defaultConfig,
-  testMatch: ['**/__tests__/**/*.integration.test.[jt]s'],
+  testMatch: ['**/__tests__/**/*.integration.spec.[jt]s'],
 };
