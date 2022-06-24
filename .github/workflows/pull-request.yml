@@ -30,4 +30,4 @@ jobs:
     - run: yarn prisma migrate deploy
     - run: yarn seed
     - name: yarn integration test
-      run: yarn jest src/app/__tests__/get-member-list-usecase.integrate.spec.ts
+      run: yarn test:integration
