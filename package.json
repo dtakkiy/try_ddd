@@ -3,7 +3,7 @@
   "private": true,
   "license": "UNLICENSED",
   "engines": {
-    "node": "14.17.x"
+    "node": "14.x"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -20,11 +20,12 @@
     "migrate:dev:reset": "dotenv -e .local.env -- prisma migrate reset --preview-feature",
     "studio:dev": "dotenv -e .local.env -- prisma studio",
     "seed:dev": "dotenv -e .local.env -- ts-node prisma/seed.ts",
+    "seed": "ts-node prisma/seed.ts",
     "migrate:test": "dotenv -e .test.env -- prisma migrate reset --force --preview-feature",
     "migrate:prd": "prisma migrate deploy --preview-feature",
     "test:unit": "dotenv -e .test.env -- jest",
     "test:watch": "dotenv -e .test.env -- jest --verbose --watchAll",
-    "test:integration": "yarn migrate:test && dotenv -e .test.env -- jest -c ./jest.integration.config.js --runInBand"
+    "test:integration": "jest -c ./jest.integration.config.js --runInBand"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",

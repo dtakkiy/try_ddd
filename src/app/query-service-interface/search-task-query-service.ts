@@ -1,4 +1,4 @@
-import { Page, PagingCondition } from 'src/domain/__shared__/page';
+import { Page, PagingCondition } from 'src/__shared__/page';
 
 export class SearchDTO {
   public readonly id: string;
