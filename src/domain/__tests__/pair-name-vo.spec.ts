@@ -6,6 +6,6 @@ describe('pair-name-voのテスト', () => {
   });
 
   it('不正な名前を入力した場合', () => {
-    expect(() => new PairNameVO('1')).toThrowError();
+    expect(() => new PairNameVO('1')).toThrow();
   });
 });

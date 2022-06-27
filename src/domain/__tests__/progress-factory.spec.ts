@@ -1,9 +1,9 @@
 import * as faker from 'faker';
+import { ProgressFactory } from '../domain-service/progress-factory';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';
 import { MemberNameVO } from '../member-name-vo';
 import { MemberStatusVO } from '../member-status-vo';
-import { ProgressFactory } from '../domain-service/progress-factory';
 import { Task } from '../task';
 
 describe('progress factoryのテスト', () => {

@@ -1,7 +1,7 @@
 import { Member } from '../member';
-import { Task } from '../task';
 import { Progress } from '../progress';
 import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
+import { Task } from '../task';
 
 interface IProps {
   member: Member;

@@ -1,6 +1,6 @@
 import { Member } from '../member';
-import { IMemberRepository } from '../repository-interface/member-repository-interface';
 import { MemberStatusVO } from '../member-status-vo';
+import { IMemberRepository } from '../repository-interface/member-repository-interface';
 
 export class MemberUpdateStatus {
   private readonly memberRepository: IMemberRepository;

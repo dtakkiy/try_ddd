@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client';
+import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
+import { Pair } from 'src/domain/pair';
+import { PairNameVO } from 'src/domain/pair-name-vo';
 import { Team } from 'src/domain/team';
 import { TeamNameVO } from 'src/domain/team-name-vo';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
-import { ChangeTeamOfPairsUseCase } from '../change-team-of-pairs-usecase';
-import * as faker from 'faker';
-import { Pair } from 'src/domain/pair';
-import { PairNameVO } from 'src/domain/pair-name-vo';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { Identifier } from 'src/__shared__/identifier';
+import { ChangeTeamOfPairsUseCase } from '../change-team-of-pairs-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');

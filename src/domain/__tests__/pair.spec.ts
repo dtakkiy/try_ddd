@@ -1,6 +1,6 @@
+import * as faker from 'faker';
 import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from '../pair';
-import * as faker from 'faker';
 import { PairNameVO } from '../pair-name-vo';
 
 describe('Pairのテスト', () => {
@@ -36,7 +36,7 @@ describe('Pairのテスト', () => {
           name: new PairNameVO('1'),
           memberIdList: [memberId1, memberId2],
         })
-    ).toThrowError();
+    ).toThrow();
   });
 
   it('1名のペアは存在できない', () => {
@@ -48,7 +48,7 @@ describe('Pairのテスト', () => {
           name: new PairNameVO('a'),
           memberIdList: [memberId1],
         })
-    ).toThrowError();
+    ).toThrow();
   });
 
   it('4名のペアは存在できない', () => {
@@ -60,7 +60,7 @@ describe('Pairのテスト', () => {
           name: new PairNameVO('a'),
           memberIdList: [memberId1, memberId2, memberId3, memberId4],
         })
-    ).toThrowError();
+    ).toThrow();
   });
 
   it('メンバーを追加できる', () => {

@@ -4,5 +4,7 @@ import { UserSession } from './session-interface/user-session';
 export class SomeRequireSessionUseCase {
   public execute(userSession: UserSession) {
     // セッションを利用した処理を記述
+    if (userSession) {
+    }
   }
 }

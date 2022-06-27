@@ -17,13 +17,13 @@ describe('【ユースケース 結合テスト】 参加者一覧を取得す�
     const memberQueryService = new MemberQueryService(prisma);
     const usecase = new GetMemberListUseCase(memberQueryService);
     const memberDTO = await usecase.execute();
-    expect(memberDTO.length).toBe(4);
+    expect(memberDTO).toHaveLength(4);
   });
 
   it('【異常系】参加者一覧の件数を検証', async () => {
     const memberQueryService = new MemberQueryService(prisma);
     const usecase = new GetMemberListUseCase(memberQueryService);
     const memberDTO = await usecase.execute();
-    expect(memberDTO.length).not.toBe(40);
+    expect(memberDTO).not.toHaveLength(40);
   });
 });

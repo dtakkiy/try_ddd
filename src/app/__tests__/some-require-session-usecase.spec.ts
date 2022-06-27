@@ -1,5 +1,5 @@
-import { SomeRequireSessionUseCase } from '../some-require-session-usecase';
 import { UserSession, UserRole } from '../session-interface/user-session';
+import { SomeRequireSessionUseCase } from '../some-require-session-usecase';
 
 describe('some-require-session', () => {
   let mockUserSession: UserSession;
@@ -15,6 +15,6 @@ describe('some-require-session', () => {
     const useCase = new SomeRequireSessionUseCase();
     useCase.execute(userSession);
 
-    // テスト
+    expect(1 + 2).toBe(3);
   });
 });

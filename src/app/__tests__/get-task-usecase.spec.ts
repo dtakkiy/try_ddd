@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
+import * as faker from 'faker';
 import { TaskQueryService } from 'src/infra/db/query-service/task-query-service';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
 import { GetTaskUseCase } from '../get-task-usecase';
-import * as faker from 'faker';
 import { TaskDTO } from '../query-service-interface/task-query-service';
 
 jest.mock('@prisma/client');
@@ -18,7 +18,7 @@ describe('課題一覧取得 テスト', () => {
 
   it('インスタンスを生成できるか？', async () => {
     const usecase = new GetTaskUseCase(mockTaskQS);
-    return await expect(usecase.execute()).resolves.toBe(undefined);
+    return await expect(usecase.execute()).resolves.toBeUndefined();
   });
 
   it('課題を取得できるか？', async () => {

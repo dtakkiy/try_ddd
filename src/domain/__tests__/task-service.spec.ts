@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { TaskService } from '../domain-service/task-service';
 import * as faker from 'faker';
+import { TaskService } from '../domain-service/task-service';
 
 jest.mock('@prisma/client');
 
@@ -18,6 +18,6 @@ describe('task-serviceのテスト', () => {
 
   it('実行に失敗', async () => {
     const taskId = faker.datatype.uuid();
-    await expect(taskService.deleteTask(taskId)).rejects.toThrowError();
+    await expect(taskService.deleteTask(taskId)).rejects.toThrow();
   });
 });

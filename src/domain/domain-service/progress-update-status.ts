@@ -1,5 +1,5 @@
-import { IProgressRepository } from '../repository-interface/progress-repository-interface';
 import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
+import { IProgressRepository } from '../repository-interface/progress-repository-interface';
 
 export class ProgressUpdateStatus {
   private readonly progressRepository: IProgressRepository;

@@ -20,7 +20,7 @@ describe('member-statusのテスト', () => {
   });
 
   it('規定のステータス値以外で生成できないこと', () => {
-    expect(() => new MemberStatusVO('転籍中')).toThrowError();
+    expect(() => new MemberStatusVO('転籍中')).toThrow();
   });
 
   it('ペアに参加しているか?', () => {

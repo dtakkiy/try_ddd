@@ -20,6 +20,6 @@ describe('progress-statusのテスト', () => {
   });
 
   it('規定のステータス値以外で生成できないこと', () => {
-    expect(() => new ProgressStatusVO('レビュー完了！！！！')).toThrowError();
+    expect(() => new ProgressStatusVO('レビュー完了！！！！')).toThrow();
   });
 });

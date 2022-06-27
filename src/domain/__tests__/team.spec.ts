@@ -1,9 +1,9 @@
-import { Identifier } from 'src/__shared__/identifier';
-import { Team } from '../team';
-import { TeamNameVO } from '../team-name-vo';
 import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from '../pair';
 import { PairNameVO } from '../pair-name-vo';
+import { Team } from '../team';
+import { TeamNameVO } from '../team-name-vo';
 
 describe('Teamエンティティのテスト', () => {
   let memberId1: string;
@@ -45,14 +45,14 @@ describe('Teamエンティティのテスト', () => {
           name: new TeamNameVO('a'),
           pairList: [],
         });
-      }).toThrowError();
+      }).toThrow();
     });
 
     it('名前は3文字以下でないといけない', () => {
       const id = Identifier.generator();
       expect(() => {
         new Team({ id: id, name: new TeamNameVO('1234'), pairList: [] });
-      }).toThrowError();
+      }).toThrow();
     });
   });
 
@@ -130,7 +130,7 @@ describe('Teamエンティティのテスト', () => {
       });
 
       expect(team.getMemberCount()).toBe(3);
-      expect(() => team.addMember(memberId4)).toThrowError();
+      expect(() => team.addMember(memberId4)).toThrow();
     });
 
     it('チームメンバーを削除した際、最少人数を下回った場合', () => {
@@ -147,7 +147,7 @@ describe('Teamエンティティのテスト', () => {
       });
 
       expect(team.getMemberCount()).toBe(3);
-      expect(() => team.deleteMember(memberId3)).toThrowError();
+      expect(() => team.deleteMember(memberId3)).toThrow();
     });
 
     it('チームメンバーを削除', () => {

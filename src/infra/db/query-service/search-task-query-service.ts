@@ -1,9 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import { Page, Paging, PagingCondition } from 'src/__shared__/page';
 import {
   SearchDTO,
   ISearchQueryService,
 } from 'src/app/query-service-interface/search-task-query-service';
-import { Page, Paging, PagingCondition } from 'src/__shared__/page';
 
 export class SearchQueryService implements ISearchQueryService {
   private readonly prismaClient: PrismaClient;

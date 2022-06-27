@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { TaskRepository } from 'src/infra/db/repository/task-repository';
-import { DeleteTaskUseCase } from '../delete-task-usecase';
 import * as faker from 'faker';
+import { TaskService } from 'src/domain/domain-service/task-service';
+import { Task } from 'src/domain/task';
+import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { Task } from 'src/domain/task';
-import { TaskService } from 'src/domain/domain-service/task-service';
+import { DeleteTaskUseCase } from '../delete-task-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/task-repository');

@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { mocked } from 'ts-jest/utils';
-import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
-import { GetSearchTaskUseCase } from '../get-search-task-usecase';
-import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import * as faker from 'faker';
-import { SearchDTO } from '../query-service-interface/search-task-query-service';
 import { Page, Paging, PagingCondition } from 'src/__shared__/page';
+import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
+import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { GetSearchTaskUseCase } from '../get-search-task-usecase';
+import { SearchDTO } from '../query-service-interface/search-task-query-service';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/search-task-query-service');
@@ -43,7 +43,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).resolves.toBe(undefined);
+    ).resolves.toBeUndefined();
   });
 
   it('【正常系】特定の進捗ステータスを指定し、参加者一覧を取得できる', async () => {
@@ -109,6 +109,6 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).rejects.toThrowError();
+    ).rejects.toThrow();
   });
 });

@@ -1,8 +1,8 @@
+import * as faker from 'faker';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';
 import { MemberNameVO } from '../member-name-vo';
 import { MemberStatusVO } from '../member-status-vo';
-import * as faker from 'faker';
 
 interface IMember {
   id: string;

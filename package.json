@@ -14,7 +14,7 @@
     "dev": "dotenv -e .local.env -- nest start --watch",
     "dev:debug": "dotenv -e .local.env -- nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "migrate:dev": "dotenv -e .local.env -- prisma migrate dev --preview-feature",
     "model-generate": "prisma generate",
     "migrate:dev:reset": "dotenv -e .local.env -- prisma migrate reset --preview-feature",
@@ -25,7 +25,8 @@
     "migrate:prd": "prisma migrate deploy --preview-feature",
     "test:unit": "dotenv -e .test.env -- jest",
     "test:watch": "dotenv -e .test.env -- jest --verbose --watchAll",
-    "test:integration": "jest -c ./jest.integration.config.js --runInBand"
+    "test:integration": "jest -c ./jest.integration.config.js --runInBand",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
@@ -61,9 +62,13 @@
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.5.3",
     "eslint-plugin-prettier": "^3.1.4",
     "faker": "^5.1.0",
+    "husky": "^8.0.1",
     "jest": "^26.6.3",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.1.2",
     "prisma": "^3.9.1",
     "supertest": "^6.0.0",
@@ -72,5 +77,11 @@
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.6.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix \"src/**/*.ts\"",
+      "prettier --write \"src/**/*.ts\""
+    ]
   }
 }

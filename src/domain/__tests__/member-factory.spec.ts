@@ -1,6 +1,6 @@
 import * as faker from 'faker';
-import { Member } from '../member';
 import { MemberFactory } from '../domain-service/member-factory';
+import { Member } from '../member';
 
 describe('member factoryのテスト', () => {
   it('正常系', () => {
