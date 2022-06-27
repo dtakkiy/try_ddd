@@ -35,9 +35,10 @@ jobs:
     - run: yarn test:integration
     - name: Fail job
       run: exit 1
-    - name: slack notification
+    - name: Slack Notification
       if: failure()
-      uses: rtCamp/action-slack-notify@v1
+      uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: danger
+        SLACK_ICON_EMOJI: :bell
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
