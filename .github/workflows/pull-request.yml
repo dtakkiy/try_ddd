@@ -22,12 +22,14 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
     - name: yarn cache
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '14.x'
     - run: yarn
     - run: yarn build
+    - run: yarn lint:fix
+    - run: yarn format
+    - run: yarn test:unit
     - run: yarn prisma migrate deploy
     - run: yarn seed
-    - name: yarn integration test
-      run: yarn test:integration
+    - run: yarn test:integration
