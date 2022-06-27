@@ -6,6 +6,6 @@ describe('memberNameVOのテスト', () => {
   });
 
   it('空の文字列を渡した場合', () => {
-    expect(() => new MemberNameVO('')).toThrowError();
+    expect(() => new MemberNameVO('')).toThrow();
   });
 });

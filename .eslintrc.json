@@ -4,10 +4,12 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint/eslint-plugin", "import"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "import", "jest"],
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
@@ -30,6 +32,7 @@
           "order": "asc"
         }
       }
-    ]
+    ],
+    "jest/consistent-test-it": ["error", {"fn": "it"}]
   }
 }

@@ -79,6 +79,6 @@ describe('team-member-updateのテスト', () => {
       team: team,
       member: member1,
     };
-    await expect(teamMemberUpdate.update(props)).rejects.toThrowError();
+    await expect(teamMemberUpdate.update(props)).rejects.toThrow();
   });
 });

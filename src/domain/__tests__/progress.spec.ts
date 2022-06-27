@@ -40,7 +40,7 @@ describe('progressエンティティのテスト', () => {
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.completed);
 
-    expect(() => progress.changeStatusForward(memberId)).toThrowError(
+    expect(() => progress.changeStatusForward(memberId)).toThrow(
       `already completed.`
     );
   });
@@ -57,7 +57,7 @@ describe('progressエンティティのテスト', () => {
     const progress = new Progress(data);
     expect(progress.status).toMatch(ProgressStatusType.completed);
 
-    expect(() => progress.changeStatusForward(memberId2)).toThrowError(
+    expect(() => progress.changeStatusForward(memberId2)).toThrow(
       `only the owner can change the task status.`
     );
   });

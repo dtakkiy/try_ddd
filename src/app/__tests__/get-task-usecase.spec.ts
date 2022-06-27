@@ -18,7 +18,7 @@ describe('課題一覧取得 テスト', () => {
 
   it('インスタンスを生成できるか？', async () => {
     const usecase = new GetTaskUseCase(mockTaskQS);
-    return await expect(usecase.execute()).resolves.toBe(undefined);
+    return await expect(usecase.execute()).resolves.toBeUndefined();
   });
 
   it('課題を取得できるか？', async () => {

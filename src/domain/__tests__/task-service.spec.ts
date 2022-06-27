@@ -18,6 +18,6 @@ describe('task-serviceのテスト', () => {
 
   it('実行に失敗', async () => {
     const taskId = faker.datatype.uuid();
-    await expect(taskService.deleteTask(taskId)).rejects.toThrowError();
+    await expect(taskService.deleteTask(taskId)).rejects.toThrow();
   });
 });

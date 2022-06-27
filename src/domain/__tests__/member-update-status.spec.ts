@@ -33,7 +33,7 @@ describe('member-update-statusのテスト', () => {
         member,
         new MemberStatusVO(MemberStatusType.closed)
       )
-    ).resolves.toBe(undefined);
+    ).resolves.toBeUndefined();
   });
 
   it('ステータスが同じである場合、エラーとなる', async () => {
@@ -43,6 +43,6 @@ describe('member-update-statusのテスト', () => {
         member,
         new MemberStatusVO(MemberStatusType.active)
       )
-    ).rejects.toThrowError();
+    ).rejects.toThrow();
   });
 });

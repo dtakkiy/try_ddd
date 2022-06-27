@@ -17,6 +17,6 @@ describe('【ユースケース】ペアの一覧を取得する', () => {
 
   it('【正常系】ペアの一覧を取得する', async () => {
     const usecase = new GetPairUseCase(mockPairQueryService);
-    return await expect(usecase.execute()).resolves.toBe(undefined);
+    return await expect(usecase.execute()).resolves.toBeUndefined();
   });
 });

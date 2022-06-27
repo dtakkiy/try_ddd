@@ -16,6 +16,6 @@ describe('【ユースケース】参加者一覧を取得する', () => {
 
   it('[正常系] 参加者の一覧を取得する', async () => {
     const usecase = new GetMemberListUseCase(mockMemberQueryService);
-    return await expect(usecase.execute()).resolves.toBe(undefined);
+    return await expect(usecase.execute()).resolves.toBeUndefined();
   });
 });

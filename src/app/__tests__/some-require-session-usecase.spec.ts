@@ -15,6 +15,6 @@ describe('some-require-session', () => {
     const useCase = new SomeRequireSessionUseCase();
     useCase.execute(userSession);
 
-    // テスト
+    expect(1 + 2).toBe(3);
   });
 });

@@ -43,7 +43,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).resolves.toBe(undefined);
+    ).resolves.toBeUndefined();
   });
 
   it('【正常系】特定の進捗ステータスを指定し、参加者一覧を取得できる', async () => {
@@ -109,6 +109,6 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
         taskStatus: taskStatus,
         pagingCondition: pagingCondition,
       })
-    ).rejects.toThrowError();
+    ).rejects.toThrow();
   });
 });

@@ -6,11 +6,11 @@ describe('memberEmailVOのテスト', () => {
   });
 
   it('空のemailアドレスを渡した場合', () => {
-    expect(() => new MemberEmailVO('')).toThrowError();
+    expect(() => new MemberEmailVO('')).toThrow();
   });
 
   it('不正なemailアドレスであった場合', () => {
-    expect(() => new MemberEmailVO('aaaaaa@aaaaaaaa')).toThrowError();
+    expect(() => new MemberEmailVO('aaaaaa@aaaaaaaa')).toThrow();
   });
 
   it('値が取得できること', () => {

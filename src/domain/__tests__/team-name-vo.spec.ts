@@ -6,6 +6,6 @@ describe('team-name-voのテスト', () => {
   });
 
   it('不正なチーム名の場合', () => {
-    expect(() => new TeamNameVO('a')).toThrowError();
+    expect(() => new TeamNameVO('a')).toThrow();
   });
 });
