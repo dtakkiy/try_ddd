@@ -5,6 +5,7 @@ on:
 jobs:
   build:
    runs-on: ubuntu-latest
+   timeout-minutes: 5
    steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -27,6 +28,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   unit-test:
     name: unit test
+    timeout-minutes: 5
     needs:
       - build
     runs-on: ubuntu-latest
@@ -51,6 +53,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   integration-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs:
       - build
     services:
@@ -89,10 +92,13 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [unit-test, integration-test]
     steps:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_USERNAME: RtBotFinish
+          SLACK_TITLE: Deploy finished
+          SLACK_MESSAGE: 'Deploy finished'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
