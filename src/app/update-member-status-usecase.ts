@@ -1,9 +1,9 @@
-import { Member } from 'src/domain/member';
-import { IMemberRepository } from 'src/domain/repository-interface/member-repository-interface';
-import { MemberStatusVO } from 'src/domain/member-status-vo';
 import { AddMemberToFewestTeam } from 'src/domain/domain-service/team-add-member-to-fewest-team';
 import { DeleteMemberFromPair } from 'src/domain/domain-service/team-delete-member-from-pair';
 import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
+import { Member } from 'src/domain/member';
+import { MemberStatusVO } from 'src/domain/member-status-vo';
+import { IMemberRepository } from 'src/domain/repository-interface/member-repository-interface';
 import { ITeamRepository } from 'src/domain/repository-interface/team-repository-interface';
 import { IEmailRepository } from './repository-interface/email-repository-interface';
 

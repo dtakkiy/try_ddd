@@ -1,6 +1,6 @@
+import * as faker from 'faker';
 import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from '../pair';
-import * as faker from 'faker';
 import { PairNameVO } from '../pair-name-vo';
 
 describe('Pairのテスト', () => {

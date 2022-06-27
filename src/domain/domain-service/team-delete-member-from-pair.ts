@@ -1,9 +1,9 @@
 import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 import { Member } from '../member';
 import { Pair } from '../pair';
+import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { Team } from '../team';
 import { TeamMemberUpdate } from './team-member-update';
-import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { TeamService } from './team-service';
 
 export class DeleteMemberFromPair {

@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { mocked } from 'ts-jest/utils';
-import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
-import { GetTeamUseCase } from '../get-team-usecase';
 import { TeamQueryService } from 'src/infra/db/query-service/team-query-service';
+import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { GetTeamUseCase } from '../get-team-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/team-query-service');

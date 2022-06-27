@@ -2,9 +2,9 @@ import { Identifier } from 'src/__shared__/identifier';
 import { Member } from '../member';
 import { Pair } from '../pair';
 import { PairNameVO } from '../pair-name-vo';
+import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { Team } from '../team';
 import { TeamMemberUpdate } from './team-member-update';
-import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { TeamService } from './team-service';
 
 export class AddMemberToFewestTeam {

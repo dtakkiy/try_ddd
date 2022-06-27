@@ -1,16 +1,16 @@
 import { PrismaClient } from '@prisma/client';
-import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { Identifier } from 'src/__shared__/identifier';
-import { CreateMemberUseCase } from '../create-member-usecase';
 import { Member } from 'src/domain/member';
-import { MemberStatusVO } from 'src/domain/member-status-vo';
-import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
-import { Task } from 'src/domain/task';
-import { mocked } from 'ts-jest/utils';
-import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
-import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
 import { MemberNameVO } from 'src/domain/member-name-vo';
+import { MemberStatusVO } from 'src/domain/member-status-vo';
+import { Task } from 'src/domain/task';
+import { MemberRepository } from 'src/infra/db/repository/member-repository';
+import { ProgressRepository } from 'src/infra/db/repository/progress-repository';
+import { TaskRepository } from 'src/infra/db/repository/task-repository';
+import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { CreateMemberUseCase } from '../create-member-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');

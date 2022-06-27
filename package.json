@@ -14,7 +14,7 @@
     "dev": "dotenv -e .local.env -- nest start --watch",
     "dev:debug": "dotenv -e .local.env -- nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "migrate:dev": "dotenv -e .local.env -- prisma migrate dev --preview-feature",
     "model-generate": "prisma generate",
     "migrate:dev:reset": "dotenv -e .local.env -- prisma migrate reset --preview-feature",
@@ -62,6 +62,7 @@
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "7.2.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^3.1.4",
     "faker": "^5.1.0",
     "husky": "^8.0.1",
@@ -78,8 +79,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix \"src/**/*.ts\"",
+      "prettier --write \"src/**/*.ts\""
     ]
   }
 }

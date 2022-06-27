@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Delete, Param, Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
+import { DeleteTaskUseCase } from 'src/app/delete-task-usecase';
 import { GetTaskUseCase } from 'src/app/get-task-usecase';
 import { UpdateTaskStatusUseCase } from 'src/app/update-task-status-usecase';
 import { Progress } from 'src/domain/progress';
@@ -10,7 +11,6 @@ import { ProgressRepository } from 'src/infra/db/repository/progress-repository'
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { PutTaskRequest } from './request/put-task-request';
 import { GetTaskResponse } from './response/get-task-response';
-import { DeleteTaskUseCase } from 'src/app/delete-task-usecase';
 
 @Controller({
   path: '/tasks',

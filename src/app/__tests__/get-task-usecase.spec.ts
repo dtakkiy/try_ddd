@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
+import * as faker from 'faker';
 import { TaskQueryService } from 'src/infra/db/query-service/task-query-service';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
 import { GetTaskUseCase } from '../get-task-usecase';
-import * as faker from 'faker';
 import { TaskDTO } from '../query-service-interface/task-query-service';
 
 jest.mock('@prisma/client');

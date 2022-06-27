@@ -1,5 +1,5 @@
-import { Task } from '../task';
 import * as faker from 'faker';
+import { Task } from '../task';
 
 describe('taskの単体テスト', () => {
   let data = { id: '', title: '', content: '' };

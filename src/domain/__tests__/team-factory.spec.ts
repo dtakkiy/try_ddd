@@ -1,9 +1,9 @@
 import * as faker from 'faker';
 import { Identifier } from 'src/__shared__/identifier';
+import { TeamFactory } from '../domain-service/team-factory';
 import { Pair } from '../pair';
 import { PairNameVO } from '../pair-name-vo';
 import { Team } from '../team';
-import { TeamFactory } from '../domain-service/team-factory';
 
 describe('team factoryのテスト', () => {
   it('正常系', () => {

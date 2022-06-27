@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { mocked } from 'ts-jest/utils';
-import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
-import { GetPairUseCase } from '../get-pair-usecase';
 import { PairQueryService } from 'src/infra/db/query-service/pair-query-service';
+import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { GetPairUseCase } from '../get-pair-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/pair-query-service');

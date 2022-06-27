@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
-import { Team } from '../team';
-import { Pair } from '../pair';
-import { PairNameVO } from '../pair-name-vo';
-import { TeamNameVO } from '../team-name-vo';
 import { MemberFactory } from '../domain-service/member-factory';
 import { TeamMemberUpdate } from '../domain-service/team-member-update';
 import { Member } from '../member';
+import { Pair } from '../pair';
+import { PairNameVO } from '../pair-name-vo';
+import { Team } from '../team';
+import { TeamNameVO } from '../team-name-vo';
 
 jest.mock('@prisma/client');
 

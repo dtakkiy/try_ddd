@@ -1,9 +1,9 @@
-import { Identifier } from 'src/__shared__/identifier';
-import { Team } from '../team';
-import { TeamNameVO } from '../team-name-vo';
 import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
 import { Pair } from '../pair';
 import { PairNameVO } from '../pair-name-vo';
+import { Team } from '../team';
+import { TeamNameVO } from '../team-name-vo';
 
 describe('Teamエンティティのテスト', () => {
   let memberId1: string;

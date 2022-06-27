@@ -1,5 +1,5 @@
-import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 import * as nodemailer from 'nodemailer';
+import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 
 interface MessageProps {
   from: string;
@@ -30,6 +30,9 @@ export class EmailRepository implements IEmailRepository {
         if (err) {
           // 失敗
           return false;
+        }
+
+        if (success) {
         }
       });
     } catch (e) {

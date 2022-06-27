@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { MemberQueryService } from 'src/infra/db/query-service/member-query-service';
-import { GetMemberListUseCase } from '../get-member-list-usecase';
-import { mocked } from 'ts-jest/utils';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { GetMemberListUseCase } from '../get-member-list-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/query-service/member-query-service');

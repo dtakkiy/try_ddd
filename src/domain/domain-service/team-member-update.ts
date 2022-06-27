@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { Team } from '../team';
-import { Member } from '../member';
 import { Identifier } from 'src/__shared__/identifier';
+import { Member } from '../member';
+import { Team } from '../team';
 
 interface Props {
   team: Team;

@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { mocked } from 'ts-jest/utils';
-import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
-import { UpdateTeamUseCase } from '../update-team-usecase';
-import { TeamRepository } from 'src/infra/db/repository/team-repository';
-import { Team } from 'src/domain/team';
 import { Identifier } from 'src/__shared__/identifier';
+import { Team } from 'src/domain/team';
 import { TeamNameVO } from 'src/domain/team-name-vo';
+import { TeamRepository } from 'src/infra/db/repository/team-repository';
+import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
+import { mocked } from 'ts-jest/utils';
+import { UpdateTeamUseCase } from '../update-team-usecase';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');
