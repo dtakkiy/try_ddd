@@ -33,3 +33,11 @@ jobs:
     - run: yarn prisma migrate deploy
     - run: yarn seed
     - run: yarn test:integration
+    - name: Fail job
+      run: exit 1
+    - name: slack notification
+      if: failure()
+      uses: rtCamp/action-slack-notify@v1
+      env:
+        SLACK_COLOR: danger
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
