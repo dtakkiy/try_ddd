@@ -5,19 +5,6 @@ on:
 jobs:
   build:
    runs-on: ubuntu-latest
-   services:
-     postgres:
-       image: postgres
-       ports:
-         - 5432:5432
-       env:
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_DB: prisma-db
-        POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
-        TZ: "Asia/Tokyo"
-   env:
-     DATABASE_URL: postgresql://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/prisma-db
    steps:
     - name: checkout
       uses: actions/checkout@v3
