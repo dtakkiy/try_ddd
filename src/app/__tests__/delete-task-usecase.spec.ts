@@ -33,7 +33,7 @@ describe('課題の削除', () => {
     mockTaskRepository.getById.mockResolvedValueOnce(task1);
     mockTaskService.deleteTask.mockResolvedValueOnce();
 
-    const usecase = new DeleteTaskUseCase(prisma, mockTaskRepository);
+    const usecase = new DeleteTaskUseCase(mockTaskService, mockTaskRepository);
     return await expect(usecase.execute({ taskId: taskId })).resolves.toBe(
       task1
     );

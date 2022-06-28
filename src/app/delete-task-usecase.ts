@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { TaskService } from 'src/domain/domain-service/task-service';
 import { Task } from 'src/domain/task';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
@@ -9,10 +8,10 @@ interface Props {
 
 export class DeleteTaskUseCase {
   constructor(
-    private readonly prismaClient: PrismaClient,
+    private readonly taskService: TaskService,
     private readonly taskRepository: TaskRepository
   ) {
-    this.prismaClient = prismaClient;
+    this.taskService = taskService;
     this.taskRepository = taskRepository;
   }
 
@@ -23,8 +22,7 @@ export class DeleteTaskUseCase {
       throw new Error('task could not be found.');
     }
 
-    const taskService = new TaskService(this.prismaClient);
-    await taskService.deleteTask(props.taskId);
+    await this.taskService.deleteTask(props.taskId);
 
     return task;
   }
