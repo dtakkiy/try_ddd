@@ -1,10 +1,10 @@
 import { IMemberRepository } from '../repository-interface/member-repository-interface';
 
 export class MemberSameEmailExist {
-  private readonly repository: IMemberRepository;
-  private readonly email: string;
-
-  constructor(email: string, repository: IMemberRepository) {
+  constructor(
+    private readonly email: string,
+    private readonly repository: IMemberRepository
+  ) {
     this.repository = repository;
     this.email = email;
   }

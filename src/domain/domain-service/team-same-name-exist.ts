@@ -1,9 +1,7 @@
 import { ITeamRepository } from '../repository-interface/team-repository-interface';
 
 export class TeamSameNameExist {
-  private readonly teamRepository: ITeamRepository;
-
-  constructor(teamRepository: ITeamRepository) {
+  constructor(private readonly teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;
   }
 

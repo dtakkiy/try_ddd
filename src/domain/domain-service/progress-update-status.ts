@@ -2,9 +2,7 @@ import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 import { IProgressRepository } from '../repository-interface/progress-repository-interface';
 
 export class ProgressUpdateStatus {
-  private readonly progressRepository: IProgressRepository;
-
-  constructor(progressRepository: IProgressRepository) {
+  constructor(private readonly progressRepository: IProgressRepository) {
     this.progressRepository = progressRepository;
   }
 

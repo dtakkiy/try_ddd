@@ -9,9 +9,7 @@ interface Props {
 }
 
 export class TeamMemberUpdate {
-  private readonly prismaClient: PrismaClient;
-
-  constructor(prismaClient: PrismaClient) {
+  constructor(private readonly prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
 

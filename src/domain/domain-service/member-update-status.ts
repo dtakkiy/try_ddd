@@ -3,9 +3,7 @@ import { MemberStatusVO } from '../member-status-vo';
 import { IMemberRepository } from '../repository-interface/member-repository-interface';
 
 export class MemberUpdateStatus {
-  private readonly memberRepository: IMemberRepository;
-
-  constructor(memberRepository: IMemberRepository) {
+  constructor(private readonly memberRepository: IMemberRepository) {
     this.memberRepository = memberRepository;
   }
 

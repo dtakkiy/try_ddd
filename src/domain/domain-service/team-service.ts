@@ -5,8 +5,7 @@ import { PairSameNameExist } from './pair-same-name-exists';
 import { TeamSameNameExist } from './team-same-name-exist';
 
 export class TeamService {
-  private teamRepository: ITeamRepository;
-  constructor(teamRepository: ITeamRepository) {
+  constructor(private readonly teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;
   }
 

@@ -7,10 +7,6 @@ import { TeamMemberUpdate } from './team-member-update';
 import { TeamService } from './team-service';
 
 export class DeleteMemberFromPair {
-  private teamRepository: ITeamRepository;
-  private readonly emailRepository: IEmailRepository;
-  private readonly teamMemberUpdate: TeamMemberUpdate;
-
   // 管理者宛の送信メール設定値
   TO_EMAIL_ADDRESS = 'admin@example.com';
   FROM_EMAIL_ADDRESS = 'admin@example.com';
@@ -24,9 +20,9 @@ export class DeleteMemberFromPair {
   SEND_EMAIL_MEMBER_NUMBER = 2;
 
   constructor(
-    teamRepository: ITeamRepository,
-    emailRepository: IEmailRepository,
-    teamMemberUpdate: TeamMemberUpdate
+    private readonly teamRepository: ITeamRepository,
+    private readonly emailRepository: IEmailRepository,
+    private readonly teamMemberUpdate: TeamMemberUpdate
   ) {
     this.teamRepository = teamRepository;
     this.emailRepository = emailRepository;
