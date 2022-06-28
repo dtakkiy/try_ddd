@@ -36,8 +36,6 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const taskTitle = '課題のタイトル';
 
     const memberId = Identifier.generator();
-    const name = new MemberNameVO('test');
-    const email = new MemberEmailVO('test@example.co.jp');
     const status = MemberStatusVO.create();
 
     const mockTask = mocked(
@@ -52,8 +50,8 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const mockMember = mocked(
       new Member({
         id: memberId,
-        name: name,
-        email: email,
+        name: new MemberNameVO('test'),
+        email: new MemberEmailVO('test@example.co.jp'),
         status: status,
       }),
       true
@@ -73,8 +71,10 @@ describe('【ユースケース】参加者を新規追加する', () => {
       name: 'test',
       email: 'test@example.co.jp',
     });
+    const { name, email } = member.getAllProperties();
+
     expect(member).toBeInstanceOf(Member);
-    expect(member.name.getValue()).toMatch(/test/);
-    expect(member.email.getEmail()).toMatch(/test@example.co.jp/);
+    expect(name).toMatch(/test/);
+    expect(email).toMatch(/test@example.co.jp/);
   });
 });

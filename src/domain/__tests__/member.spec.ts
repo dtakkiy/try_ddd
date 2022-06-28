@@ -32,13 +32,16 @@ describe('memberエンティティのテスト', () => {
 
   it('memberエンティティは、属性に名前とメールアドレスをもつ', () => {
     const member = new Member(data);
-    expect(member.name.getValue()).toMatch(/bob/);
-    expect(member.email.getEmail()).toMatch(/bob@example.com/);
+    const { name, email } = member.getAllProperties();
+
+    expect(name).toMatch(/bob/);
+    expect(email).toMatch(/bob@example.com/);
   });
 
   it('memberの全てのプロパティを取得できる', () => {
     const member = new Member(data);
     const { id, name, email, status } = member.getAllProperties();
+
     expect(memberId).toBe(id);
     expect(name).toBe('bob');
     expect(email).toBe('bob@example.com');

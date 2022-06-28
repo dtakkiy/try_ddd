@@ -131,13 +131,13 @@ export class DeleteMemberFromPair {
     joinTeam: Team,
     joinTeamOfMember?: number
   ) {
+    const { id, name } = member.getAllProperties();
+
     const message = {
       to: this.TO_EMAIL_ADDRESS,
       from: this.FROM_EMAIL_ADDRESS,
       subject: subject,
-      html: `減った参加者ID: ${member.id}, ${
-        member.name
-      }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${joinTeamOfMember}`,
+      html: `減った参加者ID: ${id}, ${name}, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${joinTeamOfMember}`,
     };
 
     await this.emailRepository.sendMail(message);

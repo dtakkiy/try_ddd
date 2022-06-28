@@ -36,16 +36,12 @@ export class Member {
     return this.props.id;
   }
 
-  public get name() {
-    return this.props.name;
+  public getEmail() {
+    return this.props.email.getEmail();
   }
 
-  public get email() {
-    return this.props.email;
-  }
-
-  public get status() {
-    return this.props.status;
+  public getStatus() {
+    return this.props.status.getStatus();
   }
 
   public setStatus(newStatus: MemberStatusVO): Member {
