@@ -26,7 +26,7 @@ export class Team {
     return {
       id: this.props.id,
       name: this.props.name.getValue(),
-      pairList: this.props.pairList,
+      pairList: [...this.props.pairList],
     };
   }
 
@@ -59,7 +59,7 @@ export class Team {
   }
 
   public getPairList(): Pair[] {
-    return this.props.pairList;
+    return [...this.props.pairList];
   }
 
   public getMemberCount(): number {

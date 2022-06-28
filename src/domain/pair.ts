@@ -28,7 +28,7 @@ export class Pair {
     return {
       id: this.props.id,
       name: this.props.name.getValue(),
-      memberIdList: this.props.memberIdList,
+      memberIdList: [...this.props.memberIdList],
     };
   }
 
@@ -41,7 +41,7 @@ export class Pair {
   }
 
   public getMemberIdList(): string[] {
-    return this.props.memberIdList;
+    return [...this.props.memberIdList];
   }
 
   private validateMemberIdList(memberIdList: string[]) {
