@@ -22,11 +22,11 @@ describe('progressエンティティのテスト', () => {
       status: new ProgressStatusVO(ProgressStatusType.notStarted),
     };
     const progress = new Progress(data);
-    expect(progress.status).toMatch(ProgressStatusType.notStarted);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.notStarted);
     progress.changeStatusForward(memberId);
-    expect(progress.status).toMatch(ProgressStatusType.awaitingReview);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.awaitingReview);
     progress.changeStatusForward(memberId);
-    expect(progress.status).toMatch(ProgressStatusType.completed);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
   });
 
   it('進捗ステータスが完了になった場合、戻すことはできない', () => {
@@ -38,7 +38,7 @@ describe('progressエンティティのテスト', () => {
       status: new ProgressStatusVO(ProgressStatusType.completed),
     };
     const progress = new Progress(data);
-    expect(progress.status).toMatch(ProgressStatusType.completed);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
     expect(() => progress.changeStatusForward(memberId)).toThrow(
       `already completed.`
@@ -55,7 +55,7 @@ describe('progressエンティティのテスト', () => {
       status: new ProgressStatusVO(ProgressStatusType.completed),
     };
     const progress = new Progress(data);
-    expect(progress.status).toMatch(ProgressStatusType.completed);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
     expect(() => progress.changeStatusForward(memberId2)).toThrow(
       `only the owner can change the task status.`
