@@ -75,7 +75,7 @@ export class Team {
     );
   }
 
-  public equals = (team: Team): boolean => {
+  public isEqual = (team: Team): boolean => {
     return team.props.id === this.props.id;
   };
 

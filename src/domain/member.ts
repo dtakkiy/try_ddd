@@ -55,7 +55,7 @@ export class Member {
     });
   }
 
-  public equals = (member: Member): boolean => {
+  public isEqual = (member: Member): boolean => {
     return member.props.id === this.props.id;
   };
 }

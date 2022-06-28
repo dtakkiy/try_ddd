@@ -15,7 +15,7 @@ export class MemberUpdateStatus {
   ): Promise<void> => {
     const { id, name, email, status } = member.getAllProperties();
 
-    if (updateStatus.equals(new MemberStatusVO(status))) {
+    if (updateStatus.isEqual(new MemberStatusVO(status))) {
       throw new Error('status has already been changed.');
     }
 

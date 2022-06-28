@@ -26,7 +26,7 @@ export class MemberStatusVO {
     return this._value;
   }
 
-  public equals = (member: MemberStatusVO): boolean => {
+  public isEqual = (member: MemberStatusVO): boolean => {
     return this._value === member.getStatus();
   };
 

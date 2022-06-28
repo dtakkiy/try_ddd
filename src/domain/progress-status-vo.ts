@@ -36,7 +36,7 @@ export class ProgressStatusVO {
     return this._value === ProgressStatusType.completed;
   }
 
-  public equals = (progress: ProgressStatusVO): boolean => {
+  public isEquals = (progress: ProgressStatusVO): boolean => {
     return this._value === progress.getStatus();
   };
 }

@@ -29,7 +29,7 @@ export class Task {
     return this.props.id;
   }
 
-  public equals = (task: Task): boolean => {
+  public isEqual = (task: Task): boolean => {
     return task.props.id === this.props.id;
   };
 }
