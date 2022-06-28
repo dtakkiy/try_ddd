@@ -34,7 +34,7 @@ export class UpdateMemberStatusUseCase {
     }
 
     const currentStatus = member.status.getStatus();
-    member.setStatus(new MemberStatusVO(status));
+    const updateMember = member.setStatus(new MemberStatusVO(status));
 
     // 参加者が増える
     if (
@@ -45,7 +45,7 @@ export class UpdateMemberStatusUseCase {
         this.teamRepository,
         this.teamMemberUpdate
       );
-      await addMemberToFewestTeam.execute(member);
+      await addMemberToFewestTeam.execute(updateMember);
     }
 
     // 参加者が減る
@@ -58,9 +58,9 @@ export class UpdateMemberStatusUseCase {
         this.emailRepository,
         this.teamMemberUpdate
       );
-      await deleteMemberFromPair.execute(member);
+      await deleteMemberFromPair.execute(updateMember);
     }
 
-    return member;
+    return updateMember;
   };
 }

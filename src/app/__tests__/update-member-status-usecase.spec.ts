@@ -67,8 +67,10 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
 
     mockMemberRepository.getById.mockResolvedValueOnce(member);
     const updateMember = new Member({ id: memberId, name, email, status });
-    updateMember.setStatus(new MemberStatusVO(MemberStatusType.closed));
-    mockMemberRepository.update.mockResolvedValueOnce(updateMember);
+    const newMember = updateMember.setStatus(
+      new MemberStatusVO(MemberStatusType.closed)
+    );
+    mockMemberRepository.update.mockResolvedValueOnce(newMember);
     mockTeamRepository.getByMemberId.mockResolvedValueOnce(team);
 
     const params = {
@@ -84,6 +86,6 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     );
 
     const result = await usecase.execute(params);
-    expect(result.id).toBe(updateMember.id);
+    expect(result.id).toBe(newMember.id);
   });
 });

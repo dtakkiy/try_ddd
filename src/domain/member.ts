@@ -48,8 +48,15 @@ export class Member {
     return this.props.status;
   }
 
-  public setStatus(status: MemberStatusVO) {
-    this.props.status = status;
+  public setStatus(newStatus: MemberStatusVO): Member {
+    const { id, name, email } = this.getAllProperties();
+
+    return new Member({
+      id: id,
+      name: new MemberNameVO(name),
+      email: new MemberEmailVO(email),
+      status: newStatus,
+    });
   }
 
   public equals = (member: Member): boolean => {

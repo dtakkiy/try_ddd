@@ -38,8 +38,14 @@ export class Team {
     return this.props.name;
   }
 
-  public setName(name: string) {
-    this.props.name = new TeamNameVO(name);
+  public setName(newName: string): Team {
+    const { id, pairList } = this.getAllProperties();
+
+    return new Team({
+      id: id,
+      name: new TeamNameVO(newName),
+      pairList: pairList,
+    });
   }
 
   public getPair(pairId: string): Pair {
