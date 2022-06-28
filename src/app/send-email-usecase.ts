@@ -9,8 +9,7 @@ interface MessageProps {
 }
 
 export class SendEmailUseCase {
-  private readonly emailRepository: IEmailRepository;
-  constructor(emailRepository: IEmailRepository) {
+  constructor(private readonly emailRepository: IEmailRepository) {
     this.emailRepository = emailRepository;
   }
 

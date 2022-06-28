@@ -7,8 +7,7 @@ export interface ITask {
 }
 
 export class Task {
-  private props: ITask;
-  constructor(props: ITask) {
+  constructor(private readonly props: ITask) {
     const { id, title, content } = props;
 
     this.props = {

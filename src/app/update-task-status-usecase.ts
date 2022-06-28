@@ -7,8 +7,7 @@ interface Params {
 }
 
 export class UpdateTaskStatusUseCase {
-  private readonly progressRepository: IProgressRepository;
-  constructor(progressRepository: IProgressRepository) {
+  constructor(private readonly progressRepository: IProgressRepository) {
     this.progressRepository = progressRepository;
   }
 

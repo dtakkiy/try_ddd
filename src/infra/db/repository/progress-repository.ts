@@ -7,8 +7,7 @@ import {
 } from 'src/domain/repository-interface/progress-repository-interface';
 
 export class ProgressRepository implements IProgressRepository {
-  private readonly prismaClient;
-  constructor(prismaClient: PrismaClient) {
+  constructor(private readonly prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
 

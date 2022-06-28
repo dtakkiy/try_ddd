@@ -1,9 +1,7 @@
 import { IMemberQueryService } from './query-service-interface/member-query-service';
 
 export class GetMemberListUseCase {
-  private readonly memberQueryService: IMemberQueryService;
-
-  constructor(memberQueryService: IMemberQueryService) {
+  constructor(private readonly memberQueryService: IMemberQueryService) {
     this.memberQueryService = memberQueryService;
   }
 

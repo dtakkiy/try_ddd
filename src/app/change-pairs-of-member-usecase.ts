@@ -7,8 +7,7 @@ interface Params {
 }
 
 export class ChangePairOfMemberUseCase {
-  private teamRepository: ITeamRepository;
-  constructor(teamRepository: ITeamRepository) {
+  constructor(private readonly teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;
   }
 

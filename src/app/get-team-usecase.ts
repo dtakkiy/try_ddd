@@ -1,9 +1,7 @@
 import { ITeamQueryService } from './query-service-interface/team-query-service';
 
 export class GetTeamUseCase {
-  private readonly teamQueryService: ITeamQueryService;
-
-  constructor(teamQueryService: ITeamQueryService) {
+  constructor(private readonly teamQueryService: ITeamQueryService) {
     this.teamQueryService = teamQueryService;
   }
 

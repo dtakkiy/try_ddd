@@ -6,8 +6,7 @@ import {
 } from 'src/app/query-service-interface/search-task-query-service';
 
 export class SearchQueryService implements ISearchQueryService {
-  private readonly prismaClient: PrismaClient;
-  public constructor(prismaClient: PrismaClient) {
+  public constructor(private readonly prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
 
