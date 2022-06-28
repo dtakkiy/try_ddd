@@ -151,14 +151,17 @@ export class TeamRepository implements ITeamRepository {
     }
 
     const { id, pairList } = currentTeam.getAllProperties();
+    const { name } = team.getAllProperties();
 
     await this.updateTeamPair(currentTeam, team);
 
-    return new Team({ name: team.name, id: id, pairList: pairList });
+    return new Team({ name: new TeamNameVO(name), id: id, pairList: pairList });
   }
 
   private async updateTeamPair(currentTeam: Team, team: Team): Promise<void> {
     const { id, pairList } = currentTeam.getAllProperties();
+
+    const { name } = team.getAllProperties();
 
     let arr: any;
 
@@ -167,7 +170,7 @@ export class TeamRepository implements ITeamRepository {
         id: currentTeam.id,
       },
       data: {
-        name: team.name.getValue(),
+        name: name,
       },
     });
 
@@ -203,12 +206,14 @@ export class TeamRepository implements ITeamRepository {
   }
 
   private async updateTeam(currentTeam: Team, team: Team): Promise<void> {
+    const { name } = team.getAllProperties();
+
     await this.prismaClient.team.update({
       where: {
         id: currentTeam.id,
       },
       data: {
-        name: team.name.getValue(),
+        name: name,
       },
     });
   }
