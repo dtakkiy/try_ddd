@@ -12,14 +12,10 @@ interface Params {
 }
 
 export class CreateMemberUseCase {
-  private readonly memberRepository;
-  private readonly progressRepository;
-  private readonly taskRepository;
-
   public constructor(
-    memberRepository: IMemberRepository,
-    progressRepository: IProgressRepository,
-    taskRepository: ITaskRepository
+    private readonly memberRepository: IMemberRepository,
+    private readonly progressRepository: IProgressRepository,
+    private readonly taskRepository: ITaskRepository
   ) {
     this.memberRepository = memberRepository;
     this.progressRepository = progressRepository;

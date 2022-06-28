@@ -8,10 +8,10 @@ interface Props {
 }
 
 export class DeleteTaskUseCase {
-  private readonly prismaClient: PrismaClient;
-  private readonly taskRepository: TaskRepository;
-
-  constructor(prismaClient: PrismaClient, taskRepository: TaskRepository) {
+  constructor(
+    private readonly prismaClient: PrismaClient,
+    private readonly taskRepository: TaskRepository
+  ) {
     this.prismaClient = prismaClient;
     this.taskRepository = taskRepository;
   }

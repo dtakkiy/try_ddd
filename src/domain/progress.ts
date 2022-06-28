@@ -7,8 +7,7 @@ interface IProgress {
 }
 
 export class Progress {
-  private props: IProgress;
-  constructor(props: IProgress) {
+  constructor(private readonly props: IProgress) {
     const { memberId, taskId, status } = props;
     this.props = {
       memberId: memberId,

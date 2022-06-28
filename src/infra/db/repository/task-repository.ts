@@ -4,9 +4,7 @@ import { ITaskRepository } from 'src/domain/repository-interface/task-repository
 import { Task } from 'src/domain/task';
 
 export class TaskRepository implements ITaskRepository {
-  private readonly prismaClient: PrismaClient;
-
-  constructor(prismaClient: PrismaClient) {
+  constructor(private readonly prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
 

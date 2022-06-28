@@ -8,9 +8,7 @@ interface Props {
   pagingCondition: PagingCondition;
 }
 export class GetSearchTaskUseCase {
-  private readonly searchQueryService: ISearchQueryService;
-
-  constructor(searchQueryService: ISearchQueryService) {
+  constructor(private readonly searchQueryService: ISearchQueryService) {
     this.searchQueryService = searchQueryService;
   }
 

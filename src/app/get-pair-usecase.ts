@@ -1,9 +1,7 @@
 import { IPairQueryService } from './query-service-interface/pair-query-service';
 
 export class GetPairUseCase {
-  private readonly memberQueryService: IPairQueryService;
-
-  constructor(memberQueryService: IPairQueryService) {
+  constructor(private readonly memberQueryService: IPairQueryService) {
     this.memberQueryService = memberQueryService;
   }
 

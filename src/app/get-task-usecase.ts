@@ -1,8 +1,7 @@
 import { ITaskQueryService } from './query-service-interface/task-query-service';
 
 export class GetTaskUseCase {
-  taskQueryService: ITaskQueryService;
-  constructor(taskQueryService: ITaskQueryService) {
+  constructor(private readonly taskQueryService: ITaskQueryService) {
     this.taskQueryService = taskQueryService;
   }
 

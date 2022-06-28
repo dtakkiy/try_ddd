@@ -13,16 +13,11 @@ interface Params {
 }
 
 export class UpdateMemberStatusUseCase {
-  private readonly memberRepository: IMemberRepository;
-  private readonly emailRepository: IEmailRepository;
-  private readonly teamRepository: ITeamRepository;
-  private readonly teamMemberUpdate: TeamMemberUpdate;
-
   constructor(
-    memberRepository: IMemberRepository,
-    emailRepository: IEmailRepository,
-    teamRepository: ITeamRepository,
-    teamMemberUpdate: TeamMemberUpdate
+    private readonly memberRepository: IMemberRepository,
+    private readonly emailRepository: IEmailRepository,
+    private readonly teamRepository: ITeamRepository,
+    private readonly teamMemberUpdate: TeamMemberUpdate
   ) {
     this.memberRepository = memberRepository;
     this.emailRepository = emailRepository;
