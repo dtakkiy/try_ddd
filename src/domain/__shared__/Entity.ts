@@ -13,5 +13,5 @@ export abstract class Entity<T> {
     return this.props.id;
   }
 
-  abstract equals(object: Entity<T>): boolean;
+  abstract isEqual(object: Entity<T>): boolean;
 }

@@ -65,7 +65,7 @@ export class Pair {
     }
   }
 
-  public equals = (pair: Pair): boolean => {
+  public isEqual = (pair: Pair): boolean => {
     return pair.props.id === this.props.id;
   };
 
