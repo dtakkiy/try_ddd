@@ -17,7 +17,7 @@ export class PairSameNameExist {
       return false;
     }
 
-    return team.getPairList().some((pair) => pair.name.getValue() === pairName);
+    return team.getPairList().some((pair) => pair.getName() === pairName);
   }
 
   public async getPairNameListByTeamId(teamId: string): Promise<string[]> {
@@ -26,6 +26,6 @@ export class PairSameNameExist {
       return [];
     }
 
-    return team.getPairList().map((pair) => pair.name.getValue());
+    return team.getPairList().map((pair) => pair.getName());
   }
 }

@@ -77,7 +77,7 @@ describe('Teamエンティティのテスト', () => {
       });
 
       const minMemberPair = team.getMinMemberPair();
-      expect(minMemberPair.name.getValue()).toMatch(/b/);
+      expect(minMemberPair.getName()).toMatch(/b/);
     });
   });
 

@@ -172,6 +172,8 @@ export class TeamRepository implements ITeamRepository {
     });
 
     const pairUpdateList = pairList.map((pair) => {
+      const { name } = pair.getAllProperties();
+
       return this.prismaClient.pair.upsert({
         where: {
           id: pair.id,
@@ -182,7 +184,7 @@ export class TeamRepository implements ITeamRepository {
         create: {
           id: pair.id,
           teamId: id,
-          name: pair.name.getValue(),
+          name: name,
         },
       });
     });
