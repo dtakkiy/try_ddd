@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { DeleteTaskUseCase } from 'src/app/delete-task-usecase';
 import { GetTaskUseCase } from 'src/app/get-task-usecase';
 import { UpdateTaskStatusUseCase } from 'src/app/update-task-status-usecase';
+import { TaskService } from 'src/domain/domain-service/task-service';
 import { Progress } from 'src/domain/progress';
 import { Task } from 'src/domain/task';
 import { TaskQueryService } from 'src/infra/db/query-service/task-query-service';
@@ -49,7 +50,8 @@ export class TaskController {
   async deleteTask(@Param('id') id: string): Promise<Task> {
     const prisma = new PrismaClient();
     const taskRepository = new TaskRepository(prisma);
-    const usecase = new DeleteTaskUseCase(prisma, taskRepository);
+    const taskService = new TaskService(prisma);
+    const usecase = new DeleteTaskUseCase(taskService, taskRepository);
     const task = await usecase.execute({ taskId: id });
     return task;
   }
