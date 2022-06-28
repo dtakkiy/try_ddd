@@ -8,12 +8,9 @@ import { TeamMemberUpdate } from './team-member-update';
 import { TeamService } from './team-service';
 
 export class AddMemberToFewestTeam {
-  private teamRepository: ITeamRepository;
-  private readonly teamMemberUpdate: TeamMemberUpdate;
-
   constructor(
-    teamRepository: ITeamRepository,
-    teamMemberUpdate: TeamMemberUpdate
+    private readonly teamRepository: ITeamRepository,
+    private readonly teamMemberUpdate: TeamMemberUpdate
   ) {
     this.teamRepository = teamRepository;
     this.teamMemberUpdate = teamMemberUpdate;

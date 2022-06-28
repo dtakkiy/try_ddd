@@ -33,7 +33,7 @@ export class UpdateMemberStatusUseCase {
       throw new Error('member does not exist.');
     }
 
-    const currentStatus = member.status.getStatus();
+    const currentStatus = member.getStatus();
     const updateMember = member.setStatus(new MemberStatusVO(status));
 
     // 参加者が増える

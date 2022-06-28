@@ -5,7 +5,6 @@ import { PairNameVO } from '../pair-name-vo';
 interface IProps {
   id: string;
   name: string;
-  //  memberList: Member[];
   memberIdList: string[];
 }
 

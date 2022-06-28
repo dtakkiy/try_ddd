@@ -26,10 +26,11 @@ describe('taskの単体テスト', () => {
     };
 
     const task = new Task(data);
-    expect(task).toBeInstanceOf(Task);
+    const { id, title, content } = task.getAllProperties();
 
-    expect(task.id).toBe(taskId);
-    expect(task.title).toMatch(/サンプルタイトル/);
-    expect(task.content).toMatch(/本文/);
+    expect(task).toBeInstanceOf(Task);
+    expect(id).toBe(taskId);
+    expect(title).toMatch(/サンプルタイトル/);
+    expect(content).toMatch(/本文/);
   });
 });

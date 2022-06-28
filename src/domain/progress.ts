@@ -24,15 +24,7 @@ export class Progress {
     };
   }
 
-  public get memberId() {
-    return this.props.memberId;
-  }
-
-  public get taskId() {
-    return this.props.taskId;
-  }
-
-  public get status() {
+  public getStatus() {
     return this.props.status.getStatus();
   }
 

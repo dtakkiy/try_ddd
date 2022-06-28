@@ -34,8 +34,8 @@ export class Team {
     return this.props.id;
   }
 
-  public get name() {
-    return this.props.name;
+  public getName() {
+    return this.props.name.getValue();
   }
 
   public setName(newName: string): Team {

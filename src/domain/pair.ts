@@ -36,8 +36,9 @@ export class Pair {
     return this.props.id;
   }
 
-  public get name() {
-    return this.props.name;
+  public getName() {
+    const { name } = this.getAllProperties();
+    return name;
   }
 
   public getMemberIdList(): string[] {

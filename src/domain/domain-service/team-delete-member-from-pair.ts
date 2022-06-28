@@ -7,10 +7,6 @@ import { TeamMemberUpdate } from './team-member-update';
 import { TeamService } from './team-service';
 
 export class DeleteMemberFromPair {
-  private teamRepository: ITeamRepository;
-  private readonly emailRepository: IEmailRepository;
-  private readonly teamMemberUpdate: TeamMemberUpdate;
-
   // 管理者宛の送信メール設定値
   TO_EMAIL_ADDRESS = 'admin@example.com';
   FROM_EMAIL_ADDRESS = 'admin@example.com';
@@ -24,9 +20,9 @@ export class DeleteMemberFromPair {
   SEND_EMAIL_MEMBER_NUMBER = 2;
 
   constructor(
-    teamRepository: ITeamRepository,
-    emailRepository: IEmailRepository,
-    teamMemberUpdate: TeamMemberUpdate
+    private readonly teamRepository: ITeamRepository,
+    private readonly emailRepository: IEmailRepository,
+    private readonly teamMemberUpdate: TeamMemberUpdate
   ) {
     this.teamRepository = teamRepository;
     this.emailRepository = emailRepository;
@@ -135,13 +131,13 @@ export class DeleteMemberFromPair {
     joinTeam: Team,
     joinTeamOfMember?: number
   ) {
+    const { id, name } = member.getAllProperties();
+
     const message = {
       to: this.TO_EMAIL_ADDRESS,
       from: this.FROM_EMAIL_ADDRESS,
       subject: subject,
-      html: `減った参加者ID: ${member.id}, ${
-        member.name
-      }, どのチーム？: ${joinTeam.name.getValue()} 現在の人数: ${joinTeamOfMember}`,
+      html: `減った参加者ID: ${id}, ${name}, どのチーム？: ${joinTeam.getName()} 現在の人数: ${joinTeamOfMember}`,
     };
 
     await this.emailRepository.sendMail(message);

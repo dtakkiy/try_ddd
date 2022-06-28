@@ -73,10 +73,7 @@ export class MemberRepository implements IMemberRepository {
   }
 
   public async update(member: Member): Promise<Member> {
-    const { id } = member;
-    const name = member.name.getValue();
-    const email = member.email.getEmail();
-    const status = member.status.getStatus();
+    const { id, name, email, status } = member.getAllProperties();
 
     await this.prismaClient.member.update({
       where: {
@@ -93,18 +90,20 @@ export class MemberRepository implements IMemberRepository {
   }
 
   public async create(member: Member): Promise<Member> {
+    const { id, name, email } = member.getAllProperties();
+
     await this.prismaClient.member.upsert({
       where: {
-        id: member.id,
+        id: id,
       },
       update: {
-        name: member.id,
-        email: member.email.getEmail(),
+        name: name,
+        email: email,
       },
       create: {
-        id: member.id,
-        name: member.name.getValue(),
-        email: member.email.getEmail(),
+        id: id,
+        name: name,
+        email: email,
         status: MemberStatusType.active,
       },
     });

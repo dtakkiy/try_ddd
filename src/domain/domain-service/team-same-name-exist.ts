@@ -1,9 +1,7 @@
 import { ITeamRepository } from '../repository-interface/team-repository-interface';
 
 export class TeamSameNameExist {
-  private readonly teamRepository: ITeamRepository;
-
-  constructor(teamRepository: ITeamRepository) {
+  constructor(private readonly teamRepository: ITeamRepository) {
     this.teamRepository = teamRepository;
   }
 
@@ -13,7 +11,7 @@ export class TeamSameNameExist {
       return false;
     }
 
-    return teamAll.some((team) => team.name.getValue() === teamName);
+    return teamAll.some((team) => team.getName() === teamName);
   }
 
   public async getTeamNameList(): Promise<number[]> {
@@ -22,6 +20,6 @@ export class TeamSameNameExist {
       return [];
     }
 
-    return teamAll.map((team) => Number(team.name.getValue()));
+    return teamAll.map((team) => Number(team.getName()));
   }
 }

@@ -29,7 +29,7 @@ export class UpdateTaskStatusUseCase {
     const updateProgress = await this.progressRepository.update(
       memberId,
       taskId,
-      progress.status
+      progress.getStatus()
     );
 
     return updateProgress;

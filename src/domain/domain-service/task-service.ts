@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 export class TaskService {
-  private readonly prismaClient: PrismaClient;
-
-  constructor(prismaClient: PrismaClient) {
+  constructor(private readonly prismaClient: PrismaClient) {
     this.prismaClient = prismaClient;
   }
 

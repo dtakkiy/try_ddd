@@ -45,10 +45,7 @@ export class ProgressRepository implements IProgressRepository {
 
   public async create(progressList: Progress[]): Promise<void> {
     const data = progressList.map((progress) => {
-      const status = progress.status;
-      const memberId = progress.memberId;
-      const taskId = progress.taskId;
-
+      const { status, memberId, taskId } = progress.getAllProperties();
       return { status, memberId, taskId };
     });
 
