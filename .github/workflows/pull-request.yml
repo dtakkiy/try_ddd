@@ -3,21 +3,9 @@ on:
   pull_request:
    branches: []
 jobs:
-  build:
+  setup:
    runs-on: ubuntu-latest
-   services:
-     postgres:
-       image: postgres
-       ports:
-         - 5432:5432
-       env:
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_DB: prisma-db
-        POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
-        TZ: "Asia/Tokyo"
-   env:
-     DATABASE_URL: postgresql://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/prisma-db
+   timeout-minutes: 5
    steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -25,11 +13,68 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '14.x'
+        cache: 'yarn'
     - run: yarn
     - run: yarn build
     - run: yarn lint:fix
     - run: yarn format
-    - run: yarn test:unit
-    - run: yarn prisma migrate deploy
-    - run: yarn seed
-    - run: yarn test:integration
+    - name: Slack Notification
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: danger
+        SLACK_USERNAME: RtBotSetup
+        SLACK_ICON_EMOJI: :bell
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - setup
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: prisma-db
+          POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+          TZ: "Asia/Tokyo"
+    env:
+      DATABASE_URL: postgresql://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/prisma-db
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: yarn cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+          cache: 'yarn'
+      - run: yarn
+      - run: yarn build
+      - run: yarn test:unit
+      - run: yarn prisma migrate deploy
+      - run: yarn seed
+      - run: yarn test:integration
+      - name: Slack Notification
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: danger
+          SLACK_USERNAME: RtBotTest
+          SLACK_ICON_EMOJI: :bell
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [test]
+    steps:
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: RtBotFinish
+          SLACK_TITLE: Deploy finished
+          SLACK_MESSAGE: 'Deploy finished'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
