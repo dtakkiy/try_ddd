@@ -122,6 +122,12 @@ describe('team-serviceのテスト', () => {
   it('新しいチーム名を生成する', async () => {
     const teamService = new TeamService(mockTeamRepository);
     mockTeamRepository.getAll.mockResolvedValueOnce([team]);
-    await expect(teamService.createNewTeamName()).resolves.toBe('2');
+    const result = await teamService.createNewTeamName();
+
+    if (result.isFailure()) {
+      return;
+    }
+
+    expect(result.value).toBe('2');
   });
 });

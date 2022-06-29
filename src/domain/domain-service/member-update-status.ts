@@ -1,3 +1,10 @@
+import {
+  DSError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';
 import { MemberNameVO } from '../member-name-vo';
@@ -12,11 +19,11 @@ export class MemberUpdateStatus {
   public execute = async (
     member: Member,
     updateStatus: MemberStatusVO
-  ): Promise<void> => {
+  ): Promise<Result<NonError, DSError>> => {
     const { id, name, email, status } = member.getAllProperties();
 
     if (updateStatus.isEqual(new MemberStatusVO(status))) {
-      throw new Error('status has already been changed.');
+      return new Failure('status has already been changed.');
     }
 
     const updateMember = new Member({
@@ -26,5 +33,6 @@ export class MemberUpdateStatus {
       status: updateStatus,
     });
     await this.memberRepository.update(updateMember);
+    return new Success(null);
   };
 }

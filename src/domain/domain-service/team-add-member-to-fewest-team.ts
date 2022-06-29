@@ -1,4 +1,5 @@
 import { Identifier } from 'src/__shared__/identifier';
+import { DSError, Failure, Result, Success } from 'src/__shared__/result';
 import { Member } from '../member';
 import { Pair } from '../pair';
 import { PairNameVO } from '../pair-name-vo';
@@ -16,9 +17,14 @@ export class AddMemberToFewestTeam {
     this.teamMemberUpdate = teamMemberUpdate;
   }
 
-  public async execute(member: Member): Promise<Team> {
+  public async execute(member: Member): Promise<Result<Team, DSError>> {
     const teamService = new TeamService(this.teamRepository);
     const fewestTeam = await teamService.getTeamFewestNumberOfMember();
+
+    if (fewestTeam === null) {
+      return new Failure('cannot found the fewest team.');
+    }
+
     const fewestPair = fewestTeam.getMinMemberPair();
     fewestTeam.deletePair(fewestPair.id);
 
@@ -55,6 +61,6 @@ export class AddMemberToFewestTeam {
       member: member,
     });
 
-    return fewestTeam;
+    return new Success(fewestTeam);
   }
 }

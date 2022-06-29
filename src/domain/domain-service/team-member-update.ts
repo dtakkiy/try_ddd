@@ -9,9 +9,7 @@ interface Props {
 }
 
 export class TeamMemberUpdate {
-  constructor(private readonly prismaClient: PrismaClient) {
-    this.prismaClient = prismaClient;
-  }
+  constructor(private readonly prismaClient: PrismaClient) {}
 
   public async update(props: Props) {
     const memberUpdateQuery = this.makeQueryMemberUpdate(props.member);
