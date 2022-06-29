@@ -93,7 +93,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     });
 
     expect(result.isSuccess()).toBeTruthy();
-    expect(result.getValue()).toBe(expectPage);
+    expect(result.value).toBe(expectPage);
   });
 
   it('タスクステータスの値が不正な場合', async () => {
@@ -114,6 +114,6 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
     });
 
     expect(result.isFailure()).toBeTruthy();
-    expect(result.getValue()).toMatch(/not applicable progress status value/);
+    expect(result.value).toMatch(/not applicable progress status value/);
   });
 });
