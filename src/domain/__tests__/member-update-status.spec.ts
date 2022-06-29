@@ -28,21 +28,21 @@ describe('member-update-statusのテスト', () => {
 
   it('ステータス更新を実行できる', async () => {
     const memberUpdateStatus = new MemberUpdateStatus(mockMemberRepository);
-    await expect(
-      memberUpdateStatus.execute(
-        member,
-        new MemberStatusVO(MemberStatusType.closed)
-      )
-    ).resolves.toBeUndefined();
+    const result = await memberUpdateStatus.execute(
+      member,
+      new MemberStatusVO(MemberStatusType.closed)
+    );
+
+    expect(result.isSuccess()).toBeTruthy();
   });
 
   it('ステータスが同じである場合、エラーとなる', async () => {
     const memberUpdateStatus = new MemberUpdateStatus(mockMemberRepository);
-    await expect(() =>
-      memberUpdateStatus.execute(
-        member,
-        new MemberStatusVO(MemberStatusType.active)
-      )
-    ).rejects.toThrow();
+    const result = await memberUpdateStatus.execute(
+      member,
+      new MemberStatusVO(MemberStatusType.active)
+    );
+
+    expect(result.isFailure()).toBeTruthy();
   });
 });
