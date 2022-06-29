@@ -1,4 +1,10 @@
-import { DSError, Failure, Result, Success } from 'src/__shared__/result';
+import {
+  DSError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { Pair } from '../pair';
 import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { Team } from '../team';
@@ -11,16 +17,19 @@ export class TeamService {
   }
 
   // Pairを指定したTeamに変更する
-  public async changeTeamOfPair(pairId: string, teamId: string): Promise<Team> {
+  public async changeTeamOfPair(
+    pairId: string,
+    teamId: string
+  ): Promise<Result<Team, DSError>> {
     const currentTeam = await this.teamRepository.getByPairId(pairId);
     const newTeam = await this.teamRepository.getById(teamId);
 
     if (!currentTeam) {
-      throw new Error('team does not exist.');
+      return new Failure('team does not exist.');
     }
 
     if (!newTeam) {
-      throw new Error('team does not exist');
+      return new Failure('team does not exist');
     }
 
     const pair = currentTeam.getPair(pairId);
@@ -30,23 +39,23 @@ export class TeamService {
     this.teamRepository.update(currentTeam);
     this.teamRepository.update(newTeam);
 
-    return newTeam;
+    return new Success(newTeam);
   }
 
   // memberを指定したpairに変更する
   public async changePairOfMember(
     memberId: string,
     pairId: string
-  ): Promise<void> {
+  ): Promise<Result<NonError, DSError>> {
     const currentTeam = await this.teamRepository.getByMemberId(memberId);
     const newTeam = await this.teamRepository.getByPairId(pairId);
 
     if (!currentTeam) {
-      throw new Error('not exist.');
+      return new Failure('not exist.');
     }
 
     if (!newTeam) {
-      throw new Error('not exist.');
+      return new Failure('not exist.');
     }
 
     currentTeam.deleteMember(memberId);
@@ -54,7 +63,7 @@ export class TeamService {
 
     this.teamRepository.update(newTeam);
 
-    return;
+    return new Success(null);
   }
 
   // もっとも人数が少ないチームを取得
