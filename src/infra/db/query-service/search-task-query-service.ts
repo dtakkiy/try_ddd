@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { Page, Paging, PagingCondition } from 'src/__shared__/page';
+import { DomainError, Result, Success } from 'src/__shared__/result';
 import {
   SearchDTO,
   ISearchQueryService,
@@ -14,7 +15,7 @@ export class SearchQueryService implements ISearchQueryService {
     taskIdList: string,
     taskStatus: string,
     pagingCondition: PagingCondition
-  ): Promise<Page<SearchDTO>> {
+  ): Promise<Result<Page<SearchDTO>, DomainError>> {
     const pageSize = pagingCondition.pageSize;
     const pageNumber = pagingCondition.pageNumber;
 
@@ -22,16 +23,13 @@ export class SearchQueryService implements ISearchQueryService {
       taskStatus = '未着手'; // タスクステータスが未入力だった場合、値を「未完了」とする
     }
 
-    if (typeof taskIdList === 'undefined') {
-      throw new Error('input taskIdList invalid.');
-    }
-
     let taskIds: string[] = [];
-
-    if (!taskIdList.includes(',')) {
-      taskIds.push(taskIdList);
-    } else {
-      taskIds = taskIdList.split(',');
+    if (typeof taskIdList !== 'undefined') {
+      if (!taskIdList.includes(',')) {
+        taskIds.push(taskIdList);
+      } else {
+        taskIds = taskIdList.split(',');
+      }
     }
 
     // const query = (arr: string[]) =>
@@ -49,8 +47,11 @@ export class SearchQueryService implements ISearchQueryService {
       email: string;
     }
 
-    const results: Results[] = await this.prismaClient.$queryRaw(
-      Prisma.sql`
+    let results: Results[];
+
+    if (taskIds.length > 0) {
+      results = await this.prismaClient.$queryRaw(
+        Prisma.sql`
       SELECT
         "public"."Member"."id",
         "public"."Member"."name",
@@ -72,15 +73,34 @@ export class SearchQueryService implements ISearchQueryService {
       ORDER BY
         "public"."MemberOnTask"."id" ASC LIMIT ${pageSize} OFFSET ${pageNumber}
       `
-    );
-
+      );
+    } else {
+      results = await this.prismaClient.$queryRaw(
+        Prisma.sql`
+      SELECT
+        "public"."Member"."id",
+        "public"."Member"."name",
+        "public"."Member"."email"
+      FROM
+        "public"."MemberOnTask"
+      LEFT JOIN
+        "public"."Member"
+      ON
+        "public"."MemberOnTask"."memberId" = "public"."Member"."id"
+      WHERE
+        "public"."MemberOnTask"."status" = ${taskStatus}
+      ORDER BY
+        "public"."MemberOnTask"."id" ASC LIMIT ${pageSize} OFFSET ${pageNumber}
+      `
+      );
+    }
     const paging: Paging = {
       totalCount: results.length,
       pageSize: pageSize,
       pageNumber: pageNumber,
     };
 
-    return {
+    return new Success({
       items: results.map((result) => {
         return new SearchDTO({
           id: result.id,
@@ -89,6 +109,6 @@ export class SearchQueryService implements ISearchQueryService {
         });
       }),
       paging: paging,
-    };
+    });
   }
 }

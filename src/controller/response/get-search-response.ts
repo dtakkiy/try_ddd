@@ -1,28 +1,49 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Page, Paging } from 'src/__shared__/page';
+import { DomainError, Result } from 'src/__shared__/result';
 import { SearchDTO } from 'src/app/query-service-interface/search-task-query-service';
 
 export class GetSearchResponse {
   @ApiProperty({ type: () => [SearchData] })
-  searchData: SearchData[];
+  searchData: SearchData[] = [];
   pagingData: Paging = {
     totalCount: 0,
     pageNumber: 0,
     pageSize: 0,
   };
+  errorData = '';
 
-  public constructor(params: { searchDatas: Page<SearchDTO> }) {
+  public constructor(params: {
+    searchDatas: Result<Page<SearchDTO>, DomainError>;
+  }) {
     const { searchDatas } = params;
-    this.pagingData = searchDatas.paging;
-    this.searchData = searchDatas.items.map(
-      ({ id, name, email }: { id: string; name: string; email: string }) => {
-        return new SearchData({
-          id,
-          name,
-          email,
-        });
-      }
-    );
+
+    if (searchDatas.isSuccess()) {
+      this.pagingData = searchDatas.getValue().paging;
+      this.searchData = searchDatas
+        .getValue()
+        .items.map(
+          ({
+            id,
+            name,
+            email,
+          }: {
+            id: string;
+            name: string;
+            email: string;
+          }) => {
+            return new SearchData({
+              id,
+              name,
+              email,
+            });
+          }
+        );
+    }
+
+    if (searchDatas.isFailure()) {
+      this.errorData = searchDatas.getValue();
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
 import { Page, Paging, PagingCondition } from 'src/__shared__/page';
+import { Success } from 'src/__shared__/result';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
@@ -29,7 +30,7 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
   it('【正常系】特定の課題（複数可）を指定し、参加者一覧を取得できる', async () => {
     const usecase = new GetSearchTaskUseCase(mockSearchQS);
 
-    const taskIdList = '';
+    const taskIdList = `${taskId1}`;
     const taskStatus = '未着手';
 
     const pagingCondition: PagingCondition = {
@@ -37,13 +38,13 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       pageSize: 10,
     };
 
-    return await expect(
-      usecase.execute({
-        taskIdList: taskIdList,
-        taskStatus: taskStatus,
-        pagingCondition: pagingCondition,
-      })
-    ).resolves.toBeUndefined();
+    const result = await usecase.execute({
+      taskIdList: taskIdList,
+      taskStatus: taskStatus,
+      pagingCondition: pagingCondition,
+    });
+
+    expect(result).toBeUndefined();
   });
 
   it('【正常系】特定の進捗ステータスを指定し、参加者一覧を取得できる', async () => {
@@ -73,7 +74,9 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       paging: paging,
     };
 
-    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(expectPage);
+    mockSearchQS.findByTaskIdAndTaskStatus.mockResolvedValueOnce(
+      new Success(expectPage)
+    );
 
     const taskIdList = `${taskId1},${taskId2}`;
     const taskStatus = '未着手';
@@ -83,13 +86,14 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       pageSize: 10,
     };
 
-    return await expect(
-      usecase.execute({
-        taskIdList: taskIdList,
-        taskStatus: taskStatus,
-        pagingCondition: pagingCondition,
-      })
-    ).resolves.toBe(expectPage);
+    const result = await usecase.execute({
+      taskIdList: taskIdList,
+      taskStatus: taskStatus,
+      pagingCondition: pagingCondition,
+    });
+
+    expect(result.isSuccess()).toBeTruthy();
+    expect(result.getValue()).toBe(expectPage);
   });
 
   it('タスクステータスの値が不正な場合', async () => {
@@ -103,12 +107,13 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       pageSize: 10,
     };
 
-    return await expect(
-      usecase.execute({
-        taskIdList: taskIdList,
-        taskStatus: taskStatus,
-        pagingCondition: pagingCondition,
-      })
-    ).rejects.toThrow();
+    const result = await usecase.execute({
+      taskIdList: taskIdList,
+      taskStatus: taskStatus,
+      pagingCondition: pagingCondition,
+    });
+
+    expect(result.isFailure()).toBeTruthy();
+    expect(result.getValue()).toMatch(/not applicable progress status value/);
   });
 });

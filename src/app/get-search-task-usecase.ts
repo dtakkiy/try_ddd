@@ -1,6 +1,13 @@
-import { PagingCondition } from 'src/__shared__/page';
-import { validateProgressStatus } from 'src/domain/progress-status-vo';
-import { ISearchQueryService } from './query-service-interface/search-task-query-service';
+import { Page, PagingCondition } from 'src/__shared__/page';
+import { DomainError, Failure, Result } from 'src/__shared__/result';
+import {
+  validateProgressStatus,
+  validateSearchProgressStatus,
+} from 'src/domain/progress-status-vo';
+import {
+  ISearchQueryService,
+  SearchDTO,
+} from './query-service-interface/search-task-query-service';
 
 interface Props {
   taskIdList: string;
@@ -12,17 +19,22 @@ export class GetSearchTaskUseCase {
     this.searchQueryService = searchQueryService;
   }
 
-  public async execute(props: Props) {
+  public async execute(
+    props: Props
+  ): Promise<Result<Page<SearchDTO>, DomainError>> {
     const { taskIdList, taskStatus, pagingCondition } = props;
 
-    if (
-      typeof taskIdList === 'undefined' ||
-      typeof taskStatus === 'undefined'
-    ) {
-      throw new Error('input value is invalid.');
-    }
+    // if (
+    //   typeof taskIdList === 'undefined' ||
+    //   typeof taskStatus === 'undefined'
+    // ) {
+    //   throw new Error('input value is invalid.');
+    // }
 
-    validateProgressStatus(taskStatus);
+    const error = validateSearchProgressStatus(taskStatus);
+    if (error) {
+      return new Failure(error);
+    }
 
     if (typeof pagingCondition.pageNumber === 'undefined') {
       pagingCondition.pageNumber = 0;
@@ -32,14 +44,10 @@ export class GetSearchTaskUseCase {
       pagingCondition.pageSize = 10;
     }
 
-    try {
-      return await this.searchQueryService.findByTaskIdAndTaskStatus(
-        taskIdList,
-        taskStatus,
-        pagingCondition
-      );
-    } catch (error) {
-      throw error;
-    }
+    return await this.searchQueryService.findByTaskIdAndTaskStatus(
+      taskIdList,
+      taskStatus,
+      pagingCondition
+    );
   }
 }
