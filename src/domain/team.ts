@@ -25,7 +25,7 @@ export class Team {
   public getAllProperties() {
     return {
       id: this.props.id,
-      name: this.props.name.getValue(),
+      name: this.props.name.getName(),
       pairList: [...this.props.pairList],
     };
   }
@@ -35,10 +35,10 @@ export class Team {
   }
 
   public getName() {
-    return this.props.name.getValue();
+    return this.props.name.getName();
   }
 
-  public setName(newName: string): Team {
+  public updateName(newName: string): Team {
     const { id, pairList } = this.getAllProperties();
 
     return new Team({

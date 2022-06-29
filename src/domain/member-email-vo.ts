@@ -1,5 +1,5 @@
 export class MemberEmailVO {
-  private _value: string;
+  private readonly _value: string;
 
   constructor(email: string) {
     this.validateEmail(email);

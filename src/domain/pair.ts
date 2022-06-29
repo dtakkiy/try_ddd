@@ -27,7 +27,7 @@ export class Pair {
   public getAllProperties() {
     return {
       id: this.props.id,
-      name: this.props.name.getValue(),
+      name: this.props.name.getName(),
       memberIdList: [...this.props.memberIdList],
     };
   }

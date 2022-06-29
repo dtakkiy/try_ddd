@@ -1,5 +1,5 @@
 export class MemberNameVO {
-  private _var: string;
+  private readonly _var: string;
 
   constructor(name: string) {
     this.validateName(name);
@@ -12,7 +12,7 @@ export class MemberNameVO {
     }
   }
 
-  public getValue() {
+  public getName() {
     return this._var;
   }
 }

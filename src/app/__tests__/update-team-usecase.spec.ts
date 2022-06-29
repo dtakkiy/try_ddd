@@ -30,7 +30,7 @@ describe('【ユースケース】チームの更新', () => {
 
     mockTeamRepository.getById.mockResolvedValueOnce(team);
     const updateTeam = new Team({ id: id, name: name, pairList: [] });
-    const newTeam = updateTeam.setName('6');
+    const newTeam = updateTeam.updateName('6');
     mockTeamRepository.update.mockResolvedValueOnce(newTeam);
 
     const usecase = new UpdateTeamUseCase(mockTeamRepository);
