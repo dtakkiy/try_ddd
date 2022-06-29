@@ -12,7 +12,6 @@ export const validateProgressStatus = (status: string) => {
 };
 export class ProgressStatusVO {
   private readonly _value: string;
-
   constructor(status: string) {
     this.validateStatus(status);
     this._value = status;
