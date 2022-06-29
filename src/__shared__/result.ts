@@ -1,5 +1,6 @@
 export type NonError = null;
 export type DomainError = string;
+export type DSError = string;
 export type Result<T, E> = Success<T, E> | Failure<T, E>;
 
 export class Success<T, E> {

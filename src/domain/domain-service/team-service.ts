@@ -1,3 +1,4 @@
+import { DSError, Failure, Result, Success } from 'src/__shared__/result';
 import { Pair } from '../pair';
 import { ITeamRepository } from '../repository-interface/team-repository-interface';
 import { Team } from '../team';
@@ -109,7 +110,7 @@ export class TeamService {
     return typeof blankPairName === 'string' ? blankPairName : '';
   }
 
-  public async createNewTeamName(): Promise<string> {
+  public async createNewTeamName(): Promise<Result<string, DSError>> {
     // チーム名は、1-999
     const MIN_TEAM_COUNT = 1;
     const MAX_TEAM_COUNT = 999;
@@ -121,10 +122,10 @@ export class TeamService {
       const result = currentTeamNameList.some((teamName) => teamName === i);
 
       if (!result) {
-        return String(i);
+        return new Success(String(i));
       }
     }
 
-    throw new Error('failed to generate team name.');
+    return new Failure('failed to generate team name.');
   }
 }
