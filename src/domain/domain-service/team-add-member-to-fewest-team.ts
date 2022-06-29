@@ -19,6 +19,11 @@ export class AddMemberToFewestTeam {
   public async execute(member: Member): Promise<Team> {
     const teamService = new TeamService(this.teamRepository);
     const fewestTeam = await teamService.getTeamFewestNumberOfMember();
+
+    if (fewestTeam === null) {
+      throw new Error('cannot found the fewest team.');
+    }
+
     const fewestPair = fewestTeam.getMinMemberPair();
     fewestTeam.deletePair(fewestPair.id);
 
