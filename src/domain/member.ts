@@ -26,7 +26,7 @@ export class Member {
   public getAllProperties() {
     return {
       id: this.props.id,
-      name: this.props.name.getValue(),
+      name: this.props.name.getName(),
       email: this.props.email.getEmail(),
       status: this.props.status.getStatus(),
     };

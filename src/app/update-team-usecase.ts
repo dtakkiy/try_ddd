@@ -20,7 +20,7 @@ export class UpdateTeamUseCase {
       throw new Error('team does not exists.');
     }
 
-    const newTeam = team.setName(name);
+    const newTeam = team.updateName(name);
     const updateTeam = await this.teamRepository.update(newTeam);
     return updateTeam;
   }

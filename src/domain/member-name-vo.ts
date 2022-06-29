@@ -12,7 +12,7 @@ export class MemberNameVO {
     }
   }
 
-  public getValue() {
+  public getName() {
     return this._var;
   }
 }

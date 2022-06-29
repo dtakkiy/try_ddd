@@ -5,7 +5,7 @@ export class PairNameVO {
     this._value = name;
   }
 
-  public getValue() {
+  public getName() {
     return this._value;
   }
 
