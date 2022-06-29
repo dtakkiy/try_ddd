@@ -1,4 +1,11 @@
 import { Identifier } from 'src/__shared__/identifier';
+import {
+  DomainError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { Pair } from './pair';
 import { TeamNameVO } from './team-name-vo';
 
@@ -87,10 +94,10 @@ export class Team {
     this.props.pairList.push(pair);
   }
 
-  public deleteMember(memberId: string) {
+  public deleteMember(memberId: string): Result<NonError, DomainError> {
     const pair = this.getPairByMemberId(memberId);
     if (!pair) {
-      throw new Error('pair do not exist.');
+      return new Failure('pair do not exist.');
     }
 
     pair.deleteMember(memberId);
@@ -98,6 +105,8 @@ export class Team {
     // 人数の確認
     this.validatePairMemberCount();
     this.validateTeamMemberCount();
+
+    return new Success(null);
   }
 
   public getPairByMemberId(memberId: string) {
