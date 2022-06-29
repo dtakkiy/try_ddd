@@ -1,3 +1,4 @@
+export type NonError = null;
 export type DomainError = string;
 export type Result<T, E> = Success<T, E> | Failure<T, E>;
 

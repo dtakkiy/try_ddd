@@ -1,4 +1,11 @@
 import { Identifier } from 'src/__shared__/identifier';
+import {
+  DomainError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { Pair } from './pair';
 import { TeamNameVO } from './team-name-vo';
 
@@ -87,36 +94,49 @@ export class Team {
     this.props.pairList.push(pair);
   }
 
-  public deleteMember(memberId: string) {
+  public deleteMember(memberId: string): Result<NonError, DomainError> {
     const pair = this.getPairByMemberId(memberId);
     if (!pair) {
-      throw new Error('pair do not exist.');
+      return new Failure('pair do not exist.');
     }
 
     pair.deleteMember(memberId);
+    const resultPairCount = this.validatePairMemberCount();
+    if (resultPairCount.isFailure()) {
+      return new Failure(resultPairCount.value);
+    }
 
-    // 人数の確認
-    this.validatePairMemberCount();
-    this.validateTeamMemberCount();
+    const resultTeamCount = this.validateTeamMemberCount();
+    if (resultTeamCount.isFailure()) {
+      return new Failure(resultTeamCount.value);
+    }
+
+    return new Success(null);
   }
 
   public getPairByMemberId(memberId: string) {
     return this.props.pairList.find((pair) => pair.isMemberExist(memberId));
   }
 
-  private validatePairMemberCount() {
+  private validatePairMemberCount(): Result<NonError, DomainError> {
     this.props.pairList.forEach((pair) => {
-      pair.validateMemberCount();
+      const result = pair.validateMemberCount();
+      if (result.isFailure()) {
+        return result;
+      }
     });
+    return new Success(null);
   }
 
-  private validateTeamMemberCount() {
+  private validateTeamMemberCount(): Result<NonError, DomainError> {
     const memberCount = this.getMemberCount();
     if (memberCount < this.MIN_MEMBER_NUMBER) {
-      throw new Error(
+      return new Failure(
         `team must have at least ${this.MIN_MEMBER_NUMBER} member.`
       );
     }
+
+    return new Success(null);
   }
 
   public addMember(memberId: string): Pair {
@@ -124,8 +144,15 @@ export class Team {
     const pair = this.getMinMemberPair();
     pair.addMember(memberId);
 
-    this.validatePairMemberCount();
-    this.validateTeamMemberCount();
+    const resultPairCount = this.validatePairMemberCount();
+    if (resultPairCount.isFailure()) {
+      throw new Error(resultPairCount.value);
+    }
+
+    const resultTeamCount = this.validateTeamMemberCount();
+    if (resultTeamCount.isFailure()) {
+      throw new Error(resultTeamCount.value);
+    }
 
     return pair;
   }

@@ -1,4 +1,11 @@
 import { Identifier } from 'src/__shared__/identifier';
+import {
+  DomainError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { PairNameVO } from './pair-name-vo';
 
 interface IPair {
@@ -7,10 +14,11 @@ interface IPair {
   memberIdList: string[];
 }
 
+const MAX_MEMBER_NUMBER = 3;
+const MIN_MEMBER_NUMBER = 2;
+
 export class Pair {
   private props: IPair;
-  private MAX_MEMBER_NUMBER = 3;
-  private MIN_MEMBER_NUMBER = 2;
 
   constructor(props: IPair) {
     const { id, name, memberIdList } = props;
@@ -46,23 +54,52 @@ export class Pair {
   }
 
   private validateMemberIdList(memberIdList: string[]) {
-    if (memberIdList.length < this.MIN_MEMBER_NUMBER) {
+    if (memberIdList.length < MIN_MEMBER_NUMBER) {
       throw new Error(`small number of member. ${memberIdList.length}`);
     }
 
-    if (memberIdList.length > this.MAX_MEMBER_NUMBER) {
+    if (memberIdList.length > MAX_MEMBER_NUMBER) {
       throw new Error(`large number of member. ${memberIdList.length}`);
     }
   }
 
-  public validateMemberCount() {
-    if (this.getMemberCount() < this.MIN_MEMBER_NUMBER) {
-      throw new Error('current number of member in a pair is too small.');
+  public static instantiate(props: IPair): Result<Pair, DomainError> {
+    const { memberIdList } = props;
+    const result = Pair.instantiate_validateMemberIdList(memberIdList);
+
+    if (result.isFailure()) {
+      return new Failure(result.value);
     }
 
-    if (this.getMemberCount() > this.MAX_MEMBER_NUMBER) {
-      throw new Error('current number of member in a pair is too large.');
+    const pair = new Pair(props);
+    return new Success(pair);
+  }
+
+  public static instantiate_validateMemberIdList(
+    memberIdList: string[]
+  ): Result<NonError, DomainError> {
+    if (memberIdList.length < MIN_MEMBER_NUMBER) {
+      return new Failure(`small number of member. ${memberIdList.length}`);
     }
+
+    if (memberIdList.length > MAX_MEMBER_NUMBER) {
+      return new Failure(`large number of member. ${memberIdList.length}`);
+    }
+
+    return new Success(null);
+  }
+
+  public validateMemberCount(): Result<NonError, DomainError> {
+    if (this.getMemberCount() < MIN_MEMBER_NUMBER) {
+      //      throw new Error('current number of member in a pair is too small.');
+      return new Failure('current number of member in a pair is too small.');
+    }
+
+    if (this.getMemberCount() > MAX_MEMBER_NUMBER) {
+      //      throw new Error('current number of member in a pair is too large.');
+      return new Failure('current number of member in a pair is too large.');
+    }
+    return new Success(null);
   }
 
   public isEqual = (pair: Pair): boolean => {
