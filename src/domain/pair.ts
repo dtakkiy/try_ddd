@@ -89,14 +89,17 @@ export class Pair {
     return new Success(null);
   }
 
-  public validateMemberCount() {
+  public validateMemberCount(): Result<NonError, DomainError> {
     if (this.getMemberCount() < MIN_MEMBER_NUMBER) {
-      throw new Error('current number of member in a pair is too small.');
+      //      throw new Error('current number of member in a pair is too small.');
+      return new Failure('current number of member in a pair is too small.');
     }
 
     if (this.getMemberCount() > MAX_MEMBER_NUMBER) {
-      throw new Error('current number of member in a pair is too large.');
+      //      throw new Error('current number of member in a pair is too large.');
+      return new Failure('current number of member in a pair is too large.');
     }
+    return new Success(null);
   }
 
   public isEqual = (pair: Pair): boolean => {
