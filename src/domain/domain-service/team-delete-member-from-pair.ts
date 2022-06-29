@@ -1,3 +1,4 @@
+import { DSError, Failure, Result, Success } from 'src/__shared__/result';
 import { IEmailRepository } from 'src/app/repository-interface/email-repository-interface';
 import { Member } from '../member';
 import { Pair } from '../pair';
@@ -23,23 +24,17 @@ export class DeleteMemberFromPair {
     private readonly teamRepository: ITeamRepository,
     private readonly emailRepository: IEmailRepository,
     private readonly teamMemberUpdate: TeamMemberUpdate
-  ) {
-    this.teamRepository = teamRepository;
-    this.emailRepository = emailRepository;
-    this.teamMemberUpdate = teamMemberUpdate;
-  }
+  ) {}
 
-  public async execute(member: Member): Promise<Team> {
+  public async execute(member: Member): Promise<Result<Team, DSError>> {
     const joinTeam = await this.teamRepository.getByMemberId(member.id);
-
     if (joinTeam === null) {
-      throw new Error('number of team members could not be retrieved.');
+      return new Failure('number of team members could not be retrieved.');
     }
 
     const joinPair = this.getPairIdByMemberId(joinTeam, member.id);
-
     if (joinPair === null) {
-      throw new Error('pair information could not be retrieved.');
+      return new Failure('pair information could not be retrieved.');
     }
 
     // ユーザをリストから削除
@@ -56,7 +51,7 @@ export class DeleteMemberFromPair {
         typeof deleteMemberList[0] === 'undefined' ||
         deleteMemberList.length < this.MIN_MEMBER_NUMBER
       ) {
-        throw new Error(
+        return new Failure(
           'failed to retrieve the member of the pair to be disbanded.'
         );
       } else {
@@ -76,7 +71,7 @@ export class DeleteMemberFromPair {
           member,
           joinTeam
         );
-        return joinTeam;
+        return new Success(joinTeam);
       }
 
       // あぶれたメンバーをペアに合流させる
@@ -105,7 +100,7 @@ export class DeleteMemberFromPair {
       );
     }
 
-    return joinTeam;
+    return new Success(joinTeam);
   }
 
   private getPairIdByMemberId(team: Team, memberId: string): Pair | null {
