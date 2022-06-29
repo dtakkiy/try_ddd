@@ -2,16 +2,8 @@ export type DomainError = string;
 export type Result<T, E> = Success<T, E> | Failure<T, E>;
 
 export class Success<T, E> {
-  private readonly _value: T;
   type = 'success' as const;
-
-  constructor(value: T) {
-    this._value = value;
-  }
-
-  public getValue(): T {
-    return this._value;
-  }
+  constructor(readonly value: T) {}
 
   isSuccess(): this is Success<T, E> {
     return true;
@@ -23,16 +15,8 @@ export class Success<T, E> {
 }
 
 export class Failure<T, E> {
-  private readonly _value: E;
   type = 'failure' as const;
-
-  constructor(value: E) {
-    this._value = value;
-  }
-
-  public getValue(): E {
-    return this._value;
-  }
+  constructor(readonly value: E) {}
 
   isSuccess(): this is Success<T, E> {
     return false;

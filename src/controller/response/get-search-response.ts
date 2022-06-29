@@ -19,30 +19,20 @@ export class GetSearchResponse {
     const { searchDatas } = params;
 
     if (searchDatas.isSuccess()) {
-      this.pagingData = searchDatas.getValue().paging;
-      this.searchData = searchDatas
-        .getValue()
-        .items.map(
-          ({
+      this.pagingData = searchDatas.value.paging;
+      this.searchData = searchDatas.value.items.map(
+        ({ id, name, email }: { id: string; name: string; email: string }) => {
+          return new SearchData({
             id,
             name,
             email,
-          }: {
-            id: string;
-            name: string;
-            email: string;
-          }) => {
-            return new SearchData({
-              id,
-              name,
-              email,
-            });
-          }
-        );
+          });
+        }
+      );
     }
 
     if (searchDatas.isFailure()) {
-      this.errorData = searchDatas.getValue();
+      this.errorData = searchDatas.value;
     }
   }
 }
