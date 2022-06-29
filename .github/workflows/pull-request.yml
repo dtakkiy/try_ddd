@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: '14.x'
           cache: 'yarn'
-      - run: yarn
+      - run: yarn --frozen-lockfile
       - run: yarn build
       - run: yarn test:unit
       - run: yarn prisma migrate deploy
