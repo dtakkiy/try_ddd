@@ -24,16 +24,11 @@ describe('課題の削除', () => {
 
   it('正常系', async () => {
     const taskId = faker.datatype.uuid();
-    const task1 = Task.create({
+    const task1 = Task.reconstruct({
       id: taskId,
       title: '課題1',
       content: '本文',
     });
-
-    if (task1 === null) {
-      return;
-    }
-
     mockTaskRepository.getById.mockResolvedValueOnce(task1);
     mockTaskService.deleteTask.mockResolvedValueOnce();
 

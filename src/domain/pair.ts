@@ -32,12 +32,17 @@ export class Pair {
     this.props = props;
   }
 
-  public static create = (props: IPair) => {
+  public static create = (props: IPair): Pair | null => {
     try {
       return new Pair(props);
     } catch (e) {
       return null;
     }
+  };
+
+  // DBなどの値からインスタンスを再構成するためのメソッド
+  public static reconstruct = (props: IPair): Pair => {
+    return new Pair(props);
   };
 
   public getAllProperties() {

@@ -33,11 +33,15 @@ export class Task {
     return task.props.id === this.props.id;
   };
 
-  public static create = (props: ITask) => {
+  public static create = (props: ITask): Task | null => {
     try {
       return new Task(props);
     } catch (e) {
       return null;
     }
+  };
+
+  public static reconstruct = (props: ITask): Task => {
+    return new Task(props);
   };
 }

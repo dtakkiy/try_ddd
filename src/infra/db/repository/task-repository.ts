@@ -31,20 +31,12 @@ export class TaskRepository implements ITaskRepository {
       return null;
     }
 
-    const response: Task[] = [];
-
-    taskAll.forEach((task) => {
-      const t = Task.create({
+    return taskAll.map((task) => {
+      return Task.reconstruct({
         id: task.id,
         title: task.title,
         content: task.content,
       });
-
-      if (t !== null) {
-        response.push(t);
-      }
     });
-
-    return response;
   }
 }
