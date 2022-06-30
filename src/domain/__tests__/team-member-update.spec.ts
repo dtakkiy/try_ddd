@@ -15,8 +15,8 @@ describe('team-member-updateのテスト', () => {
 
   let teamId: string;
   let team: Team;
-  let pair1: Pair;
-  let pair2: Pair;
+  let pair1: Pair | null;
+  let pair2: Pair | null;
   let member1: Member;
 
   beforeAll(() => {
@@ -50,17 +50,23 @@ describe('team-member-updateのテスト', () => {
       email: 'a@example.com',
     });
 
-    pair1 = new Pair({
+    pair1 = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('a'),
       memberIdList: [member1.id, member2.id, member3.id],
     });
+    if (pair1 === null) {
+      return;
+    }
 
-    pair2 = new Pair({
+    pair2 = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('b'),
       memberIdList: [member4.id, member5.id, member6.id],
     });
+    if (pair2 === null) {
+      return;
+    }
 
     teamId = faker.datatype.uuid();
     team = new Team({

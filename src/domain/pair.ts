@@ -20,7 +20,7 @@ const MIN_MEMBER_NUMBER = 2;
 export class Pair {
   private props: IPair;
 
-  constructor(props: IPair) {
+  private constructor(props: IPair) {
     const { id, name, memberIdList } = props;
     this.validateMemberIdList(memberIdList);
 
@@ -31,6 +31,14 @@ export class Pair {
     };
     this.props = props;
   }
+
+  public static create = (props: IPair) => {
+    try {
+      return new Pair(props);
+    } catch (e) {
+      return null;
+    }
+  };
 
   public getAllProperties() {
     return {
@@ -61,32 +69,6 @@ export class Pair {
     if (memberIdList.length > MAX_MEMBER_NUMBER) {
       throw new Error(`large number of member. ${memberIdList.length}`);
     }
-  }
-
-  public static instantiate(props: IPair): Result<Pair, DomainError> {
-    const { memberIdList } = props;
-    const result = Pair.instantiate_validateMemberIdList(memberIdList);
-
-    if (result.isFailure()) {
-      return new Failure(result.value);
-    }
-
-    const pair = new Pair(props);
-    return new Success(pair);
-  }
-
-  public static instantiate_validateMemberIdList(
-    memberIdList: string[]
-  ): Result<NonError, DomainError> {
-    if (memberIdList.length < MIN_MEMBER_NUMBER) {
-      return new Failure(`small number of member. ${memberIdList.length}`);
-    }
-
-    if (memberIdList.length > MAX_MEMBER_NUMBER) {
-      return new Failure(`large number of member. ${memberIdList.length}`);
-    }
-
-    return new Success(null);
   }
 
   public validateMemberCount(): Result<NonError, DomainError> {

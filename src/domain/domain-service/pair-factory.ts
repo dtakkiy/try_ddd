@@ -9,11 +9,11 @@ interface IProps {
 }
 
 export class PairFactory {
-  public static execute = (props: IProps): Pair => {
+  public static execute = (props: IProps): Pair | null => {
     const { memberIdList } = props;
     const id = props.id ?? Identifier.generator();
     const name = new PairNameVO(props.name);
 
-    return new Pair({ id, name, memberIdList });
+    return Pair.create({ id, name, memberIdList });
   };
 }

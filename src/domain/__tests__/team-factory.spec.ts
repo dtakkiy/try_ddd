@@ -16,7 +16,10 @@ describe('team factoryのテスト', () => {
       memberIdList: [memberId1, memberId2],
     };
 
-    const pair1 = new Pair(pairData);
+    const pair1 = Pair.create(pairData);
+    if (pair1 === null) {
+      return;
+    }
 
     const teamData = {
       id: faker.datatype.uuid(),

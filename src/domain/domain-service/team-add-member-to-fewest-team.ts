@@ -46,11 +46,15 @@ export class AddMemberToFewestTeam {
 
       const newPairName = await teamService.createNewPairName(fewestTeam.id);
 
-      const newPair = new Pair({
+      const newPair = Pair.create({
         id: Identifier.generator(),
         name: new PairNameVO(newPairName),
         memberIdList: deleteUsers,
       });
+
+      if (newPair === null) {
+        return new Failure('cannot create new pair.');
+      }
 
       fewestTeam.addPair(fewestPair);
       fewestTeam.addPair(newPair);

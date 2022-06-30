@@ -17,8 +17,8 @@ describe('team-same-existのテスト', () => {
   let mockTeamRepository: MockedObjectDeep<TeamRepository>;
   let teamId: string;
   let team: Team;
-  let pair1: Pair;
-  let pair2: Pair;
+  let pair1: Pair | null;
+  let pair2: Pair | null;
   let teamId2: string;
   let team2: Team;
   let teamId3: string;
@@ -55,17 +55,24 @@ describe('team-same-existのテスト', () => {
       email: 'a@example.com',
     });
 
-    pair1 = new Pair({
+    pair1 = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('a'),
       memberIdList: [member1.id, member2.id, member3.id],
     });
 
-    pair2 = new Pair({
+    if (pair1 === null) {
+      return;
+    }
+
+    pair2 = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('b'),
       memberIdList: [member4.id, member5.id, member6.id],
     });
+    if (pair2 === null) {
+      return;
+    }
 
     teamId = faker.datatype.uuid();
     team = new Team({

@@ -58,17 +58,25 @@ describe('Teamエンティティのテスト', () => {
 
   describe('チームの最小人数のペア', () => {
     it('メンバーが少ないペアを特定する', () => {
-      const pair1 = new Pair({
+      const pair1 = Pair.create({
         id: pairId1,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2, memberId5],
       });
 
-      const pair2 = new Pair({
+      if (pair1 === null) {
+        return;
+      }
+
+      const pair2 = Pair.create({
         id: pairId2,
         name: new PairNameVO('b'),
         memberIdList: [memberId3, memberId4],
       });
+
+      if (pair2 === null) {
+        return;
+      }
 
       const team = new Team({
         id: faker.datatype.uuid(),
@@ -83,11 +91,15 @@ describe('Teamエンティティのテスト', () => {
 
   describe('チームの人数', () => {
     it('チームの人数をカウントする', () => {
-      const pair = new Pair({
+      const pair = Pair.create({
         id: pairId1,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2, memberId3],
       });
+
+      if (pair === null) {
+        return;
+      }
 
       const team = new Team({
         id: faker.datatype.uuid(),
@@ -99,11 +111,15 @@ describe('Teamエンティティのテスト', () => {
     });
 
     it('チームにメンバーを追加する', () => {
-      const pair = new Pair({
+      const pair = Pair.create({
         id: pairId1,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2],
       });
+
+      if (pair === null) {
+        return;
+      }
 
       const team = new Team({
         id: faker.datatype.uuid(),
@@ -134,11 +150,15 @@ describe('Teamエンティティのテスト', () => {
     // });
 
     it('チームメンバーを削除した際、最少人数を下回った場合', () => {
-      const pair = new Pair({
+      const pair = Pair.create({
         id: pairId1,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2, memberId3],
       });
+
+      if (pair === null) {
+        return;
+      }
 
       const team = new Team({
         id: faker.datatype.uuid(),
@@ -152,17 +172,25 @@ describe('Teamエンティティのテスト', () => {
     });
 
     it('チームメンバーを削除', () => {
-      const pair1 = new Pair({
+      const pair1 = Pair.create({
         id: pairId1,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2],
       });
 
-      const pair2 = new Pair({
+      if (pair1 === null) {
+        return;
+      }
+
+      const pair2 = Pair.create({
         id: pairId2,
         name: new PairNameVO('b'),
         memberIdList: [memberId3, memberId4, memberId5],
       });
+
+      if (pair2 === null) {
+        return;
+      }
 
       const team = new Team({
         id: faker.datatype.uuid(),
