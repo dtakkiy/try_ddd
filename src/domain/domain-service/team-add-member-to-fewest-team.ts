@@ -52,12 +52,12 @@ export class AddMemberToFewestTeam {
         memberIdList: deleteUsers,
       });
 
-      if (newPair === null) {
+      if (newPair.isFailure()) {
         return new Failure('cannot create new pair.');
       }
 
       fewestTeam.addPair(fewestPair);
-      fewestTeam.addPair(newPair);
+      fewestTeam.addPair(newPair.value);
     }
 
     await this.teamMemberUpdate.update({

@@ -28,8 +28,8 @@ export class TeamRepository implements ITeamRepository {
     const pairLists: Pair[] = [];
 
     return allTeam.map((teamDM) => {
-      teamDM.pairs.forEach((pair) => {
-        const p = Pair.create({
+      teamDM.pairs.map((pair) => {
+        const p = Pair.reconstruct({
           id: pair.id,
           name: new PairNameVO(pair.name),
           memberIdList: pair.members.map((member) => {
@@ -37,9 +37,7 @@ export class TeamRepository implements ITeamRepository {
           }),
         });
 
-        if (p !== null) {
-          pairLists.push(p);
-        }
+        pairLists.push(p);
       });
 
       return new Team({

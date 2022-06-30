@@ -32,11 +32,12 @@ export class Pair {
     this.props = props;
   }
 
-  public static create = (props: IPair): Pair | null => {
+  public static create = (props: IPair): Result<Pair, DomainError> => {
     try {
-      return new Pair(props);
-    } catch (e) {
-      return null;
+      const pair = new Pair(props);
+      return new Success(pair);
+    } catch (e: any) {
+      return new Failure(String(e));
     }
   };
 

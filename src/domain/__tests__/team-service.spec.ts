@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
+import { DomainError, Result } from 'src/__shared__/result';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
@@ -17,8 +18,8 @@ describe('team-serviceのテスト', () => {
   let mockTeamRepository: MockedObjectDeep<TeamRepository>;
   let teamId: string;
   let team: Team;
-  let pair1: Pair | null;
-  let pair2: Pair | null;
+  let pair1: Result<Pair, DomainError>;
+  let pair2: Result<Pair, DomainError>;
   let teamId2: string;
   let team2: Team;
 
@@ -55,7 +56,7 @@ describe('team-serviceのテスト', () => {
       memberIdList: [member1.id, member2.id, member3.id],
     });
 
-    if (pair1 === null) {
+    if (pair1.isFailure()) {
       return;
     }
 
@@ -65,7 +66,7 @@ describe('team-serviceのテスト', () => {
       memberIdList: [member4.id, member5.id],
     });
 
-    if (pair2 === null) {
+    if (pair2.isFailure()) {
       return;
     }
 
@@ -75,7 +76,7 @@ describe('team-serviceのテスト', () => {
       memberIdList: [member1.id, member2.id],
     });
 
-    if (pair3 === null) {
+    if (pair3.isFailure()) {
       return;
     }
 
@@ -85,7 +86,7 @@ describe('team-serviceのテスト', () => {
       memberIdList: [member4.id, member5.id],
     });
 
-    if (pair4 === null) {
+    if (pair4.isFailure()) {
       return;
     }
 
@@ -93,14 +94,14 @@ describe('team-serviceのテスト', () => {
     team = new Team({
       id: teamId,
       name: new TeamNameVO('1'),
-      pairList: [pair1, pair2],
+      pairList: [pair1.value, pair2.value],
     });
 
     teamId2 = faker.datatype.uuid();
     team2 = new Team({
       id: teamId2,
       name: new TeamNameVO('2'),
-      pairList: [pair3, pair4],
+      pairList: [pair3.value, pair4.value],
     });
   });
 
@@ -120,13 +121,13 @@ describe('team-serviceのテスト', () => {
     const teamService = new TeamService(mockTeamRepository);
     mockTeamRepository.getById.mockResolvedValueOnce(team);
     await expect(teamService.getPairFewestNumberOfMember(teamId)).resolves.toBe(
-      pair2
+      pair2.value
     );
 
     mockTeamRepository.getById.mockResolvedValueOnce(team);
     await expect(
       teamService.getPairFewestNumberOfMember(teamId)
-    ).resolves.not.toBe(pair1);
+    ).resolves.not.toBe(pair1.value);
   });
 
   it('新しいペア名を生成する', async () => {

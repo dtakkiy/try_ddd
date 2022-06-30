@@ -33,7 +33,7 @@ describe('【ユースケース】チームのペアを変更する', () => {
       name: new PairNameVO('g'),
       memberIdList: [memberId1, memberId2, memberId3],
     });
-    if (pair1 === null) {
+    if (pair1.isFailure()) {
       return;
     }
 
@@ -44,7 +44,7 @@ describe('【ユースケース】チームのペアを変更する', () => {
       new Team({
         id: teamId1,
         name: new TeamNameVO('1'),
-        pairList: [mockPair],
+        pairList: [mockPair.value],
       }),
       true
     );

@@ -58,14 +58,14 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       name: new PairNameVO('a'),
       memberIdList: [memberId, member2.id, member3.id],
     });
-    if (pairData === null) {
+    if (pairData.isFailure()) {
       return;
     }
 
     const team = TeamFactory.execute({
       id: Identifier.generator(),
       name: '1',
-      pairList: [pairData],
+      pairList: [pairData.value],
     });
 
     mockMemberRepository.getById.mockResolvedValueOnce(member);
