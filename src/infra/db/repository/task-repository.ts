@@ -28,15 +28,23 @@ export class TaskRepository implements ITaskRepository {
     const taskAll = await this.prismaClient.task.findMany();
 
     if (taskAll === null) {
-      throw new Error(`not found task data.`);
+      return null;
     }
 
-    return taskAll.map((task) => {
-      return TaskFactory.execute({
+    const response: Task[] = [];
+
+    taskAll.forEach((task) => {
+      const t = Task.create({
         id: task.id,
         title: task.title,
         content: task.content,
       });
+
+      if (t !== null) {
+        response.push(t);
+      }
     });
+
+    return response;
   }
 }
