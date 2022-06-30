@@ -64,7 +64,7 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId1, memberId2, memberId5],
       });
 
-      if (pair1 === null) {
+      if (pair1.isFailure()) {
         return;
       }
 
@@ -74,14 +74,14 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId3, memberId4],
       });
 
-      if (pair2 === null) {
+      if (pair2.isFailure()) {
         return;
       }
 
       const team = new Team({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
-        pairList: [pair1, pair2],
+        pairList: [pair1.value, pair2.value],
       });
 
       const minMemberPair = team.getMinMemberPair();
@@ -97,14 +97,14 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId1, memberId2, memberId3],
       });
 
-      if (pair === null) {
+      if (pair.isFailure()) {
         return;
       }
 
       const team = new Team({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
-        pairList: [pair],
+        pairList: [pair.value],
       });
 
       expect(team.getMemberCount()).toBe(3);
@@ -117,14 +117,14 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId1, memberId2],
       });
 
-      if (pair === null) {
+      if (pair.isFailure()) {
         return;
       }
 
       const team = new Team({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
-        pairList: [pair],
+        pairList: [pair.value],
       });
 
       expect(team.getMemberCount()).toBe(2);
@@ -156,14 +156,14 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId1, memberId2, memberId3],
       });
 
-      if (pair === null) {
+      if (pair.isFailure()) {
         return;
       }
 
       const team = new Team({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
-        pairList: [pair],
+        pairList: [pair.value],
       });
 
       expect(team.getMemberCount()).toBe(3);
@@ -178,7 +178,7 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId1, memberId2],
       });
 
-      if (pair1 === null) {
+      if (pair1.isFailure()) {
         return;
       }
 
@@ -188,14 +188,14 @@ describe('Teamエンティティのテスト', () => {
         memberIdList: [memberId3, memberId4, memberId5],
       });
 
-      if (pair2 === null) {
+      if (pair2.isFailure()) {
         return;
       }
 
       const team = new Team({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
-        pairList: [pair1, pair2],
+        pairList: [pair1.value, pair2.value],
       });
 
       expect(team.getMemberCount()).toBe(5);

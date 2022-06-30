@@ -23,7 +23,7 @@ describe('Pairのテスト', () => {
         id: id,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2],
-      })
+      }).value
     ).toBeInstanceOf(Pair);
   });
 
@@ -45,8 +45,8 @@ describe('Pairのテスト', () => {
         id: id,
         name: new PairNameVO('a'),
         memberIdList: [memberId1],
-      })
-    ).toBeNull();
+      }).isFailure()
+    ).toBeTruthy();
   });
 
   it('4名のペアは存在できない', () => {
@@ -56,8 +56,8 @@ describe('Pairのテスト', () => {
         id: id,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2, memberId3, memberId4],
-      })
-    ).toBeNull();
+      }).isFailure()
+    ).toBeTruthy();
   });
 
   it('メンバーを追加できる', () => {
@@ -67,13 +67,13 @@ describe('Pairのテスト', () => {
       memberIdList: [memberId1, memberId2],
     });
 
-    if (pair === null) {
+    if (pair.isFailure()) {
       return;
     }
 
-    expect(pair.getMemberCount()).toBe(2);
-    pair.addMember(memberId3);
-    expect(pair.getMemberCount()).toBe(3);
+    expect(pair.value.getMemberCount()).toBe(2);
+    pair.value.addMember(memberId3);
+    expect(pair.value.getMemberCount()).toBe(3);
   });
 
   it('指定したメンバーが存在するか', () => {
@@ -82,11 +82,11 @@ describe('Pairのテスト', () => {
       name: new PairNameVO('b'),
       memberIdList: [memberId1, memberId2],
     });
-    if (pair === null) {
+    if (pair.isFailure()) {
       return;
     }
 
-    expect(pair.isMemberExist(memberId1)).toBe(true);
+    expect(pair.value.isMemberExist(memberId1)).toBe(true);
   });
 
   it('指定したメンバーが存在しない場合', () => {
@@ -95,11 +95,11 @@ describe('Pairのテスト', () => {
       name: new PairNameVO('b'),
       memberIdList: [memberId1, memberId2],
     });
-    if (pair === null) {
+    if (pair.isFailure()) {
       return;
     }
 
-    expect(pair.isMemberExist(memberId4)).toBe(false);
+    expect(pair.value.isMemberExist(memberId4)).toBe(false);
   });
 
   it('ペアのメンバー数を取得することができる', () => {
@@ -110,14 +110,14 @@ describe('Pairのテスト', () => {
     };
 
     const pair = Pair.create(pairData);
-    if (pair === null) {
+    if (pair.isFailure()) {
       return;
     }
-    expect(pair.getMemberCount()).toBe(2);
+    expect(pair.value.getMemberCount()).toBe(2);
     const memberId5 = Identifier.generator();
 
-    pair.addMember(memberId5);
-    expect(pair.getMemberCount()).toBe(3);
+    pair.value.addMember(memberId5);
+    expect(pair.value.getMemberCount()).toBe(3);
   });
 
   it('メンバーを削除できる', () => {
@@ -130,12 +130,12 @@ describe('Pairのテスト', () => {
     };
 
     const pair = Pair.create(pairData);
-    if (pair === null) {
+    if (pair.isFailure()) {
       return;
     }
-    expect(pair.getMemberCount()).toBe(3);
+    expect(pair.value.getMemberCount()).toBe(3);
 
-    pair.deleteMember(memberId5);
-    expect(pair.getMemberCount()).toBe(2);
+    pair.value.deleteMember(memberId5);
+    expect(pair.value.getMemberCount()).toBe(2);
   });
 });

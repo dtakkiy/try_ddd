@@ -17,14 +17,14 @@ describe('team factoryのテスト', () => {
     };
 
     const pair1 = Pair.create(pairData);
-    if (pair1 === null) {
+    if (pair1.isFailure()) {
       return;
     }
 
     const teamData = {
       id: faker.datatype.uuid(),
       name: '1',
-      pairList: [pair1],
+      pairList: [pair1.value],
     };
 
     expect(TeamFactory.execute(teamData)).toBeInstanceOf(Team);

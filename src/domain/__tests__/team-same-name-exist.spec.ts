@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
+import { DomainError, Result } from 'src/__shared__/result';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
@@ -17,8 +18,8 @@ describe('team-same-existのテスト', () => {
   let mockTeamRepository: MockedObjectDeep<TeamRepository>;
   let teamId: string;
   let team: Team;
-  let pair1: Pair | null;
-  let pair2: Pair | null;
+  let pair1: Result<Pair, DomainError>;
+  let pair2: Result<Pair, DomainError>;
   let teamId2: string;
   let team2: Team;
   let teamId3: string;
@@ -61,7 +62,7 @@ describe('team-same-existのテスト', () => {
       memberIdList: [member1.id, member2.id, member3.id],
     });
 
-    if (pair1 === null) {
+    if (pair1.isFailure()) {
       return;
     }
 
@@ -70,7 +71,7 @@ describe('team-same-existのテスト', () => {
       name: new PairNameVO('b'),
       memberIdList: [member4.id, member5.id, member6.id],
     });
-    if (pair2 === null) {
+    if (pair2.isFailure()) {
       return;
     }
 
@@ -78,21 +79,21 @@ describe('team-same-existのテスト', () => {
     team = new Team({
       id: teamId,
       name: new TeamNameVO('1'),
-      pairList: [pair1, pair2],
+      pairList: [pair1.value, pair2.value],
     });
 
     teamId2 = faker.datatype.uuid();
     team2 = new Team({
       id: teamId2,
       name: new TeamNameVO('2'),
-      pairList: [pair1, pair2],
+      pairList: [pair1.value, pair2.value],
     });
 
     teamId3 = faker.datatype.uuid();
     team3 = new Team({
       id: teamId3,
       name: new TeamNameVO('3'),
-      pairList: [pair1, pair2],
+      pairList: [pair1.value, pair2.value],
     });
   });
 

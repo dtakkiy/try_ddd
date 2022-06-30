@@ -14,6 +14,6 @@ describe('pair factoryのテスト', () => {
       memberIdList: [memberId1, memberId2],
     };
 
-    expect(PairFactory.execute(data)).toBeInstanceOf(Pair);
+    expect(PairFactory.execute(data).value).toBeInstanceOf(Pair);
   });
 });
