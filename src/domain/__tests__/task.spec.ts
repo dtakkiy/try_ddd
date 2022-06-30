@@ -14,6 +14,9 @@ describe('taskの単体テスト', () => {
 
   it('インスタンスを生成できる', () => {
     const task = Task.create(data);
+    if (task === null) {
+      return;
+    }
     expect(task).toBeInstanceOf(Task);
   });
 
