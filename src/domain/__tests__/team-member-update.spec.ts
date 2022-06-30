@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
+import { DomainError, Result } from 'src/__shared__/result';
 import { MemberFactory } from '../domain-service/member-factory';
 import { TeamMemberUpdate } from '../domain-service/team-member-update';
 import { Member } from '../member';
@@ -15,8 +16,8 @@ describe('team-member-updateのテスト', () => {
 
   let teamId: string;
   let team: Team;
-  let pair1: Pair | null;
-  let pair2: Pair | null;
+  let pair1: Result<Pair, DomainError>;
+  let pair2: Result<Pair, DomainError>;
   let member1: Member;
 
   beforeAll(() => {
@@ -55,7 +56,7 @@ describe('team-member-updateのテスト', () => {
       name: new PairNameVO('a'),
       memberIdList: [member1.id, member2.id, member3.id],
     });
-    if (pair1 === null) {
+    if (pair1.isFailure()) {
       return;
     }
 
@@ -64,7 +65,7 @@ describe('team-member-updateのテスト', () => {
       name: new PairNameVO('b'),
       memberIdList: [member4.id, member5.id, member6.id],
     });
-    if (pair2 === null) {
+    if (pair2.isFailure()) {
       return;
     }
 
@@ -72,7 +73,7 @@ describe('team-member-updateのテスト', () => {
     team = new Team({
       id: teamId,
       name: new TeamNameVO('1'),
-      pairList: [pair1, pair2],
+      pairList: [pair1.value, pair2.value],
     });
   });
 
