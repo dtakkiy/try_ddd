@@ -89,23 +89,16 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    const pairLists: Pair[] = [];
-
-    pair.team.pairs.forEach((pair) => {
-      const p = Pair.create({
-        id: pair.id,
-        name: new PairNameVO(pair.name),
-        memberIdList: pairOnMember.map((member) => member.id),
-      });
-      if (p !== null) {
-        pairLists.push(p);
-      }
-    });
-
     return new Team({
       id: pair.team.id,
       name: new TeamNameVO(pair.team.name),
-      pairList: pairLists,
+      pairList: pair.team.pairs.map((pair) => {
+        return Pair.reconstruct({
+          id: pair.id,
+          name: new PairNameVO(pair.name),
+          memberIdList: pairOnMember.map((member) => member.id),
+        });
+      }),
     });
   }
 
@@ -142,24 +135,16 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    const pairLists: Pair[] = [];
-
-    team.pairs.forEach((pair) => {
-      const p = Pair.create({
-        id: pair.id,
-        name: new PairNameVO(pair.name),
-        memberIdList: pair.members.map((member) => member.id),
-      });
-
-      if (p !== null) {
-        pairLists.push(p);
-      }
-    });
-
     return new Team({
       id: team.id,
       name: new TeamNameVO(team.name),
-      pairList: pairLists,
+      pairList: team.pairs.map((pair) =>
+        Pair.reconstruct({
+          id: pair.id,
+          name: new PairNameVO(pair.name),
+          memberIdList: pair.members.map((member) => member.id),
+        })
+      ),
     });
   }
 
@@ -256,23 +241,16 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    const pairLists: Pair[] = [];
-    team.pairs.forEach((pair) => {
-      const p = Pair.create({
-        id: pair.id,
-        name: new PairNameVO(pair.name),
-        memberIdList: pair.members.map((member) => member.id),
-      });
-
-      if (p !== null) {
-        pairLists.push(p);
-      }
-    });
-
     return new Team({
       id: team.id,
       name: new TeamNameVO(team.name),
-      pairList: pairLists,
+      pairList: team.pairs.map((pair) =>
+        Pair.reconstruct({
+          id: pair.id,
+          name: new PairNameVO(pair.name),
+          memberIdList: pair.members.map((member) => member.id),
+        })
+      ),
     });
   }
 }
