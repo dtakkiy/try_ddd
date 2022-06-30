@@ -13,7 +13,7 @@ describe('taskの単体テスト', () => {
   });
 
   it('インスタンスを生成できる', () => {
-    const task = new Task(data);
+    const task = Task.create(data);
     expect(task).toBeInstanceOf(Task);
   });
 
@@ -25,7 +25,10 @@ describe('taskの単体テスト', () => {
       content: '本文',
     };
 
-    const task = new Task(data);
+    const task = Task.create(data);
+    if (task === null) {
+      return;
+    }
     const { id, title, content } = task.getAllProperties();
 
     expect(task).toBeInstanceOf(Task);
