@@ -20,12 +20,8 @@ describe('progress factoryのテスト', () => {
       title: faker.name.jobTitle(),
       content: faker.name.jobDescriptor(),
     };
-    const task1 = Task.create(data);
 
-    if (task1 === null) {
-      return;
-    }
-
+    const task1 = Task.reconstruct(data);
     expect(
       ProgressFactory.execute({ member: member1, taskList: [task1] })
     ).toBeInstanceOf(Array);
