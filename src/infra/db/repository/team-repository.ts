@@ -25,20 +25,27 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
+    const pairLists: Pair[] = [];
+
     return allTeam.map((teamDM) => {
+      teamDM.pairs.forEach((pair) => {
+        const p = Pair.create({
+          id: pair.id,
+          name: new PairNameVO(pair.name),
+          memberIdList: pair.members.map((member) => {
+            return member.id;
+          }),
+        });
+
+        if (p !== null) {
+          pairLists.push(p);
+        }
+      });
+
       return new Team({
         id: teamDM.id,
         name: new TeamNameVO(teamDM.name),
-        pairList: teamDM.pairs.map(
-          (pair) =>
-            new Pair({
-              id: pair.id,
-              name: new PairNameVO(pair.name),
-              memberIdList: pair.members.map((member) => {
-                return member.id;
-              }),
-            })
-        ),
+        pairList: pairLists,
       });
     });
   }
@@ -82,17 +89,23 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
+    const pairLists: Pair[] = [];
+
+    pair.team.pairs.forEach((pair) => {
+      const p = Pair.create({
+        id: pair.id,
+        name: new PairNameVO(pair.name),
+        memberIdList: pairOnMember.map((member) => member.id),
+      });
+      if (p !== null) {
+        pairLists.push(p);
+      }
+    });
+
     return new Team({
       id: pair.team.id,
       name: new TeamNameVO(pair.team.name),
-      pairList: pair.team.pairs.map(
-        (pair) =>
-          new Pair({
-            id: pair.id,
-            name: new PairNameVO(pair.name),
-            memberIdList: pairOnMember.map((member) => member.id),
-          })
-      ),
+      pairList: pairLists,
     });
   }
 
@@ -129,17 +142,24 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
+    const pairLists: Pair[] = [];
+
+    team.pairs.forEach((pair) => {
+      const p = Pair.create({
+        id: pair.id,
+        name: new PairNameVO(pair.name),
+        memberIdList: pair.members.map((member) => member.id),
+      });
+
+      if (p !== null) {
+        pairLists.push(p);
+      }
+    });
+
     return new Team({
       id: team.id,
       name: new TeamNameVO(team.name),
-      pairList: team.pairs.map(
-        (pair) =>
-          new Pair({
-            id: pair.id,
-            name: new PairNameVO(pair.name),
-            memberIdList: pair.members.map((member) => member.id),
-          })
-      ),
+      pairList: pairLists,
     });
   }
 
@@ -236,17 +256,23 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
+    const pairLists: Pair[] = [];
+    team.pairs.forEach((pair) => {
+      const p = Pair.create({
+        id: pair.id,
+        name: new PairNameVO(pair.name),
+        memberIdList: pair.members.map((member) => member.id),
+      });
+
+      if (p !== null) {
+        pairLists.push(p);
+      }
+    });
+
     return new Team({
       id: team.id,
       name: new TeamNameVO(team.name),
-      pairList: team.pairs.map(
-        (pair) =>
-          new Pair({
-            id: pair.id,
-            name: new PairNameVO(pair.name),
-            memberIdList: pair.members.map((member) => member.id),
-          })
-      ),
+      pairList: pairLists,
     });
   }
 }

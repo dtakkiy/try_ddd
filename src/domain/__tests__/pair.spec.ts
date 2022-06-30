@@ -19,7 +19,7 @@ describe('Pairのテスト', () => {
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
     expect(
-      new Pair({
+      Pair.create({
         id: id,
         name: new PairNameVO('a'),
         memberIdList: [memberId1, memberId2],
@@ -29,46 +29,47 @@ describe('Pairのテスト', () => {
 
   it('ペアの名前は、a,b,c のような英文字でなければならない', () => {
     const id = Identifier.generator();
-    expect(
-      () =>
-        new Pair({
-          id: id,
-          name: new PairNameVO('1'),
-          memberIdList: [memberId1, memberId2],
-        })
+    expect(() =>
+      Pair.create({
+        id: id,
+        name: new PairNameVO('1'),
+        memberIdList: [memberId1, memberId2],
+      })
     ).toThrow();
   });
 
   it('1名のペアは存在できない', () => {
     const id = Identifier.generator();
     expect(
-      () =>
-        new Pair({
-          id: id,
-          name: new PairNameVO('a'),
-          memberIdList: [memberId1],
-        })
-    ).toThrow();
+      Pair.create({
+        id: id,
+        name: new PairNameVO('a'),
+        memberIdList: [memberId1],
+      })
+    ).toBeNull();
   });
 
   it('4名のペアは存在できない', () => {
     const id = Identifier.generator();
     expect(
-      () =>
-        new Pair({
-          id: id,
-          name: new PairNameVO('a'),
-          memberIdList: [memberId1, memberId2, memberId3, memberId4],
-        })
-    ).toThrow();
+      Pair.create({
+        id: id,
+        name: new PairNameVO('a'),
+        memberIdList: [memberId1, memberId2, memberId3, memberId4],
+      })
+    ).toBeNull();
   });
 
   it('メンバーを追加できる', () => {
-    const pair = new Pair({
+    const pair = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('a'),
       memberIdList: [memberId1, memberId2],
     });
+
+    if (pair === null) {
+      return;
+    }
 
     expect(pair.getMemberCount()).toBe(2);
     pair.addMember(memberId3);
@@ -76,21 +77,27 @@ describe('Pairのテスト', () => {
   });
 
   it('指定したメンバーが存在するか', () => {
-    const pair = new Pair({
+    const pair = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('b'),
       memberIdList: [memberId1, memberId2],
     });
+    if (pair === null) {
+      return;
+    }
 
     expect(pair.isMemberExist(memberId1)).toBe(true);
   });
 
   it('指定したメンバーが存在しない場合', () => {
-    const pair = new Pair({
+    const pair = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('b'),
       memberIdList: [memberId1, memberId2],
     });
+    if (pair === null) {
+      return;
+    }
 
     expect(pair.isMemberExist(memberId4)).toBe(false);
   });
@@ -102,7 +109,10 @@ describe('Pairのテスト', () => {
       memberIdList: [memberId1, memberId2],
     };
 
-    const pair = new Pair(pairData);
+    const pair = Pair.create(pairData);
+    if (pair === null) {
+      return;
+    }
     expect(pair.getMemberCount()).toBe(2);
     const memberId5 = Identifier.generator();
 
@@ -119,7 +129,10 @@ describe('Pairのテスト', () => {
       memberIdList: [memberId1, memberId2, memberId5],
     };
 
-    const pair = new Pair(pairData);
+    const pair = Pair.create(pairData);
+    if (pair === null) {
+      return;
+    }
     expect(pair.getMemberCount()).toBe(3);
 
     pair.deleteMember(memberId5);

@@ -53,11 +53,14 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       email: 'jiro@example.com',
     });
 
-    const pairData = new Pair({
+    const pairData = Pair.create({
       id: Identifier.generator(),
       name: new PairNameVO('a'),
       memberIdList: [memberId, member2.id, member3.id],
     });
+    if (pairData === null) {
+      return;
+    }
 
     const team = TeamFactory.execute({
       id: Identifier.generator(),

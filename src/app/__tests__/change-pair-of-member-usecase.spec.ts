@@ -41,24 +41,27 @@ describe('【ユースケース】ペアのメンバーを変更する', () => {
     memberId5 = Identifier.generator();
 
     pairId1 = faker.datatype.uuid();
-    mockPair1 = mocked(
-      new Pair({
-        id: pairId1,
-        name: new PairNameVO('g'),
-        memberIdList: [memberId1, memberId2, memberId3],
-      }),
-      true
-    );
+
+    const pair1 = Pair.create({
+      id: pairId1,
+      name: new PairNameVO('g'),
+      memberIdList: [memberId1, memberId2, memberId3],
+    });
+    if (pair1 === null) {
+      return;
+    }
+    mockPair1 = mocked(pair1, true);
 
     pairId2 = faker.datatype.uuid();
-    mockPair2 = mocked(
-      new Pair({
-        id: pairId2,
-        name: new PairNameVO('g'),
-        memberIdList: [memberId4, memberId5],
-      }),
-      true
-    );
+    const pair2 = Pair.create({
+      id: pairId2,
+      name: new PairNameVO('g'),
+      memberIdList: [memberId4, memberId5],
+    });
+    if (pair2 === null) {
+      return;
+    }
+    mockPair2 = mocked(pair2, true);
 
     const teamId1 = faker.datatype.uuid();
     mockTeam1 = mocked(

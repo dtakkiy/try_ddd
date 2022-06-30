@@ -1,9 +1,6 @@
 import { Page, PagingCondition } from 'src/__shared__/page';
 import { DomainError, Failure, Result } from 'src/__shared__/result';
-import {
-  validateProgressStatus,
-  validateSearchProgressStatus,
-} from 'src/domain/progress-status-vo';
+import { validateSearchProgressStatus } from 'src/domain/progress-status-vo';
 import {
   ISearchQueryService,
   SearchDTO,
