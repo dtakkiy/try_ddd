@@ -38,14 +38,17 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const memberId = Identifier.generator();
     const status = MemberStatusVO.create();
 
-    const mockTask = mocked(
-      new Task({
-        id: taskId,
-        title: taskTitle,
-        content: taskContent,
-      }),
-      true
-    );
+    const task = Task.create({
+      id: taskId,
+      title: taskTitle,
+      content: taskContent,
+    });
+
+    if (task === null) {
+      return;
+    }
+
+    const mockTask = mocked(task, true);
 
     const mockMember = mocked(
       new Member({

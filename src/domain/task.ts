@@ -7,7 +7,7 @@ export interface ITask {
 }
 
 export class Task {
-  constructor(private readonly props: ITask) {
+  private constructor(private readonly props: ITask) {
     const { id, title, content } = props;
 
     this.props = {
@@ -31,5 +31,13 @@ export class Task {
 
   public isEqual = (task: Task): boolean => {
     return task.props.id === this.props.id;
+  };
+
+  public static create = (props: ITask) => {
+    try {
+      return new Task(props);
+    } catch (e) {
+      return null;
+    }
   };
 }

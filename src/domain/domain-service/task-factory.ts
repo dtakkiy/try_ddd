@@ -8,10 +8,10 @@ interface IProps {
 }
 
 export class TaskFactory {
-  public static execute = (props: IProps): Task => {
+  public static execute = (props: IProps): Task | null => {
     const id = props.id ?? Identifier.generator();
     const { title, content } = props;
 
-    return new Task({ id, title, content });
+    return Task.create({ id, title, content });
   };
 }
