@@ -37,7 +37,7 @@ export class Pair {
       const pair = new Pair(props);
       return new Success(pair);
     } catch (e: any) {
-      return new Failure(String(e));
+      return new Failure(String(e.message));
     }
   };
 
