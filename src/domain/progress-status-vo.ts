@@ -17,10 +17,9 @@ export const validateProgressStatus = (status: string) => {
   }
 };
 export class ProgressStatusVO {
-  private readonly _value: string;
-  constructor(status: string) {
+  constructor(private readonly status: string) {
     this.validateStatus(status);
-    this._value = status;
+    this.status = status;
   }
 
   private validateStatus(status: string) {
@@ -30,7 +29,7 @@ export class ProgressStatusVO {
   }
 
   public getStatus() {
-    return this._value;
+    return this.status;
   }
 
   public static create() {
@@ -38,10 +37,10 @@ export class ProgressStatusVO {
   }
 
   public isComplete(): boolean {
-    return this._value === ProgressStatusType.completed;
+    return this.status === ProgressStatusType.completed;
   }
 
   public isEquals = (progress: ProgressStatusVO): boolean => {
-    return this._value === progress.getStatus();
+    return this.status === progress.getStatus();
   };
 }

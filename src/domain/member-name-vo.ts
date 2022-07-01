@@ -1,9 +1,7 @@
 export class MemberNameVO {
-  private readonly _var: string;
-
-  constructor(name: string) {
+  constructor(private readonly name: string) {
     this.validateName(name);
-    this._var = name;
+    this.name = name;
   }
 
   private validateName(name: string) {
@@ -13,6 +11,6 @@ export class MemberNameVO {
   }
 
   public getName() {
-    return this._var;
+    return this.name;
   }
 }
