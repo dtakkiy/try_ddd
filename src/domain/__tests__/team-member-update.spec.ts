@@ -26,7 +26,7 @@ describe('team-member-updateのテスト', () => {
   });
 
   beforeEach(() => {
-    member1 = MemberFactory.execute({
+    const member1 = MemberFactory.execute({
       name: 'a',
       email: 'a@example.com',
     });
@@ -50,6 +50,17 @@ describe('team-member-updateのテスト', () => {
       name: 'a',
       email: 'a@example.com',
     });
+
+    if (
+      member1 === null ||
+      member2 === null ||
+      member3 === null ||
+      member4 === null ||
+      member5 === null ||
+      member6 === null
+    ) {
+      return;
+    }
 
     pair1 = Pair.create({
       id: faker.datatype.uuid(),

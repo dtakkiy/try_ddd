@@ -46,15 +46,18 @@ describe('【ユースケース】参加者を新規追加する', () => {
 
     const mockTask = mocked(task, true);
 
-    const mockMember = mocked(
-      new Member({
-        id: memberId,
-        name: new MemberNameVO('test'),
-        email: new MemberEmailVO('test@example.co.jp'),
-        status: status,
-      }),
-      true
-    );
+    const member1 = Member.create({
+      id: memberId,
+      name: new MemberNameVO('test'),
+      email: new MemberEmailVO('test@example.co.jp'),
+      status: status,
+    });
+
+    if (member1.isFailure()) {
+      return;
+    }
+
+    const mockMember = mocked(member1.value, true);
 
     mockMemberRepository.getAll.mockResolvedValueOnce([]);
     mockTaskRepository.getAll.mockResolvedValueOnce([mockTask]);

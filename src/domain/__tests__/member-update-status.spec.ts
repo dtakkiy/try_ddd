@@ -1,10 +1,13 @@
 import { PrismaClient } from '@prisma/client';
+import * as faker from 'faker';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
 import { MemberFactory } from '../domain-service/member-factory';
 import { MemberUpdateStatus } from '../domain-service/member-update-status';
 import { Member } from '../member';
+import { MemberEmailVO } from '../member-email-vo';
+import { MemberNameVO } from '../member-name-vo';
 import { MemberStatusType, MemberStatusVO } from '../member-status-vo';
 
 jest.mock('@prisma/client');
@@ -20,9 +23,11 @@ describe('member-update-statusのテスト', () => {
   });
 
   beforeEach(() => {
-    member = MemberFactory.execute({
-      name: 'bob',
-      email: 'bob@example.com',
+    member = Member.reconstruct({
+      id: faker.datatype.uuid(),
+      name: new MemberNameVO('bob'),
+      email: new MemberEmailVO('bob@example.com'),
+      status: MemberStatusVO.create(),
     });
   });
 

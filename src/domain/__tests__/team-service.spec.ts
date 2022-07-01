@@ -50,6 +50,16 @@ describe('team-serviceのテスト', () => {
       email: 'a@example.com',
     });
 
+    if (
+      member1 === null ||
+      member2 === null ||
+      member3 === null ||
+      member4 === null ||
+      member5 === null
+    ) {
+      return;
+    }
+
     pair1 = Pair.create({
       id: faker.datatype.uuid(),
       name: new PairNameVO('a'),

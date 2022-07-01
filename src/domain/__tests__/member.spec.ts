@@ -26,21 +26,31 @@ describe('memberエンティティのテスト', () => {
   });
 
   it('memberエンティティを生成できる', () => {
-    const member = new Member(data);
-    expect(member).toBeInstanceOf(Member);
+    const member = Member.create(data);
+    if (member.isFailure()) {
+      return;
+    }
+
+    expect(member.value).toBeInstanceOf(Member);
   });
 
   it('memberエンティティは、属性に名前とメールアドレスをもつ', () => {
-    const member = new Member(data);
-    const { name, email } = member.getAllProperties();
+    const member = Member.create(data);
+    if (member.isFailure()) {
+      return;
+    }
+    const { name, email } = member.value.getAllProperties();
 
     expect(name).toMatch(/bob/);
     expect(email).toMatch(/bob@example.com/);
   });
 
   it('memberの全てのプロパティを取得できる', () => {
-    const member = new Member(data);
-    const { id, name, email, status } = member.getAllProperties();
+    const member = Member.create(data);
+    if (member.isFailure()) {
+      return;
+    }
+    const { id, name, email, status } = member.value.getAllProperties();
 
     expect(memberId).toBe(id);
     expect(name).toBe('bob');
