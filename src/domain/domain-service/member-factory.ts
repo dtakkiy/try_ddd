@@ -12,12 +12,18 @@ interface IProps {
 }
 
 export class MemberFactory {
-  public static execute = (props: IProps): Member => {
+  public static execute = (props: IProps): Member | null => {
     const id = props.id ?? Identifier.generator();
     const name = new MemberNameVO(props.name);
     const email = new MemberEmailVO(props.email);
     const status = MemberStatusVO.create();
 
-    return new Member({ id, name, email, status });
+    const member = Member.create({ id, name, email, status });
+
+    if (member.isFailure()) {
+      return null;
+    }
+
+    return member.value;
   };
 }

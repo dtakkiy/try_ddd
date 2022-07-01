@@ -24,6 +24,14 @@ describe('member-same-email-existのテスト', () => {
       email: 'b@example.com',
     });
 
+    if (dummyMember1 === null) {
+      return;
+    }
+
+    if (dummyMember2 === null) {
+      return;
+    }
+
     mockMemberRepository.getAll.mockResolvedValueOnce([
       dummyMember1,
       dummyMember2,
@@ -47,6 +55,14 @@ describe('member-same-email-existのテスト', () => {
       name: 'b',
       email: 'b@example.com',
     });
+
+    if (dummyMember1 === null) {
+      return;
+    }
+
+    if (dummyMember2 === null) {
+      return;
+    }
 
     mockMemberRepository.getAll.mockResolvedValueOnce([
       dummyMember1,

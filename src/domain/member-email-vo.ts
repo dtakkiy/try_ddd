@@ -1,13 +1,11 @@
 export class MemberEmailVO {
-  private readonly _value: string;
-
-  constructor(email: string) {
+  constructor(private readonly email: string) {
     this.validateEmail(email);
-    this._value = email;
+    this.email = email;
   }
 
   public getEmail() {
-    return this._value;
+    return this.email;
   }
 
   private validateEmail(email: string) {

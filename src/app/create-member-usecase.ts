@@ -40,6 +40,10 @@ export class CreateMemberUseCase {
       email: email,
     });
 
+    if (member === null) {
+      throw new Error('cannot make member entity.');
+    }
+
     const taskList = await this.taskRepository.getAll();
 
     const progress = ProgressFactory.execute({

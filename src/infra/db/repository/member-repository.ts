@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { MemberFactory } from 'src/domain/domain-service/member-factory';
 import { Member } from 'src/domain/member';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
 import { MemberNameVO } from 'src/domain/member-name-vo';
@@ -22,15 +21,11 @@ export class MemberRepository implements IMemberRepository {
       return null;
     }
 
-    const name = new MemberNameVO(member.name);
-    const email = new MemberEmailVO(member.email);
-    const status = new MemberStatusVO(member.status);
-
-    return new Member({
+    return Member.reconstruct({
       id: member?.id,
-      name: name,
-      email: email,
-      status: status,
+      name: new MemberNameVO(member.name),
+      email: new MemberEmailVO(member.email),
+      status: new MemberStatusVO(member.status),
     });
   }
 
@@ -45,7 +40,7 @@ export class MemberRepository implements IMemberRepository {
       return null;
     }
 
-    return new Member({
+    return Member.reconstruct({
       id: member.id,
       name: new MemberNameVO(member.name),
       email: new MemberEmailVO(member.email),
@@ -63,11 +58,11 @@ export class MemberRepository implements IMemberRepository {
     });
 
     return allMember.map((memberDM) =>
-      MemberFactory.execute({
+      Member.reconstruct({
         id: memberDM.id,
-        name: memberDM.name,
-        email: memberDM.email,
-        status: memberDM.status,
+        name: new MemberNameVO(memberDM.name),
+        email: new MemberEmailVO(memberDM.email),
+        status: new MemberStatusVO(memberDM.status),
       })
     );
   }

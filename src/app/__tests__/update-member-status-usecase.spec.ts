@@ -41,7 +41,11 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
     const name = new MemberNameVO('test');
     const email = new MemberEmailVO('test@example.com');
     const status = MemberStatusVO.create();
-    const member = new Member({ id: memberId, name, email, status });
+    const member = Member.create({ id: memberId, name, email, status });
+
+    if (member.isFailure()) {
+      return;
+    }
 
     const member2 = MemberFactory.execute({
       name: 'taro',
@@ -52,6 +56,10 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       name: 'jiro',
       email: 'jiro@example.com',
     });
+
+    if (member2 === null || member3 === null) {
+      return;
+    }
 
     const pairData = Pair.create({
       id: Identifier.generator(),
@@ -68,9 +76,13 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       pairList: [pairData.value],
     });
 
-    mockMemberRepository.getById.mockResolvedValueOnce(member);
-    const updateMember = new Member({ id: memberId, name, email, status });
-    const newMember = updateMember.setStatus(
+    mockMemberRepository.getById.mockResolvedValueOnce(member.value);
+    const updateMember = Member.create({ id: memberId, name, email, status });
+    if (updateMember.isFailure()) {
+      return;
+    }
+
+    const newMember = updateMember.value.setStatus(
       new MemberStatusVO(MemberStatusType.closed)
     );
     mockMemberRepository.update.mockResolvedValueOnce(newMember);

@@ -5,11 +5,9 @@ export const MemberStatusType = {
   ended: '退会済',
 };
 export class MemberStatusVO {
-  private readonly _value: string;
-
-  constructor(status: string) {
+  constructor(private readonly status: string) {
     this.validateStatus(status);
-    this._value = status;
+    this.status = status;
   }
 
   public static create() {
@@ -23,15 +21,15 @@ export class MemberStatusVO {
   }
 
   public getStatus() {
-    return this._value;
+    return this.status;
   }
 
   public isEqual = (member: MemberStatusVO): boolean => {
-    return this._value === member.getStatus();
+    return this.status === member.getStatus();
   };
 
   public isJoinPair = (): boolean => {
-    return this._value === MemberStatusType.active;
+    return this.status === MemberStatusType.active;
   };
 
   public static isClosedOrEndedStatus(status: string): boolean {
