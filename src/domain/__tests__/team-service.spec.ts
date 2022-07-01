@@ -101,14 +101,14 @@ describe('team-serviceのテスト', () => {
     }
 
     teamId = faker.datatype.uuid();
-    team = new Team({
+    team = Team.reconstruct({
       id: teamId,
       name: new TeamNameVO('1'),
       pairList: [pair1.value, pair2.value],
     });
 
     teamId2 = faker.datatype.uuid();
-    team2 = new Team({
+    team2 = Team.reconstruct({
       id: teamId2,
       name: new TeamNameVO('2'),
       pairList: [pair3.value, pair4.value],

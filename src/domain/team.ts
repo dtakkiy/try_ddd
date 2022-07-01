@@ -18,8 +18,7 @@ interface ITeam {
 export class Team {
   MIN_MEMBER_NUMBER = 3;
 
-  private props: ITeam;
-  constructor(props: ITeam) {
+  private constructor(private props: ITeam) {
     const { id, name, pairList } = props;
 
     this.props = {
@@ -28,6 +27,20 @@ export class Team {
       pairList: pairList,
     };
   }
+
+  public static create = (props: ITeam): Result<Team, DomainError> => {
+    try {
+      const team = new Team(props);
+      return new Success(team);
+    } catch (e: any) {
+      return new Failure(String(e.message));
+    }
+  };
+
+  // DBなどの値からインスタンスを再構成するためのメソッド
+  public static reconstruct = (props: ITeam): Team => {
+    return new Team(props);
+  };
 
   public getAllProperties() {
     return {

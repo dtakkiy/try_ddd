@@ -15,7 +15,7 @@ describe('team-member-updateのテスト', () => {
   let teamMemberUpdate: TeamMemberUpdate;
 
   let teamId: string;
-  let team: Team;
+  let team: Result<Team, DomainError>;
   let pair1: Result<Pair, DomainError>;
   let pair2: Result<Pair, DomainError>;
   let member1: Member;
@@ -81,11 +81,15 @@ describe('team-member-updateのテスト', () => {
     }
 
     teamId = faker.datatype.uuid();
-    team = new Team({
+    team = Team.create({
       id: teamId,
       name: new TeamNameVO('1'),
       pairList: [pair1.value, pair2.value],
     });
+
+    if (team.isFailure()) {
+      return;
+    }
   });
 
   it('インスタンス生成', () => {
@@ -93,10 +97,14 @@ describe('team-member-updateのテスト', () => {
   });
 
   it('updateを実行', async () => {
+    if (team.isFailure()) {
+      return;
+    }
     const props = {
-      team: team,
+      team: team.value,
       member: member1,
     };
+
     await expect(teamMemberUpdate.update(props)).rejects.toThrow();
   });
 });

@@ -10,9 +10,19 @@ interface IProps {
 }
 
 export class TeamFactory {
-  public static execute = (props: IProps): Team => {
+  public static execute = (props: IProps): Team | null => {
     const { pairList } = props;
     const id = Identifier.generator();
-    return new Team({ id: id, name: new TeamNameVO(props.name), pairList });
+    const team = Team.create({
+      id: id,
+      name: new TeamNameVO(props.name),
+      pairList,
+    });
+
+    if (team.isFailure()) {
+      return null;
+    }
+
+    return team.value;
   };
 }
