@@ -28,20 +28,23 @@ describe('Teamエンティティのテスト', () => {
 
   describe('チームの名前', () => {
     it('名前が数字の場合', () => {
-      expect(
-        new Team({
-          id: Identifier.generator(),
-          name: new TeamNameVO('123'),
-          pairList: [],
-        })
-      ).toBeInstanceOf(Team);
+      const team = Team.create({
+        id: Identifier.generator(),
+        name: new TeamNameVO('123'),
+        pairList: [],
+      });
+
+      if (team.isFailure()) {
+        return;
+      }
+
+      expect(team.value).toBeInstanceOf(Team);
     });
 
     it('名前が数字以外の場合', () => {
-      const id = Identifier.generator();
       expect(() => {
-        new Team({
-          id: id,
+        Team.create({
+          id: Identifier.generator(),
           name: new TeamNameVO('a'),
           pairList: [],
         });
@@ -51,7 +54,11 @@ describe('Teamエンティティのテスト', () => {
     it('名前は3文字以下でないといけない', () => {
       const id = Identifier.generator();
       expect(() => {
-        new Team({ id: id, name: new TeamNameVO('1234'), pairList: [] });
+        Team.create({
+          id: id,
+          name: new TeamNameVO('1234'),
+          pairList: [],
+        });
       }).toThrow();
     });
   });
@@ -78,13 +85,17 @@ describe('Teamエンティティのテスト', () => {
         return;
       }
 
-      const team = new Team({
+      const team = Team.create({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
         pairList: [pair1.value, pair2.value],
       });
 
-      const minMemberPair = team.getMinMemberPair();
+      if (team.isFailure()) {
+        return;
+      }
+
+      const minMemberPair = team.value.getMinMemberPair();
       expect(minMemberPair.getName()).toMatch(/b/);
     });
   });
@@ -101,13 +112,17 @@ describe('Teamエンティティのテスト', () => {
         return;
       }
 
-      const team = new Team({
+      const team = Team.create({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
         pairList: [pair.value],
       });
 
-      expect(team.getMemberCount()).toBe(3);
+      if (team.isFailure()) {
+        return;
+      }
+
+      expect(team.value.getMemberCount()).toBe(3);
     });
 
     it('チームにメンバーを追加する', () => {
@@ -121,15 +136,19 @@ describe('Teamエンティティのテスト', () => {
         return;
       }
 
-      const team = new Team({
+      const team = Team.create({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
         pairList: [pair.value],
       });
 
-      expect(team.getMemberCount()).toBe(2);
-      team.addMember(memberId3);
-      expect(team.getMemberCount()).toBe(3);
+      if (team.isFailure()) {
+        return;
+      }
+
+      expect(team.value.getMemberCount()).toBe(2);
+      team.value.addMember(memberId3);
+      expect(team.value.getMemberCount()).toBe(3);
     });
 
     // it('チームメンバー数が最大数を超えた場合', () => {
@@ -160,14 +179,18 @@ describe('Teamエンティティのテスト', () => {
         return;
       }
 
-      const team = new Team({
+      const team = Team.create({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
         pairList: [pair.value],
       });
 
-      expect(team.getMemberCount()).toBe(3);
-      const result = team.deleteMember(memberId3);
+      if (team.isFailure()) {
+        return;
+      }
+
+      expect(team.value.getMemberCount()).toBe(3);
+      const result = team.value.deleteMember(memberId3);
       expect(result.isFailure()).toBe(true);
     });
 
@@ -192,15 +215,19 @@ describe('Teamエンティティのテスト', () => {
         return;
       }
 
-      const team = new Team({
+      const team = Team.create({
         id: faker.datatype.uuid(),
         name: new TeamNameVO('1'),
         pairList: [pair1.value, pair2.value],
       });
 
-      expect(team.getMemberCount()).toBe(5);
-      team.deleteMember(memberId5);
-      expect(team.getMemberCount()).toBe(4);
+      if (team.isFailure()) {
+        return;
+      }
+
+      expect(team.value.getMemberCount()).toBe(5);
+      team.value.deleteMember(memberId5);
+      expect(team.value.getMemberCount()).toBe(4);
     });
   });
 });

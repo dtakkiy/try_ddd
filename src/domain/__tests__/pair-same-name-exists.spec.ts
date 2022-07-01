@@ -1,3 +1,4 @@
+import { Domain } from 'domain';
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
 import { DomainError, Result } from 'src/__shared__/result';
@@ -17,7 +18,7 @@ jest.mock('src/infra/db/repository/team-repository');
 describe('pair-same-existのテスト', () => {
   let mockTeamRepository: MockedObjectDeep<TeamRepository>;
   let teamId: string;
-  let team: Team;
+  let team: Result<Team, DomainError>;
   let pair1: Result<Pair, DomainError>;
   let pair2: Result<Pair, DomainError>;
 
@@ -84,7 +85,7 @@ describe('pair-same-existのテスト', () => {
     }
 
     teamId = faker.datatype.uuid();
-    team = new Team({
+    team = Team.create({
       id: teamId,
       name: new TeamNameVO('1'),
       pairList: [pair1.value, pair2.value],
@@ -100,10 +101,14 @@ describe('pair-same-existのテスト', () => {
   });
 
   it('ペア名が存在するか', async () => {
+    if (team.isFailure()) {
+      return;
+    }
+
     const pairSameNameExist = new PairSameNameExist({
       repository: mockTeamRepository,
     });
-    mockTeamRepository.getById.mockResolvedValueOnce(team);
+    mockTeamRepository.getById.mockResolvedValueOnce(team.value);
 
     await expect(
       pairSameNameExist.isPairName('b', teamId)
@@ -115,17 +120,19 @@ describe('pair-same-existのテスト', () => {
   });
 
   it('ペア名の一覧を取得', async () => {
+    if (team.isFailure()) {
+      return;
+    }
+
     const pairSameNameExist = new PairSameNameExist({
       repository: mockTeamRepository,
     });
-    mockTeamRepository.getById.mockResolvedValueOnce(team);
-
+    mockTeamRepository.getById.mockResolvedValueOnce(team.value);
     await expect(
       pairSameNameExist.getPairNameListByTeamId(teamId)
     ).resolves.toStrictEqual(['a', 'b']);
 
-    mockTeamRepository.getById.mockResolvedValueOnce(team);
-
+    mockTeamRepository.getById.mockResolvedValueOnce(team.value);
     await expect(
       pairSameNameExist.getPairNameListByTeamId(teamId)
     ).resolves.not.toStrictEqual(['a', 'b', 'c']);

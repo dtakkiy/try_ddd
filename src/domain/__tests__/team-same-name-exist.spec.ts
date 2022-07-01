@@ -87,21 +87,21 @@ describe('team-same-existのテスト', () => {
     }
 
     teamId = faker.datatype.uuid();
-    team = new Team({
+    team = Team.reconstruct({
       id: teamId,
       name: new TeamNameVO('1'),
       pairList: [pair1.value, pair2.value],
     });
 
     teamId2 = faker.datatype.uuid();
-    team2 = new Team({
+    team2 = Team.reconstruct({
       id: teamId2,
       name: new TeamNameVO('2'),
       pairList: [pair1.value, pair2.value],
     });
 
     teamId3 = faker.datatype.uuid();
-    team3 = new Team({
+    team3 = Team.reconstruct({
       id: teamId3,
       name: new TeamNameVO('3'),
       pairList: [pair1.value, pair2.value],

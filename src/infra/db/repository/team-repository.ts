@@ -40,7 +40,7 @@ export class TeamRepository implements ITeamRepository {
         pairLists.push(p);
       });
 
-      return new Team({
+      return Team.reconstruct({
         id: teamDM.id,
         name: new TeamNameVO(teamDM.name),
         pairList: pairLists,
@@ -87,7 +87,7 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    return new Team({
+    return Team.reconstruct({
       id: pair.team.id,
       name: new TeamNameVO(pair.team.name),
       pairList: pair.team.pairs.map((pair) => {
@@ -133,7 +133,7 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    return new Team({
+    return Team.reconstruct({
       id: team.id,
       name: new TeamNameVO(team.name),
       pairList: team.pairs.map((pair) =>
@@ -158,7 +158,11 @@ export class TeamRepository implements ITeamRepository {
 
     await this.updateTeamPair(currentTeam, team);
 
-    return new Team({ name: new TeamNameVO(name), id: id, pairList: pairList });
+    return Team.reconstruct({
+      name: new TeamNameVO(name),
+      id: id,
+      pairList: pairList,
+    });
   }
 
   private async updateTeamPair(currentTeam: Team, team: Team): Promise<void> {
@@ -239,7 +243,7 @@ export class TeamRepository implements ITeamRepository {
       return null;
     }
 
-    return new Team({
+    return Team.reconstruct({
       id: team.id,
       name: new TeamNameVO(team.name),
       pairList: team.pairs.map((pair) =>
