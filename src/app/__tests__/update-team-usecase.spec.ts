@@ -22,15 +22,21 @@ describe('【ユースケース】チームの更新', () => {
     const id = Identifier.generator();
     const name = new TeamNameVO('5');
 
-    const team = new Team({
+    const team = Team.create({
       id: id,
       name: name,
       pairList: [],
     });
 
-    mockTeamRepository.getById.mockResolvedValueOnce(team);
-    const updateTeam = new Team({ id: id, name: name, pairList: [] });
-    const newTeam = updateTeam.updateName('6');
+    if (team.isFailure()) {
+      return;
+    }
+    mockTeamRepository.getById.mockResolvedValueOnce(team.value);
+    const updateTeam = Team.create({ id: id, name: name, pairList: [] });
+    if (updateTeam.isFailure()) {
+      return;
+    }
+    const newTeam = updateTeam.value.updateName('6');
     mockTeamRepository.update.mockResolvedValueOnce(newTeam);
 
     const usecase = new UpdateTeamUseCase(mockTeamRepository);

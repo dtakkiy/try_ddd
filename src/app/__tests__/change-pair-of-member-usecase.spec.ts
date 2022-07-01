@@ -64,14 +64,17 @@ describe('【ユースケース】ペアのメンバーを変更する', () => {
     mockPair2 = mocked(pair2.value, true);
 
     const teamId1 = faker.datatype.uuid();
-    mockTeam1 = mocked(
-      new Team({
-        id: teamId1,
-        name: new TeamNameVO('1'),
-        pairList: [mockPair1, mockPair2],
-      }),
-      true
-    );
+    const team1 = Team.create({
+      id: teamId1,
+      name: new TeamNameVO('1'),
+      pairList: [mockPair1, mockPair2],
+    });
+
+    if (team1.isFailure()) {
+      return;
+    }
+
+    mockTeam1 = mocked(team1.value, true);
   });
 
   it('メンバーを別のペアに変更', async () => {

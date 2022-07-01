@@ -40,41 +40,48 @@ describe('【ユースケース】チームのペアを変更する', () => {
     const mockPair = mocked(pair1, true);
 
     const teamId1 = faker.datatype.uuid();
-    const mockTeam1 = mocked(
-      new Team({
-        id: teamId1,
-        name: new TeamNameVO('1'),
-        pairList: [mockPair.value],
-      }),
-      true
-    );
-
     const teamId2 = faker.datatype.uuid();
-    const mockTeam2 = mocked(
-      new Team({
-        id: teamId2,
-        name: new TeamNameVO('2'),
-        pairList: [],
-      }),
-      true
-    );
 
-    mockTeamRepository.getByPairId.mockResolvedValueOnce(mockTeam1);
-    mockTeamRepository.getById.mockResolvedValueOnce(mockTeam2);
+    const team1 = Team.create({
+      id: teamId1,
+      name: new TeamNameVO('1'),
+      pairList: [mockPair.value],
+    });
+
+    const team2 = Team.create({
+      id: teamId2,
+      name: new TeamNameVO('2'),
+      pairList: [],
+    });
+
+    if (team1.isFailure()) {
+      return;
+    }
+
+    if (team2.isFailure()) {
+      return;
+    }
+
+    const mockTeam1 = mocked(team1, true);
+
+    const mockTeam2 = mocked(team2, true);
+
+    mockTeamRepository.getByPairId.mockResolvedValueOnce(mockTeam1.value);
+    mockTeamRepository.getById.mockResolvedValueOnce(mockTeam2.value);
 
     const changeTeamOfPairUseCase = new ChangeTeamOfPairsUseCase(
       mockTeamRepository
     );
 
-    expect(mockTeam1.getPairCount()).toBe(1);
-    expect(mockTeam2.getPairCount()).toBe(0);
+    expect(mockTeam1.value.getPairCount()).toBe(1);
+    expect(mockTeam2.value.getPairCount()).toBe(0);
 
     await changeTeamOfPairUseCase.execute({
       pairId: pairId,
       teamId: teamId2,
     });
 
-    expect(mockTeam1.getPairCount()).toBe(0);
-    expect(mockTeam2.getPairCount()).toBe(1);
+    expect(mockTeam1.value.getPairCount()).toBe(0);
+    expect(mockTeam2.value.getPairCount()).toBe(1);
   });
 });
