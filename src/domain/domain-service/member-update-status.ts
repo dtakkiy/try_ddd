@@ -26,13 +26,18 @@ export class MemberUpdateStatus {
       return new Failure('status has already been changed.');
     }
 
-    const updateMember = new Member({
+    const updateMember = Member.create({
       id: id,
       name: new MemberNameVO(name),
       email: new MemberEmailVO(email),
       status: updateStatus,
     });
-    await this.memberRepository.update(updateMember);
+
+    if (updateMember.isFailure()) {
+      return new Failure(updateMember.value);
+    }
+
+    await this.memberRepository.update(updateMember.value);
     return new Success(null);
   };
 }

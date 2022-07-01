@@ -1,4 +1,5 @@
 import { Identifier } from 'src/__shared__/identifier';
+import { DomainError, Failure, Result, Success } from 'src/__shared__/result';
 import { MemberEmailVO } from './member-email-vo';
 import { MemberNameVO } from './member-name-vo';
 import { MemberStatusVO } from './member-status-vo';
@@ -12,7 +13,7 @@ interface IMember {
 
 export class Member {
   private props: IMember;
-  constructor(props: IMember) {
+  private constructor(props: IMember) {
     const { id, name, email, status } = props;
 
     this.props = {
@@ -22,6 +23,20 @@ export class Member {
       status: status,
     };
   }
+
+  public static create = (props: IMember): Result<Member, DomainError> => {
+    try {
+      const member = new Member(props);
+      return new Success(member);
+    } catch (e: any) {
+      return new Failure(String(e.message));
+    }
+  };
+
+  // DBなどの値からインスタンスを再構成するためのメソッド
+  public static reconstruct = (props: IMember): Member => {
+    return new Member(props);
+  };
 
   public getAllProperties() {
     return {
