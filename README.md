@@ -1,6 +1,6 @@
 # About
 
-Sample Backend api development by DDD.
+Sample Backend api development by DDD(Domain Driven Design).
 
 ## Stack
 
