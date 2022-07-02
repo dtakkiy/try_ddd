@@ -12,6 +12,11 @@ Sample Backend api development by DDD.
 - jest
 ## How to start
 
+install
+```
+$ yarn
+```
+
 db
 ```
 $ cd .docker
@@ -26,20 +31,25 @@ $ nvm use v14.17.x
 
 seed data
 ```
-$ yarn
 $ yarn seed
 ```
 
 dev mode start
 ```
 $ yarn dev
-$ access with a browser. → http://localhost:3001/members
 ```
+access with a browser. → <http://localhost:3001/members>
+
 ## Memo
 
 unit test
 ```
 $ yarn test:unit
+```
+
+watch test
+```
+$ yarn test:watch
 ```
 
 prisma studio
