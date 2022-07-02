@@ -18,7 +18,7 @@ describe('team-member-updateのテスト', () => {
   let team: Result<Team, DomainError>;
   let pair1: Result<Pair, DomainError>;
   let pair2: Result<Pair, DomainError>;
-  let member1: Member;
+  let member1: Member | null;
 
   beforeAll(() => {
     const prisma = new PrismaClient();
@@ -26,7 +26,7 @@ describe('team-member-updateのテスト', () => {
   });
 
   beforeEach(() => {
-    const member1 = MemberFactory.execute({
+    member1 = MemberFactory.execute({
       name: 'a',
       email: 'a@example.com',
     });
@@ -100,10 +100,17 @@ describe('team-member-updateのテスト', () => {
     if (team.isFailure()) {
       return;
     }
+
+    if (member1 === null) {
+      return;
+    }
+
     const props = {
       team: team.value,
       member: member1,
     };
+
+    teamMemberUpdate.update(props);
 
     await expect(teamMemberUpdate.update(props)).rejects.toThrow();
   });

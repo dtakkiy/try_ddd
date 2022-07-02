@@ -3,7 +3,6 @@ import * as faker from 'faker';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { MemberFactory } from '../domain-service/member-factory';
 import { MemberUpdateStatus } from '../domain-service/member-update-status';
 import { Member } from '../member';
 import { MemberEmailVO } from '../member-email-vo';

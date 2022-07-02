@@ -117,7 +117,10 @@ describe('team-same-existのテスト', () => {
     const teamSameNameExist = new TeamSameNameExist(mockTeamRepository);
     mockTeamRepository.getAll.mockResolvedValueOnce([team, team2]);
     await expect(teamSameNameExist.isTeamName('1')).resolves.toBeTruthy();
+  });
 
+  it('チーム名が存在しない場合', async () => {
+    const teamSameNameExist = new TeamSameNameExist(mockTeamRepository);
     mockTeamRepository.getAll.mockResolvedValueOnce([team, team2]);
     await expect(teamSameNameExist.isTeamName('5')).resolves.not.toBeTruthy();
   });
@@ -128,5 +131,13 @@ describe('team-same-existのテスト', () => {
     await expect(teamSameNameExist.getTeamNameList()).resolves.toStrictEqual([
       1, 2, 3,
     ]);
+  });
+
+  it('チーム名の一覧を取得(登録がない場合)', async () => {
+    const teamSameNameExist = new TeamSameNameExist(mockTeamRepository);
+    mockTeamRepository.getAll.mockResolvedValueOnce([]);
+    await expect(teamSameNameExist.getTeamNameList()).resolves.toStrictEqual(
+      []
+    );
   });
 });
