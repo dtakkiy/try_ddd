@@ -1,3 +1,4 @@
+import { DSError, Failure, Result, Success } from 'src/__shared__/result';
 import { ProgressStatusVO, ProgressStatusType } from './progress-status-vo';
 
 interface IProgress {
@@ -35,13 +36,15 @@ export class Progress {
     );
   };
 
-  public changeStatusForward = (memberId: string): Progress => {
+  public changeStatusForward = (
+    memberId: string
+  ): Result<Progress, DSError> => {
     if (memberId !== this.props.memberId) {
-      throw new Error('only the owner can change the task status.');
+      return new Failure('only the owner can change the task status.');
     }
 
     if (this.props.status.isComplete()) {
-      throw new Error(`already completed.`);
+      return new Failure(`already completed.`);
     }
 
     let updateStatus: ProgressStatusVO;
@@ -52,10 +55,10 @@ export class Progress {
     } else if (tmpStatus === ProgressStatusType.awaitingReview) {
       updateStatus = new ProgressStatusVO(ProgressStatusType.completed);
     } else {
-      throw new Error(`progress stepup error.`);
+      return new Failure(`progress stepup error.`);
     }
 
     this.props.status = updateStatus;
-    return this;
+    return new Success(this);
   };
 }

@@ -29,6 +29,21 @@ describe('progressエンティティのテスト', () => {
     expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
   });
 
+  it('既に進捗ステータスが完了になっている場合変更できない', () => {
+    const memberId = faker.datatype.uuid();
+
+    const data = {
+      memberId: memberId,
+      taskId: faker.datatype.uuid(),
+      status: new ProgressStatusVO(ProgressStatusType.notStarted),
+    };
+    const progress = new Progress(data);
+    progress.changeStatusForward(memberId);
+    progress.changeStatusForward(memberId);
+    expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
+    expect(progress.changeStatusForward(memberId).isFailure()).toBeTruthy();
+  });
+
   it('進捗ステータスが完了になった場合、戻すことはできない', () => {
     const memberId = faker.datatype.uuid();
 
@@ -40,9 +55,8 @@ describe('progressエンティティのテスト', () => {
     const progress = new Progress(data);
     expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
-    expect(() => progress.changeStatusForward(memberId)).toThrow(
-      `already completed.`
-    );
+    const result = progress.changeStatusForward(memberId);
+    expect(result.value).toMatch(/already completed./);
   });
 
   it('ステータス変更は、課題の所有者のみ行える', () => {
@@ -57,8 +71,7 @@ describe('progressエンティティのテスト', () => {
     const progress = new Progress(data);
     expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
-    expect(() => progress.changeStatusForward(memberId2)).toThrow(
-      `only the owner can change the task status.`
-    );
+    const result = progress.changeStatusForward(memberId2);
+    expect(result.value).toMatch(/only the owner can change the task status./);
   });
 });

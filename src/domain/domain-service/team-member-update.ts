@@ -18,7 +18,6 @@ export class TeamMemberUpdate {
     const query: any[] = [];
 
     query.push(memberUpdateQuery);
-
     teamUpdateQuery.map((updateQuery) => {
       query.push(updateQuery);
     });
@@ -97,7 +96,6 @@ export class TeamMemberUpdate {
 
   private makeQueryMemberUpdate(member: Member) {
     const { id, name, email, status } = member.getAllProperties();
-
     const memberUpdateQuery = this.prismaClient.member.upsert({
       where: {
         id: id,

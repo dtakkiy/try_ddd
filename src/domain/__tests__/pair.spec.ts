@@ -16,6 +16,20 @@ describe('Pairのテスト', () => {
     memberId4 = faker.datatype.uuid();
   });
 
+  it('ペアの名前を取得する', () => {
+    const id = Identifier.generator();
+    const pair = Pair.create({
+      id: id,
+      name: new PairNameVO('a'),
+      memberIdList: [memberId1, memberId2],
+    });
+
+    if (pair.isFailure()) {
+      return;
+    }
+    expect(pair.value.getName()).toMatch(/a/);
+  });
+
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
     expect(
@@ -58,6 +72,23 @@ describe('Pairのテスト', () => {
         memberIdList: [memberId1, memberId2, memberId3, memberId4],
       }).isFailure()
     ).toBeTruthy();
+  });
+
+  it('ペアに所属するメンバーのID一覧を取得', () => {
+    const id = Identifier.generator();
+
+    const pair = Pair.create({
+      id: id,
+      name: new PairNameVO('a'),
+      memberIdList: [memberId1, memberId2, memberId3],
+    });
+
+    if (pair.isFailure()) {
+      return;
+    }
+
+    const expectData = [memberId1, memberId2, memberId3];
+    expect(pair.value.getMemberIdList()).toStrictEqual(expectData);
   });
 
   it('メンバーを追加できる', () => {

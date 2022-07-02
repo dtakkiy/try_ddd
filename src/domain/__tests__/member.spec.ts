@@ -34,6 +34,10 @@ describe('memberエンティティのテスト', () => {
     expect(member.value).toBeInstanceOf(Member);
   });
 
+  it('reconstructメソッドからMemberエンティティを生成できる', () => {
+    expect(Member.reconstruct(data)).toBeInstanceOf(Member);
+  });
+
   it('memberエンティティは、属性に名前とメールアドレスをもつ', () => {
     const member = Member.create(data);
     if (member.isFailure()) {
