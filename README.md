@@ -1,34 +1,52 @@
 # About
 
-ddd sample app.
+Sample Backend api development by DDD.
 
-## how to start
+## Stack
 
-- db
-  - `cd .docker`
-  - `docker-compose up`
+- TypeScript
+- Nest.js
+- Prisma
+- Docker
+- Postgresql
+- jest
+## How to start
 
-- node version
-  - `nvm i v14.17.x`
-  - `nvm use v14.17.x`
+db
+```
+$ cd .docker
+$ docker-compose up
+```
 
-- seed data
-  - `yarn`
-  - `yarn seed`
+node version
+```
+$ nvm i v14.17.x
+$ nvm use v14.17.x
+```
 
-- dev mode
-  - `yarn dev`
-  - `access with a browser. → http://localhost:3001/members`
+seed data
+```
+$ yarn
+$ yarn seed
+```
 
-## memo
+dev mode start
+```
+$ yarn dev
+$ access with a browser. → http://localhost:3001/members
+```
+## Memo
 
-- unit test
-  - `yarn test:unit`
+unit test
+```
+$ yarn test:unit
+```
 
-- prisma studio
-  - `yarn studio`
-
-## nest.js
+prisma studio
+```
+$ yarn studio
+```
+## Nest.js
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
