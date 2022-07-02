@@ -3,11 +3,11 @@ import * as faker from 'faker';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { MemberUpdateStatus } from '../domain-service/member-update-status';
-import { Member } from '../member';
-import { MemberEmailVO } from '../member-email-vo';
-import { MemberNameVO } from '../member-name-vo';
-import { MemberStatusType, MemberStatusVO } from '../member-status-vo';
+import { MemberUpdateStatus } from '../../domain-service/member-update-status';
+import { Member } from '../../member';
+import { MemberEmailVO } from '../../member-email-vo';
+import { MemberNameVO } from '../../member-name-vo';
+import { MemberStatusType, MemberStatusVO } from '../../member-status-vo';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/member-repository');

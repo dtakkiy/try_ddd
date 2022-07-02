@@ -3,8 +3,8 @@ import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { EmailRepository } from 'src/infra/email/email-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { DeleteMemberFromPair } from '../domain-service/team-delete-member-from-pair';
-import { TeamMemberUpdate } from '../domain-service/team-member-update';
+import { DeleteMemberFromPair } from '../../domain-service/team-delete-member-from-pair';
+import { TeamMemberUpdate } from '../../domain-service/team-member-update';
 
 jest.mock('@prisma/client');
 jest.mock('src/infra/db/repository/team-repository');

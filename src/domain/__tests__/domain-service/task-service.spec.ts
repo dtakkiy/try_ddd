@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
-import { TaskService } from '../domain-service/task-service';
+import { TaskService } from '../../domain-service/task-service';
 
 jest.mock('@prisma/client');
 
