@@ -18,9 +18,7 @@ const MAX_MEMBER_NUMBER = 3;
 const MIN_MEMBER_NUMBER = 2;
 
 export class Pair {
-  private props: IPair;
-
-  private constructor(props: IPair) {
+  private constructor(private props: IPair) {
     const { id, name, memberIdList } = props;
     this.validateMemberIdList(memberIdList);
 
@@ -58,7 +56,7 @@ export class Pair {
     return this.props.id;
   }
 
-  public getName() {
+  public getName(): string {
     const { name } = this.getAllProperties();
     return name;
   }
@@ -79,18 +77,17 @@ export class Pair {
 
   public validateMemberCount(): Result<NonError, DomainError> {
     if (this.getMemberCount() < MIN_MEMBER_NUMBER) {
-      //      throw new Error('current number of member in a pair is too small.');
       return new Failure('current number of member in a pair is too small.');
     }
 
     if (this.getMemberCount() > MAX_MEMBER_NUMBER) {
-      //      throw new Error('current number of member in a pair is too large.');
       return new Failure('current number of member in a pair is too large.');
     }
+
     return new Success(null);
   }
 
-  public isEqual = (pair: Pair): boolean => {
+  public isSamePair = (pair: Pair): boolean => {
     return pair.props.id === this.props.id;
   };
 
