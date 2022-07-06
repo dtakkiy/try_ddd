@@ -129,10 +129,19 @@ describe('team-serviceのテスト', () => {
 
   it('もっとも参加者が少ないペアを取得', async () => {
     const teamService = new TeamService(mockTeamRepository);
+
+    if (pair2.isFailure()) {
+      return;
+    }
+
     mockTeamRepository.getById.mockResolvedValueOnce(team);
     await expect(teamService.getPairFewestNumberOfMember(teamId)).resolves.toBe(
       pair2.value
     );
+
+    if (pair1.isFailure()) {
+      return;
+    }
 
     mockTeamRepository.getById.mockResolvedValueOnce(team);
     await expect(

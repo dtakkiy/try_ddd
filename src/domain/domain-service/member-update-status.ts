@@ -34,7 +34,7 @@ export class MemberUpdateStatus {
     });
 
     if (updateMember.isFailure()) {
-      return new Failure(updateMember.value);
+      return new Failure(updateMember.err);
     }
 
     await this.memberRepository.update(updateMember.value);

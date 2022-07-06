@@ -92,6 +92,10 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       pagingCondition: pagingCondition,
     });
 
+    if (result.isFailure()) {
+      return;
+    }
+
     expect(result.isSuccess()).toBeTruthy();
     expect(result.value).toBe(expectPage);
   });
@@ -112,6 +116,10 @@ describe('【ユースケース】特定の課題（複数可）が、特定の�
       taskStatus: taskStatus,
       pagingCondition: pagingCondition,
     });
+
+    if (result.isFailure()) {
+      return;
+    }
 
     expect(result.isFailure()).toBeTruthy();
     expect(result.value).toMatch(/not applicable progress status value/);

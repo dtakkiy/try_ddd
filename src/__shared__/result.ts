@@ -18,7 +18,7 @@ export class Success<T, E> {
 
 export class Failure<T, E> {
   type = 'failure' as const;
-  constructor(readonly value: E) {}
+  constructor(readonly err: E) {}
 
   isSuccess(): this is Success<T, E> {
     return false;
