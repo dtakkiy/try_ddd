@@ -23,7 +23,7 @@ export class Pair {
     const result = this.validateMemberIdList(memberIdList);
 
     if (result.isFailure()) {
-      throw new Error(result.value);
+      throw new Error(result.err);
     }
 
     this.props = {

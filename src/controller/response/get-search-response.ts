@@ -32,7 +32,7 @@ export class GetSearchResponse {
     }
 
     if (searchDatas.isFailure()) {
-      this.errorData = searchDatas.value;
+      this.errorData = searchDatas.err;
     }
   }
 }

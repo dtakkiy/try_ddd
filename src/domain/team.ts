@@ -116,12 +116,12 @@ export class Team {
     pair.deleteMember(memberId);
     const resultPairCount = this.validatePairMemberCount();
     if (resultPairCount.isFailure()) {
-      return new Failure(resultPairCount.value);
+      return new Failure(resultPairCount.err);
     }
 
     const resultTeamCount = this.validateTeamMemberCount();
     if (resultTeamCount.isFailure()) {
-      return new Failure(resultTeamCount.value);
+      return new Failure(resultTeamCount.err);
     }
 
     return new Success(null);
@@ -159,12 +159,12 @@ export class Team {
 
     const resultPairCount = this.validatePairMemberCount();
     if (resultPairCount.isFailure()) {
-      throw new Error(resultPairCount.value);
+      throw new Error(resultPairCount.err);
     }
 
     const resultTeamCount = this.validateTeamMemberCount();
     if (resultTeamCount.isFailure()) {
-      throw new Error(resultTeamCount.value);
+      throw new Error(resultTeamCount.err);
     }
 
     return pair;

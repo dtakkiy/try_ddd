@@ -56,7 +56,10 @@ describe('progressエンティティのテスト', () => {
     expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
     const result = progress.changeStatusForward(memberId);
-    expect(result.value).toMatch(/already completed./);
+    if (result.isSuccess()) {
+      return;
+    }
+    expect(result.err).toMatch(/already completed./);
   });
 
   it('ステータス変更は、課題の所有者のみ行える', () => {
@@ -72,6 +75,9 @@ describe('progressエンティティのテスト', () => {
     expect(progress.getStatus()).toMatch(ProgressStatusType.completed);
 
     const result = progress.changeStatusForward(memberId2);
-    expect(result.value).toMatch(/only the owner can change the task status./);
+    if (result.isSuccess()) {
+      return;
+    }
+    expect(result.err).toMatch(/only the owner can change the task status./);
   });
 });

@@ -32,13 +32,18 @@ describe('Pairのテスト', () => {
 
   it('ペアの名前は1文字でなければならない', () => {
     const id = Identifier.generator();
-    expect(
-      Pair.create({
-        id: id,
-        name: new PairNameVO('a'),
-        memberIdList: [memberId1, memberId2],
-      }).value
-    ).toBeInstanceOf(Pair);
+
+    const result = Pair.create({
+      id: id,
+      name: new PairNameVO('a'),
+      memberIdList: [memberId1, memberId2],
+    });
+
+    if (result.isFailure()) {
+      return;
+    }
+
+    expect(result.value).toBeInstanceOf(Pair);
   });
 
   it('ペアの名前は、a,b,c のような英文字でなければならない', () => {
