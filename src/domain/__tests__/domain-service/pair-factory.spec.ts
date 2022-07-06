@@ -14,6 +14,11 @@ describe('pair factoryのテスト', () => {
       memberIdList: [memberId1, memberId2],
     };
 
-    expect(PairFactory.execute(data).value).toBeInstanceOf(Pair);
+    const result = PairFactory.execute(data);
+
+    if (result.isFailure()) {
+      return;
+    }
+    expect(result.value).toBeInstanceOf(Pair);
   });
 });
