@@ -14,20 +14,23 @@ interface IPair {
   memberIdList: string[];
 }
 
-const MAX_MEMBER_NUMBER = 3;
-const MIN_MEMBER_NUMBER = 2;
-
 export class Pair {
+  MAX_MEMBER_NUMBER = 3;
+  MIN_MEMBER_NUMBER = 2;
+
   private constructor(private props: IPair) {
     const { id, name, memberIdList } = props;
-    this.validateMemberIdList(memberIdList);
+    const result = this.validateMemberIdList(memberIdList);
+
+    if (result.isFailure()) {
+      throw new Error(result.value);
+    }
 
     this.props = {
       id: id ?? Identifier.generator(),
       name: name,
       memberIdList: memberIdList,
     };
-    this.props = props;
   }
 
   public static create = (props: IPair): Result<Pair, DomainError> => {
@@ -66,21 +69,23 @@ export class Pair {
   }
 
   private validateMemberIdList(memberIdList: string[]) {
-    if (memberIdList.length < MIN_MEMBER_NUMBER) {
-      throw new Error(`small number of member. ${memberIdList.length}`);
+    if (memberIdList.length < this.MIN_MEMBER_NUMBER) {
+      return new Failure(`small number of member. ${memberIdList.length}`);
     }
 
-    if (memberIdList.length > MAX_MEMBER_NUMBER) {
-      throw new Error(`large number of member. ${memberIdList.length}`);
+    if (memberIdList.length > this.MAX_MEMBER_NUMBER) {
+      return new Failure(`large number of member. ${memberIdList.length}`);
     }
+
+    return new Success(null);
   }
 
   public validateMemberCount(): Result<NonError, DomainError> {
-    if (this.getMemberCount() < MIN_MEMBER_NUMBER) {
+    if (this.getMemberCount() < this.MIN_MEMBER_NUMBER) {
       return new Failure('current number of member in a pair is too small.');
     }
 
-    if (this.getMemberCount() > MAX_MEMBER_NUMBER) {
+    if (this.getMemberCount() > this.MAX_MEMBER_NUMBER) {
       return new Failure('current number of member in a pair is too large.');
     }
 
