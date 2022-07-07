@@ -33,8 +33,11 @@ export class TeamService {
     }
 
     const pair = currentTeam.getPair(pairId);
+    if (pair.isFailure()) {
+      return new Failure(pair.err);
+    }
     currentTeam.deletePair(pairId);
-    newTeam.addPair(pair);
+    newTeam.addPair(pair.value);
 
     this.teamRepository.update(currentTeam);
     this.teamRepository.update(newTeam);
@@ -59,7 +62,10 @@ export class TeamService {
     }
 
     currentTeam.deleteMember(memberId);
-    newTeam.addMember(memberId);
+    const result = newTeam.addMember(memberId);
+    if (result.isFailure()) {
+      return new Failure(result.err);
+    }
 
     this.teamRepository.update(newTeam);
 
