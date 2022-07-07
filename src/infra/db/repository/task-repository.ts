@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { TaskFactory } from 'src/domain/domain-service/task-factory';
 import { ITaskRepository } from 'src/domain/repository-interface/task-repository-interface';
 import { Task } from 'src/domain/task';
 
@@ -17,7 +16,7 @@ export class TaskRepository implements ITaskRepository {
       throw new Error(`not found task data.`);
     }
 
-    return TaskFactory.execute({
+    return Task.reconstruct({
       id: task.id,
       title: task.title,
       content: task.content,
