@@ -68,14 +68,14 @@ export class Team {
     });
   }
 
-  public getPair(pairId: string): Pair {
+  public getPair(pairId: string): Result<Pair, DomainError> {
     const result = this.props.pairList.find((pair) => pair.id === pairId);
 
     if (!result) {
-      throw new Error('pair not found');
+      return new Failure('pair not found');
     }
 
-    return result;
+    return new Success(result);
   }
 
   public deletePair(pairId: string) {
@@ -95,7 +95,7 @@ export class Team {
     );
   }
 
-  public isEqual = (team: Team): boolean => {
+  public isSameTeam = (team: Team): boolean => {
     return team.props.id === this.props.id;
   };
 
@@ -152,22 +152,22 @@ export class Team {
     return new Success(null);
   }
 
-  public addMember(memberId: string): Pair {
+  public addMember(memberId: string): Result<Pair, DomainError> {
     // 最小人数のペアを探す
     const pair = this.getMinMemberPair();
     pair.addMember(memberId);
 
     const resultPairCount = this.validatePairMemberCount();
     if (resultPairCount.isFailure()) {
-      throw new Error(resultPairCount.err);
+      return new Failure(resultPairCount.err);
     }
 
     const resultTeamCount = this.validateTeamMemberCount();
     if (resultTeamCount.isFailure()) {
-      throw new Error(resultTeamCount.err);
+      return new Failure(resultTeamCount.err);
     }
 
-    return pair;
+    return new Success(pair);
   }
 
   public getMinMemberPair(): Pair {
