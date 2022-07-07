@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
+import { Success } from 'src/__shared__/result';
 import { TaskService } from 'src/domain/domain-service/task-service';
 import { Task } from 'src/domain/task';
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
@@ -30,7 +31,7 @@ describe('課題の削除', () => {
       content: '本文',
     });
     mockTaskRepository.getById.mockResolvedValueOnce(task1);
-    mockTaskService.deleteTask.mockResolvedValueOnce();
+    mockTaskService.deleteTask.mockResolvedValueOnce(new Success(null));
 
     const usecase = new DeleteTaskUseCase(mockTaskService, mockTaskRepository);
     return await expect(usecase.execute({ taskId: taskId })).resolves.toBe(

@@ -1,3 +1,11 @@
+import {
+  DSError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
+import { Progress } from '../progress';
 import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 import { IProgressRepository } from '../repository-interface/progress-repository-interface';
 
@@ -10,7 +18,7 @@ export class ProgressUpdateStatus {
     memberId: string,
     taskId: string,
     status: ProgressStatusVO
-  ): Promise<void> => {
+  ): Promise<Result<Progress, DSError>> => {
     let updateStatus: ProgressStatusVO;
     const tmpStatus = status.getStatus();
 
@@ -19,13 +27,19 @@ export class ProgressUpdateStatus {
     } else if (tmpStatus === ProgressStatusType.awaitingReview) {
       updateStatus = new ProgressStatusVO(ProgressStatusType.completed);
     } else {
-      throw new Error(`progress stepup error.`);
+      return new Failure(`progress stepup error.`);
     }
 
-    await this.progressRepository.update(
+    const progress = await this.progressRepository.update(
       memberId,
       taskId,
       updateStatus.getStatus()
     );
+
+    if (progress === null) {
+      return new Failure('progress update failure.');
+    }
+
+    return new Success(progress);
   };
 }
