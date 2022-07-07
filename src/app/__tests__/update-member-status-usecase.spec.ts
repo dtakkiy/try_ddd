@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Identifier } from 'src/__shared__/identifier';
 import { MemberFactory } from 'src/domain/domain-service/member-factory';
-import { TeamFactory } from 'src/domain/domain-service/team-factory';
 import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
 import { Member } from 'src/domain/member';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
@@ -9,6 +8,8 @@ import { MemberNameVO } from 'src/domain/member-name-vo';
 import { MemberStatusVO, MemberStatusType } from 'src/domain/member-status-vo';
 import { Pair } from 'src/domain/pair';
 import { PairNameVO } from 'src/domain/pair-name-vo';
+import { Team } from 'src/domain/team';
+import { TeamNameVO } from 'src/domain/team-name-vo';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { EmailRepository } from 'src/infra/email/email-repository';
@@ -70,9 +71,9 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       return;
     }
 
-    const team = TeamFactory.execute({
+    const team = Team.reconstruct({
       id: Identifier.generator(),
-      name: '1',
+      name: new TeamNameVO('1'),
       pairList: [pairData.value],
     });
 
