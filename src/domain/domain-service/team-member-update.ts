@@ -1,5 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { Identifier } from 'src/__shared__/identifier';
+import {
+  DSError,
+  Failure,
+  NonError,
+  Result,
+  Success,
+} from 'src/__shared__/result';
 import { Member } from '../member';
 import { Team } from '../team';
 
@@ -11,7 +18,7 @@ interface Props {
 export class TeamMemberUpdate {
   constructor(private readonly prismaClient: PrismaClient) {}
 
-  public async update(props: Props) {
+  public async update(props: Props): Promise<Result<NonError, DSError>> {
     const memberUpdateQuery = this.makeQueryMemberUpdate(props.member);
     const teamUpdateQuery = this.makeQueryTeamUpdate(props.team);
 
@@ -25,10 +32,12 @@ export class TeamMemberUpdate {
     try {
       await this.prismaClient.$transaction(query);
     } catch (e) {
-      throw new Error('failed to update team.');
+      return new Failure('failed to update team.');
     } finally {
       this.prismaClient.$disconnect();
     }
+
+    return new Success(null);
   }
 
   private makeQueryTeamUpdate(team: Team) {
