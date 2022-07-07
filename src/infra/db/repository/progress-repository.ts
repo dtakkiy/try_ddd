@@ -20,7 +20,7 @@ export class ProgressRepository implements IProgressRepository {
     });
 
     if (memberOnTask === null) {
-      throw new Error(`not found memberOnTask.`);
+      return null;
     }
 
     return new Progress({
