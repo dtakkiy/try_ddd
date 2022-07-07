@@ -146,11 +146,11 @@ export class TeamRepository implements ITeamRepository {
     });
   }
 
-  public async update(team: Team): Promise<Team> {
+  public async update(team: Team): Promise<Team | null> {
     const currentTeam = await this.getById(team.id);
 
     if (currentTeam === null) {
-      throw new Error('the specified team does not exist.');
+      return null;
     }
 
     const { id, pairList } = currentTeam.getAllProperties();
@@ -206,7 +206,7 @@ export class TeamRepository implements ITeamRepository {
       await this.prismaClient.$transaction(arr);
     } catch (err: any) {
       // rollback ??
-      throw new Error('update failure.');
+      throw new Error('update team pair failure.');
     } finally {
       this.prismaClient.$disconnect();
     }

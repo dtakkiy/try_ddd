@@ -22,6 +22,9 @@ export class UpdateTeamUseCase {
 
     const newTeam = team.updateName(name);
     const updateTeam = await this.teamRepository.update(newTeam);
+    if (updateTeam === null) {
+      throw new Error('team could not updated.');
+    }
     return updateTeam;
   }
 }

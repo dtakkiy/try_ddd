@@ -13,7 +13,7 @@ export class TaskRepository implements ITaskRepository {
     });
 
     if (task === null) {
-      throw new Error(`not found task data.`);
+      return null;
     }
 
     return Task.reconstruct({
