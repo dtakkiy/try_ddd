@@ -1,8 +1,12 @@
 import { PrismaClient } from '@prisma/client';
+import { Identifier } from 'src/__shared__/identifier';
+import { Member } from 'src/domain/member';
+import { MemberEmailVO } from 'src/domain/member-email-vo';
+import { MemberNameVO } from 'src/domain/member-name-vo';
+import { MemberStatusVO } from 'src/domain/member-status-vo';
 import { MemberRepository } from 'src/infra/db/repository/member-repository';
 import { MockedObjectDeep } from 'ts-jest/dist/utils/testing';
 import { mocked } from 'ts-jest/utils';
-import { MemberFactory } from '../../domain-service/member-factory';
 import { MemberSameEmailExist } from '../../domain-service/member-same-email-exist';
 
 jest.mock('@prisma/client');
@@ -18,23 +22,31 @@ describe('member-same-email-existのテスト', () => {
   it('指定したemailが存在する場合', async () => {
     const email = 'a@example.com';
 
-    const dummyMember1 = MemberFactory.execute({ name: 'a', email: email });
-    const dummyMember2 = MemberFactory.execute({
-      name: 'b',
-      email: 'b@example.com',
+    const dummyMember1 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('a'),
+      email: new MemberEmailVO('a@example.com'),
+      status: MemberStatusVO.create(),
     });
 
-    if (dummyMember1 === null) {
+    const dummyMember2 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('b'),
+      email: new MemberEmailVO('b@example.com'),
+      status: MemberStatusVO.create(),
+    });
+
+    if (dummyMember1.isFailure()) {
       return;
     }
 
-    if (dummyMember2 === null) {
+    if (dummyMember2.isFailure()) {
       return;
     }
 
     mockMemberRepository.getAll.mockResolvedValueOnce([
-      dummyMember1,
-      dummyMember2,
+      dummyMember1.value,
+      dummyMember2.value,
     ]);
     const memberSameEmailExist = new MemberSameEmailExist(
       email,
@@ -47,26 +59,31 @@ describe('member-same-email-existのテスト', () => {
   it('指定したemailが存在しない場合', async () => {
     const email = 'a@example.com';
 
-    const dummyMember1 = MemberFactory.execute({
-      name: 'c',
-      email: 'c@example.com',
-    });
-    const dummyMember2 = MemberFactory.execute({
-      name: 'b',
-      email: 'b@example.com',
+    const dummyMember2 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('b'),
+      email: new MemberEmailVO('b@example.com'),
+      status: MemberStatusVO.create(),
     });
 
-    if (dummyMember1 === null) {
+    const dummyMember1 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('c'),
+      email: new MemberEmailVO('c@example.com'),
+      status: MemberStatusVO.create(),
+    });
+
+    if (dummyMember1.isFailure()) {
       return;
     }
 
-    if (dummyMember2 === null) {
+    if (dummyMember2.isFailure()) {
       return;
     }
 
     mockMemberRepository.getAll.mockResolvedValueOnce([
-      dummyMember1,
-      dummyMember2,
+      dummyMember1.value,
+      dummyMember2.value,
     ]);
     const memberSameEmailExist = new MemberSameEmailExist(
       email,

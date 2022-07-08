@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { Identifier } from 'src/__shared__/identifier';
-import { MemberFactory } from 'src/domain/domain-service/member-factory';
 import { TeamMemberUpdate } from 'src/domain/domain-service/team-member-update';
 import { Member } from 'src/domain/member';
 import { MemberEmailVO } from 'src/domain/member-email-vo';
@@ -48,24 +47,28 @@ describe('【ユースケース】参加者の在籍ステータスを変更す�
       return;
     }
 
-    const member2 = MemberFactory.execute({
-      name: 'taro',
-      email: 'taro@example.com',
+    const member2 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('taro'),
+      email: new MemberEmailVO('taro@example.com'),
+      status: MemberStatusVO.create(),
     });
 
-    const member3 = MemberFactory.execute({
-      name: 'jiro',
-      email: 'jiro@example.com',
+    const member3 = Member.create({
+      id: Identifier.generator(),
+      name: new MemberNameVO('jiro'),
+      email: new MemberEmailVO('jiro@example.com'),
+      status: MemberStatusVO.create(),
     });
 
-    if (member2 === null || member3 === null) {
+    if (member2.isFailure() || member3.isFailure()) {
       return;
     }
 
     const pairData = Pair.create({
       id: Identifier.generator(),
       name: new PairNameVO('a'),
-      memberIdList: [memberId, member2.id, member3.id],
+      memberIdList: [memberId, member2.value.id, member3.value.id],
     });
     if (pairData.isFailure()) {
       return;
