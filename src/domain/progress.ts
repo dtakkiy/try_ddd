@@ -29,7 +29,7 @@ export class Progress {
     return this.props.status.getStatus();
   }
 
-  public isEqual = (progress: Progress): boolean => {
+  public isSameProgress = (progress: Progress): boolean => {
     return (
       progress.props.memberId === this.props.memberId &&
       progress.props.taskId === this.props.taskId

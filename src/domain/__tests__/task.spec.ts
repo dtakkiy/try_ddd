@@ -62,7 +62,7 @@ describe('taskの単体テスト', () => {
       return;
     }
 
-    expect(task1.isEqual(task1)).toBeTruthy();
-    expect(task1.isEqual(task2)).not.toBeTruthy();
+    expect(task1.isSameTask(task1)).toBeTruthy();
+    expect(task1.isSameTask(task2)).not.toBeTruthy();
   });
 });

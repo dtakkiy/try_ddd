@@ -40,7 +40,7 @@ export class ProgressStatusVO {
     return this.status === ProgressStatusType.completed;
   }
 
-  public isEquals = (progress: ProgressStatusVO): boolean => {
+  public isSameStatus = (progress: ProgressStatusVO): boolean => {
     return this.status === progress.getStatus();
   };
 }
