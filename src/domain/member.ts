@@ -70,7 +70,7 @@ export class Member {
     });
   }
 
-  public isEqual = (member: Member): boolean => {
+  public isSameMember = (member: Member): boolean => {
     return member.props.id === this.props.id;
   };
 }

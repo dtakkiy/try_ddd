@@ -22,7 +22,7 @@ export class MemberUpdateStatus {
   ): Promise<Result<NonError, DSError>> => {
     const { id, name, email, status } = member.getAllProperties();
 
-    if (updateStatus.isEqual(new MemberStatusVO(status))) {
+    if (updateStatus.isSameStatus(new MemberStatusVO(status))) {
       return new Failure('status has already been changed.');
     }
 

@@ -17,7 +17,7 @@ export class Identifier {
     return this.props.value;
   }
 
-  public isEqual(id: Identifier): boolean {
+  public isSameId(id: Identifier): boolean {
     return this.props.value === id.props.value;
   }
 
