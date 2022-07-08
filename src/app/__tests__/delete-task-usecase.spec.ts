@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
 import { Success } from 'src/__shared__/result';
 import { TaskService } from 'src/domain/domain-service/task-service';
 import { Task } from 'src/domain/task';
@@ -26,7 +27,7 @@ describe('課題の削除', () => {
   it('正常系', async () => {
     const taskId = faker.datatype.uuid();
     const task1 = Task.reconstruct({
-      id: taskId,
+      id: new Identifier(taskId),
       title: '課題1',
       content: '本文',
     });
