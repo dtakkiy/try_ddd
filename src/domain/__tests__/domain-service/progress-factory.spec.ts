@@ -1,4 +1,5 @@
 import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
 import { ProgressFactory } from '../../domain-service/progress-factory';
 import { Member } from '../../member';
 import { MemberEmailVO } from '../../member-email-vo';
@@ -20,7 +21,7 @@ describe('progress factoryのテスト', () => {
     }
 
     const data = {
-      id: faker.datatype.uuid(),
+      id: new Identifier(),
       title: faker.name.jobTitle(),
       content: faker.name.jobDescriptor(),
     };

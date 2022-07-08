@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { Identifier } from 'src/__shared__/identifier';
 import { ITaskRepository } from 'src/domain/repository-interface/task-repository-interface';
 import { Task } from 'src/domain/task';
 
@@ -17,7 +18,7 @@ export class TaskRepository implements ITaskRepository {
     }
 
     return Task.reconstruct({
-      id: task.id,
+      id: new Identifier(task.id),
       title: task.title,
       content: task.content,
     });
@@ -32,7 +33,7 @@ export class TaskRepository implements ITaskRepository {
 
     return taskAll.map((task) => {
       return Task.reconstruct({
-        id: task.id,
+        id: new Identifier(task.id),
         title: task.title,
         content: task.content,
       });

@@ -39,7 +39,7 @@ describe('【ユースケース】参加者を新規追加する', () => {
     const status = MemberStatusVO.create();
 
     const task = Task.reconstruct({
-      id: taskId,
+      id: new Identifier(taskId),
       title: taskTitle,
       content: taskContent,
     });

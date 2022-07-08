@@ -1,7 +1,7 @@
 import { Identifier } from 'src/__shared__/identifier';
 
 export interface ITask {
-  id: string;
+  id: Identifier;
   title: string;
   content: string;
 }
@@ -11,7 +11,7 @@ export class Task {
     const { id, title, content } = props;
 
     this.props = {
-      id: id ?? Identifier.generator(),
+      id: id,
       title: title,
       content: content,
     };
@@ -19,18 +19,18 @@ export class Task {
 
   public getAllProperties() {
     return {
-      id: this.props.id,
+      id: this.props.id.getId(),
       title: this.props.title,
       content: this.props.content,
     };
   }
 
-  public get id() {
-    return this.props.id;
+  public getId() {
+    return this.props.id.getId();
   }
 
   public isSameTask = (task: Task): boolean => {
-    return task.props.id === this.props.id;
+    return task.props.id.getId() === this.props.id.getId();
   };
 
   public static create = (props: ITask): Task | null => {

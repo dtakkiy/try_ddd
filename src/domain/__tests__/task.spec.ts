@@ -1,16 +1,13 @@
 import * as faker from 'faker';
+import { Identifier } from 'src/__shared__/identifier';
 import { Task } from '../task';
 
 describe('taskの単体テスト', () => {
-  let data = { id: '', title: '', content: '' };
-
-  beforeEach(() => {
-    data = {
-      id: faker.datatype.uuid(),
-      title: faker.name.jobTitle(),
-      content: faker.name.jobDescriptor(),
-    };
-  });
+  const data = {
+    id: new Identifier(),
+    title: faker.name.jobTitle(),
+    content: faker.name.jobDescriptor(),
+  };
 
   it('インスタンスを生成できる', () => {
     const task1 = Task.create(data);
@@ -23,7 +20,7 @@ describe('taskの単体テスト', () => {
   it('属性を取得できる', () => {
     const taskId = faker.datatype.uuid();
     const data = {
-      id: taskId,
+      id: new Identifier(taskId),
       title: 'サンプルタイトル',
       content: '本文',
     };
@@ -40,7 +37,7 @@ describe('taskの単体テスト', () => {
   it('同一のエンティティか判定する', () => {
     const taskId1 = faker.datatype.uuid();
     const data1 = {
-      id: taskId1,
+      id: new Identifier(taskId1),
       title: 'サンプルタイトル',
       content: '本文',
     };
@@ -52,7 +49,7 @@ describe('taskの単体テスト', () => {
 
     const taskId2 = faker.datatype.uuid();
     const data2 = {
-      id: taskId2,
+      id: new Identifier(taskId2),
       title: 'サンプルタイトル',
       content: '本文',
     };
