@@ -13,7 +13,7 @@ export class Identifier {
     };
   }
 
-  public get id() {
+  public getId() {
     return this.props.value;
   }
 
