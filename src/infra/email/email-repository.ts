@@ -9,19 +9,20 @@ interface MessageProps {
   text?: string;
 }
 
-const MAIL_HOST = 'stmp.example.com';
-const MAIL_PORT = 587; // or 465
-const MAIL_ADDRESS = 'xxx@example.com';
-const MAIL_PASSWORD = 'xxxxxx';
 export class EmailRepository implements IEmailRepository {
+  MAIL_HOST = 'stmp.example.com';
+  MAIL_PORT = 587; // or 465
+  MAIL_ADDRESS = 'xxx@example.com';
+  MAIL_PASSWORD = 'xxxxxx';
+
   public async sendMail(messageProps: MessageProps) {
     const transporter = nodemailer.createTransport({
-      host: MAIL_HOST,
-      port: MAIL_PORT || 0,
+      host: this.MAIL_HOST,
+      port: this.MAIL_PORT || 0,
       secure: true,
       auth: {
-        user: MAIL_ADDRESS,
-        pass: MAIL_PASSWORD,
+        user: this.MAIL_ADDRESS,
+        pass: this.MAIL_PASSWORD,
       },
     });
 
