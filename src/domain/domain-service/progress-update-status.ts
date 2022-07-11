@@ -1,10 +1,4 @@
-import {
-  DSError,
-  Failure,
-  NonError,
-  Result,
-  Success,
-} from 'src/__shared__/result';
+import { DSError, Failure, Result, Success } from 'src/__shared__/result';
 import { Progress } from '../progress';
 import { ProgressStatusVO, ProgressStatusType } from '../progress-status-vo';
 import { IProgressRepository } from '../repository-interface/progress-repository-interface';
