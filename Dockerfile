@@ -1,13 +1,14 @@
-FROM node:14-alpine
+FROM --platform=linux/x86_64 node:14-alpine
 
 WORKDIR /api
 
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock ./
 
-RUN yarn --frozen-lockfile
+RUN yarn
 
 COPY . .
 
 EXPOSE 3001
-CMD ["yarn", "dev"]
+
+ENTRYPOINT [ "yarn", "dev" ]
+

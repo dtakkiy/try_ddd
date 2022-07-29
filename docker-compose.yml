@@ -3,6 +3,7 @@ services:
   api:
     container_name: api
     build: .
+    platform: linux/x86_64
     tty: true
     ports:
       - "3001:3001"
