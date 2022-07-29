@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  api:
+    container_name: api
+    build: .
+    tty: true
+    ports:
+      - "3001:3001"
+    volumes:
+      - type: bind
+        source: .
+        target: /api
+    depends_on:
+      - "prisma-test-db-1"
+  prisma-db-1:
+    container_name: prisma-db-1
+    image: postgres:12
+    ports:
+      - "5403:5432"
+    volumes:
+      - prisma-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma2020
+      POSTGRES_DB: prisma
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+  prisma-test-db-1:
+    container_name: prisma-test-db-1
+    image: postgres:12
+    ports:
+      - "5402:5432"
+    volumes:
+      - prisma-test-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma2020
+      POSTGRES_DB: prisma
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+
+volumes:
+  prisma-store:
+    driver: local
+  prisma-test-store:
+    driver: local
