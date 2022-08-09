@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { HttpException, HttpStatus, Query } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
+import { getAuth } from 'firebase-admin/auth';
 import { CreateMemberUseCase } from 'src/app/create-member-usecase';
 import { GetMemberListUseCase } from 'src/app/get-member-list-usecase';
 import { UpdateMemberStatusUseCase } from 'src/app/update-member-status-usecase';
@@ -15,6 +17,7 @@ import { EmailRepository } from 'src/infra/email/email-repository';
 import { PostMemberRequest } from './request/post-member-request';
 import { PutMemberRequest } from './request/put-member-request';
 import { GetMemberResponse } from './response/get-member-response';
+import '../utils/firebase';
 
 @Controller({
   path: '/members',
@@ -22,7 +25,18 @@ import { GetMemberResponse } from './response/get-member-response';
 export class MemberController {
   @Get()
   @ApiResponse({ status: 200, type: GetMemberResponse })
-  async getMember(): Promise<GetMemberResponse> {
+  async getMember(@Query('token') token: string): Promise<GetMemberResponse> {
+    const ret = await this.isVerifyIdToken(token);
+    if (!ret) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: 'auth error',
+        },
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
     const prisma = new PrismaClient();
     const qs = new MemberQueryService(prisma);
     const usecase = new GetMemberListUseCase(qs);
@@ -76,4 +90,15 @@ export class MemberController {
     });
     return member;
   }
+
+  private isVerifyIdToken = async (idToken: string) => {
+    try {
+      await getAuth().verifyIdToken(idToken);
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+
+    return true;
+  };
 }
