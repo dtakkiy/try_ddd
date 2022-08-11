@@ -6,6 +6,9 @@ export const UserRole = {
 export type UserRoleType = keyof typeof UserRole;
 
 export interface UserSession {
-  userId: string;
+  uid: string;
+  email: string | undefined;
+  phone_number?: string;
+  picture?: any;
   userRole: UserRoleType;
 }
