@@ -5,7 +5,7 @@ export interface UserSessionProvider {
   getUserSession(): UserSession;
 }
 
-interface FirebaseUserAttribute {
+interface FirebaseUserSession {
   uid: string;
   email: string | undefined;
   phone_number?: string;
@@ -14,14 +14,14 @@ interface FirebaseUserAttribute {
 
 export class FirebaseSecuritySessionProvider implements UserSessionProvider {
   private readonly token: string;
-  private readonly firebaseUserAttribute: FirebaseUserAttribute = {
+  private readonly firebaseUserSession: FirebaseUserSession = {
     uid: '',
     email: '',
   };
 
   private constructor(token: string) {
     this.isVerifyIdToken(token);
-    this.firebaseUserAttribute = this.getUserAttributes(token);
+    this.getFirebaseUserSessionByToken(token);
     this.token = token;
   }
 
@@ -34,32 +34,25 @@ export class FirebaseSecuritySessionProvider implements UserSessionProvider {
   }
 
   public getUserSession(): UserSession {
-    // ここではFirebaseの仕組みから認証情報を取得し詰め替えて返すことを想定
     return {
-      uid: this.firebaseUserAttribute.uid,
-      email: this.firebaseUserAttribute.email,
-      phone_number: this.firebaseUserAttribute.phone_number,
-      picture: this.firebaseUserAttribute.picture,
+      uid: this.firebaseUserSession.uid,
+      email: this.firebaseUserSession.email,
+      phone_number: this.firebaseUserSession.phone_number,
+      picture: this.firebaseUserSession.picture,
       userRole: UserRole.ADMIN, //ダミー値
     };
   }
 
-  private async getUserAttributes(
-    idToken: string
-  ): Promise<FirebaseUserAttribute> {
-    const userSession: FirebaseUserAttribute = { uid: '', email: '' };
-
+  private async getFirebaseUserSessionByToken(idToken: string): Promise<void> {
     try {
       const decodeToken = await getAuth().verifyIdToken(idToken);
-      userSession.uid = decodeToken?.uid;
-      userSession.email = decodeToken?.email;
-      userSession.phone_number = decodeToken.phone_number;
-      userSession.picture = decodeToken.picture;
+      this.firebaseUserSession.uid = decodeToken?.uid;
+      this.firebaseUserSession.email = decodeToken?.email;
+      this.firebaseUserSession.phone_number = decodeToken?.phone_number;
+      this.firebaseUserSession.picture = decodeToken?.picture;
     } catch (e) {
       console.log(e);
     }
-
-    return userSession;
   }
 
   private async isVerifyIdToken(idToken: string): Promise<boolean> {
