@@ -1,9 +1,9 @@
 import {
   Controller,
   Get,
+  Headers,
   HttpException,
   HttpStatus,
-  Query,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { SomeRequireSessionUseCase } from 'src/app/some-require-session-usecase';
@@ -16,9 +16,11 @@ import { GetSomeThingResponse } from './response/get-something-response';
 export class SomeThingController {
   @Get()
   @ApiResponse({ status: 200, type: GetSomeThingResponse })
-  async getSomeThing(@Query('token') token: string): Promise<void> {
+  async getSomeThing(
+    @Headers('Authorization') authToken: string
+  ): Promise<void> {
     const someRequireSessionUseCase = new SomeRequireSessionUseCase();
-    const sessionProvider = FirebaseSecuritySessionProvider.create(token);
+    const sessionProvider = FirebaseSecuritySessionProvider.create(authToken);
     if (!sessionProvider) {
       throw new HttpException(
         {

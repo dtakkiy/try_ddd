@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { HttpException, HttpStatus, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 import { CreateMemberUseCase } from 'src/app/create-member-usecase';
@@ -25,8 +33,10 @@ import '../utils/firebase';
 export class MemberController {
   @Get()
   @ApiResponse({ status: 200, type: GetMemberResponse })
-  async getMember(@Query('token') token: string): Promise<GetMemberResponse> {
-    const sessionProvider = FirebaseSecuritySessionProvider.create(token);
+  async getMember(
+    @Headers('Authorization') authToken: string
+  ): Promise<GetMemberResponse> {
+    const sessionProvider = FirebaseSecuritySessionProvider.create(authToken);
     if (!sessionProvider) {
       throw new HttpException(
         {
