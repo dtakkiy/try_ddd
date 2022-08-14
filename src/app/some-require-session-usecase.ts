@@ -5,6 +5,7 @@ export class SomeRequireSessionUseCase {
   public execute(userSession: UserSession) {
     if (userSession) {
       // セッションを利用した処理を記述
+      return userSession.uid;
     }
   }
 }
