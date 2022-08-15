@@ -5,16 +5,16 @@ describe('some-require-session', () => {
   let mockUserSession: UserSession;
   beforeEach(() => {
     mockUserSession = {
-      userId: '1',
+      uid: '1',
+      email: 'sample@example.com',
+      phone_number: '0000000000',
       userRole: UserRole.ADMIN,
     };
   });
 
-  it('正常', () => {
+  it('正常に実行', () => {
     const userSession = mockUserSession;
-    const useCase = new SomeRequireSessionUseCase();
-    useCase.execute(userSession);
-
-    expect(1 + 2).toBe(3);
+    const usecase = new SomeRequireSessionUseCase();
+    expect(usecase.execute(userSession)).toBe(mockUserSession.uid);
   });
 });

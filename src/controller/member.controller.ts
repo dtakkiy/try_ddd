@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 import { CreateMemberUseCase } from 'src/app/create-member-usecase';
@@ -12,17 +21,40 @@ import { ProgressRepository } from 'src/infra/db/repository/progress-repository'
 import { TaskRepository } from 'src/infra/db/repository/task-repository';
 import { TeamRepository } from 'src/infra/db/repository/team-repository';
 import { EmailRepository } from 'src/infra/email/email-repository';
+import { FirebaseSecuritySessionProvider } from 'src/infra/session/user-session';
 import { PostMemberRequest } from './request/post-member-request';
 import { PutMemberRequest } from './request/put-member-request';
 import { GetMemberResponse } from './response/get-member-response';
+import '../utils/firebase';
 
 @Controller({
   path: '/members',
 })
 export class MemberController {
+  returnUnAuthorized = () => {
+    throw new HttpException(
+      {
+        status: HttpStatus.UNAUTHORIZED,
+        error: 'auth error',
+      },
+      HttpStatus.UNAUTHORIZED
+    );
+  };
+
   @Get()
   @ApiResponse({ status: 200, type: GetMemberResponse })
-  async getMember(): Promise<GetMemberResponse> {
+  async getMember(
+    @Headers('Authorization') authToken: string
+  ): Promise<GetMemberResponse> {
+    if (typeof authToken === 'undefined') {
+      this.returnUnAuthorized();
+    }
+
+    const sessionProvider = FirebaseSecuritySessionProvider.create(authToken);
+    if (!sessionProvider) {
+      this.returnUnAuthorized();
+    }
+
     const prisma = new PrismaClient();
     const qs = new MemberQueryService(prisma);
     const usecase = new GetMemberListUseCase(qs);

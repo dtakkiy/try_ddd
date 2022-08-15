@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client';
 import { GetSearchTaskUseCase } from 'src/app/get-search-task-usecase';
 import { SearchQueryService } from 'src/infra/db/query-service/search-task-query-service';
 import { GetSearchResponse } from './response/get-search-response';
-
 @Controller({
   path: '/search',
 })
