@@ -31,20 +31,28 @@ import '../utils/firebase';
   path: '/members',
 })
 export class MemberController {
+  returnUnAuthorized = () => {
+    throw new HttpException(
+      {
+        status: HttpStatus.UNAUTHORIZED,
+        error: 'auth error',
+      },
+      HttpStatus.UNAUTHORIZED
+    );
+  };
+
   @Get()
   @ApiResponse({ status: 200, type: GetMemberResponse })
   async getMember(
     @Headers('Authorization') authToken: string
   ): Promise<GetMemberResponse> {
+    if (typeof authToken === 'undefined') {
+      this.returnUnAuthorized();
+    }
+
     const sessionProvider = FirebaseSecuritySessionProvider.create(authToken);
     if (!sessionProvider) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          error: 'auth error',
-        },
-        HttpStatus.UNAUTHORIZED
-      );
+      this.returnUnAuthorized();
     }
 
     const prisma = new PrismaClient();
